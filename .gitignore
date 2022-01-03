@@ -1,0 +1,81 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+#VS things
+.vs
+*.vs
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+#idk
+*.ilk
+*.pdb
+
+#audio files
+*.[Mm]4[Aa]
+*.[Aa][Aa][Cc]
+*.[Ww][Mm][Aa]
+*.[Ff][Ll][Aa][Cc]
+*.[Ww][Aa][Vv]
+*.[Oo][Gg][Gg]
+*.[Mm][Pp]3
+*.[Mm][Pp]4
+
+#images
+*.[Pp][Nn][Gg]
+*.[Jj][Pp][Gg]
+*.[Jj][Pp][Ee][Gg]
+
+#fonts
+*.[Tt][Tt][Ff]
+
+#Bin folder or something
+[Dd][Ee][Bb][Uu][Gg]/
+[Rr][Ee][Ll][Ee][Aa][Ss][Ee]/
+bin
+bin-int
+
+#Gimp File
+*.[Xx][Cc][Ff]
+
+Game/vendor/glad
+#add all .lua
+!*.lua
+
+#misc
+
+#specific
+#Base include subdirs
+Game/include

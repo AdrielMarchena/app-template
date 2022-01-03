@@ -1,0 +1,9 @@
+IncludeDirectories = {}
+IncludeDirectories["Game"] = "%{wks.location}/Game/src/"
+IncludeDirectories["debugbreak"] = "%{wks.location}/Game/vendor/debugbreak"
+IncludeDirectories["Glad"] = "%{wks.location}/Game/vendor/glad/include"
+IncludeDirectories["Glfw"] = "%{wks.location}/Game/vendor/glfw/include"
+IncludeDirectories["glm"] = "%{wks.location}/Game/vendor/glm"
+IncludeDirectories["ImGui"] = "%{wks.location}/Game/vendor/imgui"
+IncludeDirectories["spdlog"] = "%{wks.location}/Game/vendor/spdlog/include"
+IncludeDirectories["stb_image"] = "%{wks.location}/Game/vendor/stb_image"

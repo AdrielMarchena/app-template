@@ -1,0 +1,12 @@
+[submodule "Game/vendor/spdlog"]
+	path = Game/vendor/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "Game/vendor/imgui"]
+	path = Game/vendor/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "Game/vendor/glfw"]
+	path = Game/vendor/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "Game/vendor/debugbreak"]
+	path = Game/vendor/debugbreak
+	url = https://github.com/scottt/debugbreak
