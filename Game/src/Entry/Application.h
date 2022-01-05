@@ -69,9 +69,12 @@ namespace Game {
 		WindowGlfw& GetWindow() { return *m_Window; }
 		static Application& Get() { return *m_AppInstance; }
 		ImGuiLayer& GetImGuiLayer() { return *m_ImGuiLayer; }
+
+		bool ResizeGlViewPort = true;
 	private:
 		static Application* m_AppInstance;
 		bool OnWindowClose(WindowCloseEvent& e);
+		bool OnWindowResize(WindowResizeEvent& e);
 
 		friend int ::main(int argc, char** argv);
 	};
