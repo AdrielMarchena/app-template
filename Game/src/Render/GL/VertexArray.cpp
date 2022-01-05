@@ -24,7 +24,8 @@ namespace Game
 
 	void VertexArray::Dispose()
 	{
-		GAME_CORE_ASSERT(m_Id > 0,"");
+		if (!m_Id)
+			return;
 		GLCall(glDeleteVertexArrays(1, &m_Id));
 		m_Id = 0;
 	}

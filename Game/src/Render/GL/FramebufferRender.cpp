@@ -24,15 +24,15 @@ namespace Game
 	{
 		//Create ShaderLib
 		m_Shaders = MakeScope<ShaderLib>();
-		m_Shaders->Add(Shader::CreateShader("shaders/Framebuffer.glsl"));
+		m_Shaders->Add(Shader::CreateShader("assets/shaders/Framebuffer.glsl"));
 		m_CurrentShader = m_Shaders->Get("Framebuffer");
 		m_CurrentShader->Bind();
 
-		//Create FrameBuffer
+		//Create FrameBuffer and setup Shader and post effects details
 		SetUpFramebuffer();
 		SetUpShader();
 		SetUpPostEffects();
-		UsePostEffect("none");
+		UsePostEffect("sharpen");
 
 		m_Buffer = new FramebufferQuad[4];
 		m_BufferPtr = m_Buffer;
@@ -333,6 +333,14 @@ namespace Game
 		}
 		else
 			m_CurrentShader->SetUniform1i("kernel_size", 0);
+	}
+
+	void FramebufferRender::SetGLViewport(bool use_scalor)
+	{
+		int wid = use_scalor ? m_Specs.width * m_Specs.scale_factor : m_Specs.width;
+		int hei = use_scalor ? m_Specs.height * m_Specs.scale_factor : m_Specs.height;
+		
+		GLCall(glViewport(0, 0, wid, hei));
 	}
 
 	void FramebufferRender::CalculateQuadTransform()

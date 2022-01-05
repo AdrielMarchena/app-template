@@ -88,6 +88,8 @@ namespace Game
 		uint32_t GetFramebufferImage() const { return m_Framebuffer->GetColorTexture(); }
 
 		Ref <Shader> GetCurrentShader() const { return m_CurrentShader; }
+
+		void SetGLViewport(bool use_scalor);
 	private:
 		void CalculateQuadTransform();
 
