@@ -59,7 +59,7 @@ namespace Game
 		GLCall(glTexParameteri(target, GL_TEXTURE_WRAP_S, GLSwitch::TextureWrap(m_ImageInfo.WrapS)));
 		GLCall(glTexParameteri(target, GL_TEXTURE_WRAP_T, GLSwitch::TextureWrap(m_ImageInfo.WrapT)));
 
-		if(info.TextureLodBias > -1.0f)
+		if(info.TextureLodBias != -1.0f)
 			GLCall(glTexParameterf(target, GL_TEXTURE_LOD_BIAS, info.TextureLodBias));
 
 		if (target == GL_TEXTURE_3D)
@@ -157,7 +157,7 @@ namespace Game
 		auto info = GetImageInfo(path);
 		info.Name = name;
 		info.KeepSourceBuffer = true;
-		return MakeRef<Texture>(GetImageInfo(path),path);
+		return MakeRef<Texture>(info,path);
 	}
 
 	/*void Texture::CreatePng(const std::string& path, const TextureSpecifications& image_info)
@@ -188,7 +188,7 @@ namespace Game
 			info.MagFilter = GL_TextureFilter::NEAREST;
 			info.WrapS = GL_TextureWrap::REPEAT;
 			info.WrapT = GL_TextureWrap::REPEAT;
-
+			info.Type = GL_TexType::UNSIGNED_BYTE;
 			for (unsigned int ix = 0; ix < 1; ++ix)
 			{
 				for (unsigned int iy = 0; iy < 1; ++iy)
@@ -289,7 +289,7 @@ namespace Game
 	{
 		//TODO: Fix this stbi 'no SOI' bullshit 
 		TextureSpecifications info;
-
+		info.Type = GL_TexType::UNSIGNED_BYTE;
 		stbi_set_flip_vertically_on_load(1);
 		auto px = stbi_load(path.c_str(), &info.Width, &info.Height, &info.Channels, 0);
 

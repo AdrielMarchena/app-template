@@ -325,6 +325,8 @@ namespace Game
 			qbuff++;
 		}
 
+		s_Data.Quads->BufferPtr = reinterpret_cast<void*>(qbuff);
+
 		s_Data.Quads->IndexCount += 6;
 		s_Data.Quads->Stats.GeometryCounterPerFrame++;
 		s_Data.Quads->Stats.GeometryCounterLifeSpam++;
