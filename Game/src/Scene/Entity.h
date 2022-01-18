@@ -60,6 +60,7 @@ namespace Game
 			return m_Registry->Contain<T>(m_Handler);
 		}
 
+		ecs::entity GetHandler() { return m_Handler; }
 	private:
 		//Constructor used by Scene class
 		Entity(ecs::entity handler, Scene* scene)

@@ -5,6 +5,7 @@
 #include "Render/GameCamera.h"
 #include "glm/glm.hpp"
 #include "glm/gtx/quaternion.hpp"
+//#include "Message/BusNode.h"
 namespace Game
 {
 	struct TestComponent
@@ -71,6 +72,21 @@ namespace Game
 		operator glm::mat4() const { return GetTransform(); }
 	};
 
+	struct BoxColiderComponent
+	{
+		enum class Type
+		{
+			Dynamic,
+			Static
+		} BodyType = Type::Static;
+
+		glm::vec2 Velocity = { 0.0f,0.0f };
+
+		BoxColiderComponent() = default;
+		BoxColiderComponent(const BoxColiderComponent&) = default;
+
+	};
+
 	struct CameraComponent
 	{
 		SceneCamera Camera;
@@ -78,5 +94,20 @@ namespace Game
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
+	};
+
+	struct ScriptableClass;
+	struct NativeScriptClass
+	{
+		ScriptableClass* Instance;
+		ScriptableClass* (*CreateInstance)();
+		void(*DisposeInstance)(NativeScriptClass*);
+
+		template<typename T>
+		void Bind()
+		{
+			CreateInstance = []() { return static_cast<ScriptableClass*>(new T()); };
+			DisposeInstance = [](NativeScriptClass* script) { if (script->Instance) { delete script->Instance; script->Instance = nullptr; } };
+		}
 	};
 }

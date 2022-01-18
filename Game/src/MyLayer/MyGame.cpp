@@ -10,7 +10,7 @@
 
 #include <glm/gtx/quaternion.hpp>
 #include "imgui.h"
-
+#include "Message/BusNode.h"
 struct MyGameKeyBindings
 {
 	static void KeyW(MyGame& g)
@@ -78,12 +78,34 @@ void MyGame::OnAttach()
 
 		float texture_ar = texture->GetSize().x / texture->GetSize().y;
 		tr.SetScaleWithAr(texture_ar);
+		tr.Translation = { 0.0f,4.0f,0.0f };
+
+		auto& b = m_Quad.Add<Game::BoxColiderComponent>();
+		b.BodyType = Game::BoxColiderComponent::Type::Dynamic;
+		b.Velocity = { 0.0f, 0.0f };
+	}
+
+	{
+		m_Platform = m_Scene->CreateEntity("Platform");
+		auto texture = Game::Texture::CreateTexture("assets/img/chalote.jpg");
+		m_Platform.Add<Game::SpriteComponent>(texture);
+		auto& tr = m_Platform.Get<Game::TransformComponent>();
+
+		tr.Translation = { 0.0f,0.0f,0.0f };
+		tr.Scale = { 10.0f,1.0f,1.0f };
+
+		auto& b = m_Platform.Add<Game::BoxColiderComponent>();
+		b.BodyType = Game::BoxColiderComponent::Type::Static;
+		b.Velocity = { 0.0f, 0.0f };
 	}
 
 }
 
 void MyGame::OnUpdate(Game::Timestamp dt)
 {
+	auto& mes = m_Quad.Get<Game::MessageComponent>();
+	if(Game::Keyboard::isClicked(GAME_KEY_S))
+		mes.Node.Send({ &m_Quad,Game::MessageEvent::PLAYER_DIED });
 	m_Scene->OnUpdate(dt);
 }
 

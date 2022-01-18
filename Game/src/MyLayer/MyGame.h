@@ -22,6 +22,7 @@ protected:
 
 	Game::Entity m_Camera;
 	Game::Entity m_Quad;
+	Game::Entity m_Platform;
 public:
 	MyGame(const std::string& name = "MyGame");
 	virtual ~MyGame() = default;

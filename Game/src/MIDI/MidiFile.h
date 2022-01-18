@@ -378,11 +378,8 @@ namespace midi
 							listNotesBeingProcessed.erase(note);
 						}
 					}
-
 				}
-
 			}
-
 		}
 		public:
 			uint32_t m_nTempo = 0;

@@ -6,6 +6,8 @@
 #include "Render/GameCamera.h"
 #include "Ecs/SceneView.h"
 #include "Entry/Application.h"	
+#include "Colision/Colide.h"
+#include "Message/BusNode.h"
 namespace Game
 {
 	Scene::Scene()
@@ -33,15 +35,25 @@ namespace Game
 		m_FramebufferRender->SetQuadScale({ sc * ar,sc,1.0f });
 		m_FramebufferRender->SetQuadRotation({ 0.0f,0.0f,0.0f });
 
+		m_MessageBus = new MessageBus();
 	}
 
-	Entity Scene::CreateEntity(const std::string& tag)
+	Scene::~Scene()
 	{
+		if(m_MessageBus)
+			delete m_MessageBus;
+	}
+
+	Entity Scene::CreateEntity(const std::string& tag, bool addMessangerComponent)
+	{
+		
 		Entity ent{ m_Registry->CreateEntity(), this };
 
 		ent.Add<IdComponent>();
 		ent.Add<TagComponent>(tag.empty() ? "Unnamed Entity" : tag);
 		ent.Add<TransformComponent>();
+		if (addMessangerComponent)
+			auto& mes = ent.Add<MessageComponent>(m_MessageBus);
 		return ent;
 	}
 
@@ -65,6 +77,77 @@ namespace Game
 
 			}
 		}
+		
+		//Notify all messages
+		m_MessageBus->Notify();
+
+		{//Physics
+			//TODO: Test this idk if works
+			auto view = ecs::SceneView<BoxColiderComponent>(*m_Registry);
+			
+			static glm::vec2 gravity = { 0.0f, 9.8f };
+			for (auto ent : view)
+			{
+
+				Entity boxEntity = { ent, this };
+				auto& entTransform = boxEntity.GetTransformComponent();
+				auto& entBox = boxEntity.Get<BoxColiderComponent>();
+				
+				glm::vec2 cp, cn;
+				float ct = 0;
+				std::vector<std::pair<Entity, float>> Colided;
+
+				if (entBox.BodyType == BoxColiderComponent::Type::Dynamic)
+				{
+					ColisionRect entRect;
+					entRect.pos = entTransform.Translation;
+					entRect.size = entTransform.Scale;
+					entBox.Velocity -= gravity * dt;
+					entRect.velocity = entBox.Velocity;
+
+					for (auto other : view)
+					{
+						if (other == ent)
+							continue;
+						Entity otherEntity = { other, this };
+						auto& otherBox = otherEntity.Get<BoxColiderComponent>();
+						if (otherBox.BodyType == BoxColiderComponent::Type::Dynamic)
+							continue;
+
+						auto& otherTransform = otherEntity.GetTransformComponent();
+						
+						ColisionRect otherRect;
+						otherRect.pos = otherTransform.Translation;
+						otherRect.size = otherTransform.Scale;
+
+						if (Colide::DynamicRectVsRect(entRect, otherRect, cp, cn, ct, dt))
+						{
+							Colided.push_back({ otherEntity,ct });
+						}
+
+					}
+					std::sort(Colided.begin(), Colided.end(), [](const std::pair<Entity, float>& a, const std::pair<Entity, float>& b)
+						{
+							return a.second < b.second;
+						});
+
+					for (auto& e : Colided)
+					{
+						auto& otherTransform = e.first.GetTransformComponent();
+						ColisionRect otherRect;
+						otherRect.pos = otherTransform.Translation;
+						otherRect.size = otherTransform.Scale;
+
+						if (Colide::DynamicRectVsRect(entRect, otherRect, cp, cn, ct, dt))
+						{
+							entBox.Velocity += cn * glm::vec2(std::abs(entBox.Velocity.x), std::abs(entBox.Velocity.y)) * (1 - ct);
+						}
+					}
+
+					entTransform.Translation += glm::vec3(entBox.Velocity * dt, entTransform.Translation.z);
+				}
+			}
+		}//Physics
 
 		{//Render Scope
 			m_FramebufferRender->BindFrameBuffer();
