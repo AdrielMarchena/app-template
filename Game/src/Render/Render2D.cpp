@@ -5,6 +5,20 @@
 #include "GL/gl_error_macro_db.h"
 #include "glad/glad.h"
 
+//qptr->indexBuffer = IndexBuffer::CreateIndexBuffer(_msize(indices), indices);
+
+#ifdef GAME_WINDOWS_BUILD
+
+#include <malloc.h>
+#define GAME_MSIZE(x) malloc_usable_size(x)
+
+#else
+
+#include <malloc.h>
+#define GAME_MSIZE(x) malloc_usable_size(x)
+
+#endif
+
 namespace Game
 {
 	namespace utils
@@ -82,9 +96,9 @@ namespace Game
 	struct DrawGeometryData
 	{
 		//Vertex stuff
-		Ref<VertexArray> VertexArray;
-		Ref<VertexBuffer> VertexBuffer;
-		Ref<IndexBuffer> IndexBuffer;
+		Ref<VertexArray> vertexArray;
+		Ref<VertexBuffer> vertexBuffer;
+		Ref<IndexBuffer> indexBuffer;
 
 		//Texture stuff
 		std::vector<uint32_t> TexturesID;
@@ -92,7 +106,7 @@ namespace Game
 		static const uint8_t WhiteTextureID = 1; //
 
 		//Shader stuff
-		Ref<Shader> Shader;
+		Ref<Shader> shader;
 
 		//Buffer stuff
 		void* Buffer = nullptr;
@@ -109,11 +123,11 @@ namespace Game
 		void Dispose() 
 		{ 
 			//Temp
-			VertexArray->Dispose();
-			VertexBuffer->Dispose();
-			IndexBuffer->Dispose();
+			vertexArray->Dispose();
+			vertexBuffer->Dispose();
+			indexBuffer->Dispose();
 			TexturesID.clear();
-			Shader.~shared_ptr();
+			shader.~shared_ptr();
 		}
 	};
 
@@ -142,17 +156,17 @@ namespace Game
 		auto qptr = s_Data.Quads; /* Handler pointer to a easier name */
 
 		//Init Quad stuff
-		qptr->Shader = quadShader;
-		qptr->Shader->Bind();
+		qptr->shader = quadShader;
+		qptr->shader->Bind();
 		
 		qptr->Buffer = new QuadVertexData[QuadMaxVertexCount];
 		qptr->BufferPtr = qptr->Buffer;
 
-		qptr->VertexArray = VertexArray::CreateVertexArray();
+		qptr->vertexArray = VertexArray::CreateVertexArray();
 
-		qptr->VertexBuffer = VertexBuffer::CreateVertexBuffer(QuadMaxVertexCount * sizeof(QuadVertexData));
+		qptr->vertexBuffer = VertexBuffer::CreateVertexBuffer(QuadMaxVertexCount * sizeof(QuadVertexData));
 
-		VertexAttribute layout(qptr->VertexBuffer);
+		VertexAttribute layout(qptr->vertexBuffer);
 
 		layout.AddLayoutFloat(3, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, Position));
 
@@ -178,12 +192,12 @@ namespace Game
 			offset += 4;
 		}
 
-		qptr->IndexBuffer = IndexBuffer::CreateIndexBuffer(_msize(indices), indices);
+		qptr->indexBuffer = IndexBuffer::CreateIndexBuffer(GAME_MSIZE(indices), indices);
 		delete[] indices;
 
-		utils::SampleTextureOnShader(qptr->Shader, 16, qptr->TexturesID);
+		utils::SampleTextureOnShader(qptr->shader, 16, qptr->TexturesID);
 
-		qptr->VertexArray->Unbind();
+		qptr->vertexArray->Unbind();
 
 		//GLOBAL GL CONFIGS
 		GLCall(glEnable(GL_DEPTH_TEST));
@@ -221,9 +235,9 @@ namespace Game
 	{
 		if (s_Data.Quads->IndexCount)
 		{
-			s_Data.Quads->VertexBuffer->Bind();
-			s_Data.Quads->VertexBuffer->SubData(s_Data.Quads->SizePtr(),s_Data.Quads->Buffer);
-			s_Data.Quads->VertexBuffer->Unbind();
+			s_Data.Quads->vertexBuffer->Bind();
+			s_Data.Quads->vertexBuffer->SubData(s_Data.Quads->SizePtr(),s_Data.Quads->Buffer);
+			s_Data.Quads->vertexBuffer->Unbind();
 		}
 	}
 
@@ -231,7 +245,7 @@ namespace Game
 	{
 		if (s_Data.Quads->IndexCount)
 		{
-			s_Data.Quads->Shader->Bind();
+			s_Data.Quads->shader->Bind();
 
 			for (int i = 0; i < s_Data.Quads->TextureSlotIndex; i++)
 			{
@@ -239,7 +253,7 @@ namespace Game
 				GLCall(glBindTexture(GL_TEXTURE_2D, s_Data.Quads->TexturesID[i]));
 			}
 
-			s_Data.Quads->VertexArray->Bind();
+			s_Data.Quads->vertexArray->Bind();
 
 			GLCall(glDrawElements(GL_TRIANGLES, s_Data.Quads->IndexCount, GL_UNSIGNED_INT, nullptr));
 

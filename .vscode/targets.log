@@ -1,0 +1,482 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Wed Feb 16 22:12:55 2022
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+DESKTOP_SESSION = ubuntu
+# default
+.SHELLFLAGS := -c
+# environment
+XDG_SESSION_CLASS = user
+# environment
+SNAP_COMMON = /var/snap/code/common
+# environment
+XDG_SESSION_TYPE = x11
+# environment
+VSCODE_LOG_NATIVE = false
+# environment
+NVM_INC = /home/somei/.nvm/versions/node/v16.14.0/include/node
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+XAUTHORITY = /run/user/1000/gdm/Xauthority
+# environment
+GDMSESSION = ubuntu
+# environment
+XMODIFIERS = @im=ibus
+# makefile
+CURDIR := /home/somei/Proj/Cpp/app-template
+# makefile
+SHELL = /bin/sh
+# environment
+SNAP_DATA = /var/snap/code/88
+# environment
+VTE_VERSION = 6003
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# environment
+JOURNAL_STREAM = 8:30701
+# makefile (from 'Makefile', line 4)
+config = debug_x64
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
+# environment
+SNAP_INSTANCE_NAME = code
+# environment
+SNAP_ARCH = amd64
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# automatic
+@F = $(notdir $@)
+# environment
+IM_CONFIG_PHASE = 1
+# environment
+USERNAME = somei
+# environment
+MAKELEVEL := 0
+# environment
+XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=0e0a6bc83bb528b99fa76f42620ce165
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# makefile (from 'Makefile', line 8)
+SILENT = @
+# makefile (from 'Makefile', line 12)
+GLFW_config = debug_x64
+# makefile (from 'Makefile', line 13)
+ImGui_config = debug_x64
+# environment
+LC_CTYPE = pt_BR.UTF-8
+# environment
+MANAGERPID = 1092
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# environment
+LC_NAME = pt_BR.UTF-8
+# environment
+VSCODE_CWD = /home/somei/Proj/Cpp/app-template
+# environment
+GSETTINGS_SCHEMA_DIR = /snap/code/88/usr/share/glib-2.0/schemas
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+PATH = /home/somei/.nvm/versions/node/v16.14.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+# environment
+GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
+# environment
+SESSION_MANAGER = local/Somei:@/tmp/.ICE-unix/1387,unix/Somei:/tmp/.ICE-unix/1387
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+GDK_PIXBUF_MODULE_FILE = /home/somei/snap/code/common/.cache/gdk-pixbuf-loaders.cache
+# environment
+SNAP = /snap/code/88
+# environment
+SDKMAN_DIR = /home/somei/.sdkman
+# environment
+SDKMAN_CANDIDATES_API = https://api.sdkman.io/2
+# environment
+NVM_BIN = /home/somei/.nvm/versions/node/v16.14.0/bin
+# environment
+BREAKPAD_DUMP_LOCATION = /home/somei/.config/Code/exthost Crash Reports
+# environment
+SNAP_VERSION = f80445ac
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+SDKMAN_PLATFORM = linuxx64
+# environment
+VSCODE_LOG_STACK = false
+# environment
+DISABLE_WAYLAND = 1
+# environment
+VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=54478f9f-9fa6-496e-b989-fee162c5efd0&iid=54478f9f-9fa6-496e-b989-fee162c5efd0&sid=54478f9f-9fa6-496e-b989-fee162c5efd0","uploadToServer":true}
+# environment
+INVOCATION_ID = 32159042d1484c7fa406db451efc5541
+# environment
+GDK_PIXBUF_MODULEDIR = /snap/code/88/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = :0
+# makefile (from 'Makefile', line 15)
+Game_config = debug_x64
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+SNAP_INSTANCE_KEY = 
+# environment
+PWD = /home/somei/Proj/Cpp/app-template
+# default
+.LOADED := 
+# environment
+SSH_AGENT_PID = 1349
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# environment
+GTK_MODULES = gail:atk-bridge
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
+# environment
+HOME = /home/somei
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# environment
+VSCODE_CLI = 1
+# environment
+VSCODE_CODE_CACHE_PATH = /home/somei/.config/Code/CachedData/f80445acd5a3dadef24aa209168452a3d97cc326
+# environment
+LOGNAME = somei
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
+# environment
+SNAP_CONTEXT = hOpTVu8JHuoYlYmzEhV8MMK3FJgtYrgCLs3XZ7NsksQGLyTbIFp0
+# environment
+NVM_CD_FLAGS = 
+# automatic
++F = $(notdir $+)
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+SNAP_USER_COMMON = /home/somei/snap/code/common
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+LC_TIME = pt_BR.UTF-8
+# environment
+SNAP_REAL_HOME = /home/somei
+# environment
+SDKMAN_VERSION = 5.13.1
+# environment
+COLORTERM = truecolor
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+QT_IM_MODULE = ibus
+# makefile (from 'Makefile', line 14)
+Glad_config = debug_x64
+# environment
+SNAP_USER_DATA = /home/somei/snap/code/88
+# environment
+SHLVL = 1
+# environment
+GNOME_SHELL_SESSION_MODE = ubuntu
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-fc2dcef3-4188-4146-b0e4-68e3f29bd05c.sock
+# default
+MAKE_VERSION := 4.2.1
+# environment
+USER = somei
+# environment
+SNAP_REVISION = 88
+# environment
+LC_MONETARY = pt_BR.UTF-8
+# makefile
+.DEFAULT_GOAL := all
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+LC_TELEPHONE = pt_BR.UTF-8
+# default
+MAKE_COMMAND := make
+# environment
+OLDPWD = /home/somei/Proj/Cpp
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-9af2b2b9-1.64.2-main.sock
+# makefile
+MAKEFLAGS = pqrR
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+NVM_DIR = /home/somei/.nvm
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+GDK_BACKEND = x11
+# environment
+LC_PAPER = pt_BR.UTF-8
+# environment
+QT_ACCESSIBILITY = 1
+# default
+MAKEFILES := 
+# environment
+SNAP_COOKIE = hOpTVu8JHuoYlYmzEhV8MMK3FJgtYrgCLs3XZ7NsksQGLyTbIFp0
+# environment
+LC_NUMERIC = pt_BR.UTF-8
+# automatic
+<F = $(notdir $<)
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+LC_MEASUREMENT = pt_BR.UTF-8
+# environment
+SNAP_NAME = code
+# environment
+SDKMAN_CANDIDATES_DIR = /home/somei/.sdkman/candidates
+# environment
+ 
+LC_ALL = C
+# environment
+DBUS_STARTER_BUS_TYPE = session
+# environment
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/b6f42d5b_2700_4f15_9132_60d30083b9c2
+# automatic
+^F = $(notdir $^)
+# environment
+GNOME_TERMINAL_SERVICE = :1.1124
+# default
+SUFFIXES := 
+# environment
+SNAP_REEXEC = 
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+WINDOWPATH = 2
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# environment
+LC_IDENTIFICATION = pt_BR.UTF-8
+# default
+.RECIPEPREFIX := 
+# makefile (from 'Makefile', line 51)
+PROJECTS := GLFW ImGui Glad Game
+# environment
+LC_ADDRESS = pt_BR.UTF-8
+# environment
+LANG = C
+# environment
+TERM = xterm-256color
+# environment
+VSCODE_PID = 32233
+# environment
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=0e0a6bc83bb528b99fa76f42620ce165
+# variable set hash-table stats:
+# Load=150/1024=15%, Rehash=0, Collisions=28/191=15%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 2050, inode 49809169): 12 files, no impossibilities.
+
+# 12 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+all: GLFW ImGui Glad Game
+#  Phony target (prerequisite of .PHONY).
+#  Command line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/7=0%
+
+Dependencies: GLFW Glad ImGui
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+.PHONY: all clean help GLFW ImGui Glad Game Dependencies
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-02-16 18:12:36.053068105
+#  File has been updated.
+#  Successfully updated.
+
+ImGui:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 67):
+	@echo "==== Building ImGui ($(ImGui_config)) ===="
+	@${MAKE} --no-print-directory -C Game/vendor/imgui -f Makefile config=$(ImGui_config)
+
+help:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 90):
+	@echo "Usage: make [config=name] [target]"
+	@echo ""
+	@echo "CONFIGURATIONS:"
+	@echo "  debug_x64"
+	@echo "  debug_x86"
+	@echo "  release_x64"
+	@echo "  release_x86"
+	@echo "  dist_x64"
+	@echo "  dist_x86"
+	@echo ""
+	@echo "TARGETS:"
+	@echo "   all (default)"
+	@echo "   clean"
+	@echo "   GLFW"
+	@echo "   ImGui"
+	@echo "   Glad"
+	@echo "   Game"
+	@echo ""
+	@echo "For more information, see https://github.com/premake/premake-core/wiki"
+
+GLFW:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := GLFW
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=4/15=27%
+#  recipe to execute (from 'Makefile', line 61):
+	@echo "==== Building GLFW ($(GLFW_config)) ===="
+	@${MAKE} --no-print-directory -C Game/vendor/glfw -f Makefile config=$(GLFW_config)
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+Game: Glad ImGui GLFW
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 79):
+	@echo "==== Building Game ($(Game_config)) ===="
+	@${MAKE} --no-print-directory -C Game -f Makefile config=$(Game_config)
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 84):
+	@${MAKE} --no-print-directory -C Game/vendor/glfw -f Makefile clean
+	@${MAKE} --no-print-directory -C Game/vendor/imgui -f Makefile clean
+	@${MAKE} --no-print-directory -C Game/vendor/glad -f Makefile clean
+	@${MAKE} --no-print-directory -C Game -f Makefile clean
+
+Glad:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 73):
+	@echo "==== Building Glad ($(Glad_config)) ===="
+	@${MAKE} --no-print-directory -C Game/vendor/glad -f Makefile config=$(Glad_config)
+
+# files hash-table stats:
+# Load=12/1024=1%, Rehash=0, Collisions=0/49=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 24 / storage = 213 B / avg = 8 B
+# current buf: size = 8162 B / used = 213 B / count = 24 / avg = 8 B
+
+# strcache performance: lookups = 58 / hit rate = 58%
+# hash-table stats:
+# Load=24/8192=0%, Rehash=0, Collisions=1/58=2%
+# Finished Make data base on Wed Feb 16 22:12:55 2022
+
+ 

@@ -27,9 +27,11 @@
 #include <fstream>
 
 // Project headers
+//#define STB_IMAGE_IMPLEMENTATION
+//#include "stb_image.h"
 #include "Log/Log.h"
 #include "debugbreak.h"
-#include "Assert.h"
+#include "Core/Assert.h"
 //#if defined GAME_WINDOWS_BUILD
 //	#include <Windows.h>
 //#endif

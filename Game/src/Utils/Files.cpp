@@ -18,7 +18,11 @@
 
 #include <sstream>
 #include <iostream>
-#include <Windows.h>
+#ifdef GAME_WINDOWS_BUILD
+
+//#include <Windows.h>
+
+#endif
 #include <filesystem>
 namespace Game
 {

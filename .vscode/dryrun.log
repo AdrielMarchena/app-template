@@ -1,0 +1,42 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/somei/Proj/Cpp/app-template'
+echo "==== Building GLFW (debug_x64) ===="
+make --no-print-directory -C Game/vendor/glfw -f Makefile config=debug_x64
+echo wgl_context.c
+cc   -MMD -MP   -m64 -g  -o "bin-int/Debug-windows-x86_64/GLFW/wgl_context.o" -MF "bin-int/Debug-windows-x86_64/GLFW/wgl_context.d" -c "src/wgl_context.c"
+echo win32_init.c
+cc   -MMD -MP   -m64 -g  -o "bin-int/Debug-windows-x86_64/GLFW/win32_init.o" -MF "bin-int/Debug-windows-x86_64/GLFW/win32_init.d" -c "src/win32_init.c"
+echo win32_joystick.c
+cc   -MMD -MP   -m64 -g  -o "bin-int/Debug-windows-x86_64/GLFW/win32_joystick.o" -MF "bin-int/Debug-windows-x86_64/GLFW/win32_joystick.d" -c "src/win32_joystick.c"
+echo win32_module.c
+cc   -MMD -MP   -m64 -g  -o "bin-int/Debug-windows-x86_64/GLFW/win32_module.o" -MF "bin-int/Debug-windows-x86_64/GLFW/win32_module.d" -c "src/win32_module.c"
+echo win32_monitor.c
+cc   -MMD -MP   -m64 -g  -o "bin-int/Debug-windows-x86_64/GLFW/win32_monitor.o" -MF "bin-int/Debug-windows-x86_64/GLFW/win32_monitor.d" -c "src/win32_monitor.c"
+echo win32_thread.c
+cc   -MMD -MP   -m64 -g  -o "bin-int/Debug-windows-x86_64/GLFW/win32_thread.o" -MF "bin-int/Debug-windows-x86_64/GLFW/win32_thread.d" -c "src/win32_thread.c"
+echo win32_time.c
+cc   -MMD -MP   -m64 -g  -o "bin-int/Debug-windows-x86_64/GLFW/win32_time.o" -MF "bin-int/Debug-windows-x86_64/GLFW/win32_time.d" -c "src/win32_time.c"
+echo win32_window.c
+cc   -MMD -MP   -m64 -g  -o "bin-int/Debug-windows-x86_64/GLFW/win32_window.o" -MF "bin-int/Debug-windows-x86_64/GLFW/win32_window.d" -c "src/win32_window.c"
+echo window.c
+cc   -MMD -MP   -m64 -g  -o "bin-int/Debug-windows-x86_64/GLFW/window.o" -MF "bin-int/Debug-windows-x86_64/GLFW/window.d" -c "src/window.c"
+echo Creating bin/Debug-windows-x86_64/GLFW
+mkdir -p bin/Debug-windows-x86_64/GLFW
+echo Linking GLFW
+ar -rcs "bin/Debug-windows-x86_64/GLFW/GLFW.lib"  bin-int/Debug-windows-x86_64/GLFW/context.o bin-int/Debug-windows-x86_64/GLFW/egl_context.o bin-int/Debug-windows-x86_64/GLFW/init.o bin-int/Debug-windows-x86_64/GLFW/input.o bin-int/Debug-windows-x86_64/GLFW/monitor.o bin-int/Debug-windows-x86_64/GLFW/osmesa_context.o bin-int/Debug-windows-x86_64/GLFW/vulkan.o bin-int/Debug-windows-x86_64/GLFW/wgl_context.o bin-int/Debug-windows-x86_64/GLFW/win32_init.o bin-int/Debug-windows-x86_64/GLFW/win32_joystick.o bin-int/Debug-windows-x86_64/GLFW/win32_module.o bin-int/Debug-windows-x86_64/GLFW/win32_monitor.o bin-int/Debug-windows-x86_64/GLFW/win32_thread.o bin-int/Debug-windows-x86_64/GLFW/win32_time.o bin-int/Debug-windows-x86_64/GLFW/win32_window.o bin-int/Debug-windows-x86_64/GLFW/window.o
+:
+echo "==== Building ImGui (debug_x64) ===="
+make --no-print-directory -C Game/vendor/imgui -f Makefile config=debug_x64
+:
+echo "==== Building Glad (debug_x64) ===="
+make --no-print-directory -C Game/vendor/glad -f Makefile config=debug_x64
+:
+echo "==== Building Game (debug_x64) ===="
+make --no-print-directory -C Game -f Makefile config=debug_x64
+ 
+make[1]: *** No rule to make target 'vendor/glfw/bin/Debug-windows-x86_64/GLFW/GLFW.lib', needed by 'bin/Debug-windows-x86_64/Game/Game.exe'.
+ 
+make: *** [Makefile:80: Game] Error 2
+ 
+make: Leaving directory '/home/somei/Proj/Cpp/app-template'
+ 

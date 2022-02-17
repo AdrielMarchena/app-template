@@ -7,7 +7,7 @@
 
 #include "stb_image.h"
 
-#include "utils/Generic.h"
+#include "Utils/Generic.h"
 
 namespace Game
 { 
@@ -111,7 +111,8 @@ namespace Game
 		{
 			size_t buffer_size = static_cast<size_t>(info.Width) * info.Height * info.Channels * sizeof(TextureBufferType);
 			m_ImageInfo.Buffer = CreateTextureBuffer(buffer_size);
-			memcpy_s(m_ImageInfo.Buffer, buffer_size, info.Buffer, buffer_size);
+			//memcpy_s(m_ImageInfo.Buffer, buffer_size, info.Buffer, buffer_size);
+			memcpy(m_ImageInfo.Buffer,info.Buffer,buffer_size);
 		}
 
 		if (m_ImageInfo.DeleteSourceBuffer && !info.KeepSourceBuffer)

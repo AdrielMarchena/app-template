@@ -37,12 +37,17 @@ workspace "Game"
 		
 	filter "system:Unix"
 		system "linux"
-
+	
+	filter "system:Linux"
+		system "linux"
+	
+	
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 group "Dependencies"
 
 --Libs
+include "Game/vendor/stb_image"
 include "Game/vendor/glfw"
 include "Game/vendor/imgui"
 include "Game/vendor/glad"

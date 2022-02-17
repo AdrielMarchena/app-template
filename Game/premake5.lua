@@ -2,23 +2,23 @@ project "Game"
 	kind "ConsoleApp"
 	language "C++"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
 	pchheader "pch.h"
 	pchsource ( "src/pch.cpp" )
 
 	files 
 	{
+		--"vendor/stb_image/stb_image.cpp",
+		
 		"src/**.h",
 		"src/**.c",
 		"src/**.cpp",
+
 	}
 
 	includedirs
 	{
 		"src/",
-		"%{IncludeDirectories.Glfw}",
+		--"%{IncludeDirectories.Glfw}",
 		"%{IncludeDirectories.Glad}",
 		"%{IncludeDirectories.ImGui}",
 		"%{IncludeDirectories.stb_image}",
@@ -29,10 +29,14 @@ project "Game"
 
 	links
 	{
+		"pthread ",
+		"dl",
+		"GLFW",
+		"stb_image",
 		"Glad",
 		"ImGui",
-		"GLFW",
-		"opengl32.lib"
+		--"opengl32.lib"
+		--"glfw3.lib ",
 	}
 
 	postbuildcommands
@@ -47,6 +51,18 @@ project "Game"
 	--	flags { 'NoPCH' }
 
 	filter "system:Windows"
+		system "windows"
+		
+		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	filter "system:Unix"
+		system "linux"
+
+		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	filter "system:Windows"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
@@ -57,14 +73,14 @@ project "Game"
 			"GAME_STATIC_BUILD"
 		}
 
-	filter "system:Unix"
+	filter "system:linux"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
 
 		defines
 		{
-			"GAME_UNIX_BUILD",
+			"GAME_LINUX_BUILD",
 			"GAME_STATIC_BUILD"
 		}
 

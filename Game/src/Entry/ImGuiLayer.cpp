@@ -33,7 +33,8 @@ namespace Game
 			// Setup Dear ImGui style
 			ImGui::StyleColorsDark();
 
-			io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Consola.ttf", m_FontSize);
+			std::string const HOME = std::getenv("HOME") ? std::getenv("HOME") : ".";
+			io.FontDefault = io.Fonts->AddFontFromFileTTF(std::string("assets/fonts/Consolas.ttf").c_str(), m_FontSize);
 
 			s_ImGuiInitialized = true;
 		}
