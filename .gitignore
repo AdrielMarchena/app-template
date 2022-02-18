@@ -70,7 +70,7 @@ bin-int
 #Gimp File
 *.[Xx][Cc][Ff]
 
-Game/vendor/glad
+#Game/vendor/glad
 #add all .lua
 !*.lua
 
