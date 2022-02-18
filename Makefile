@@ -71,31 +71,31 @@ Dependencies: GLFW Glad ImGui lodepng stb_image
 stb_image:
 ifneq (,$(stb_image_config))
 	@echo "==== Building stb_image ($(stb_image_config)) ===="
-	@${MAKE} --no-print-directory -C Game/vendor/stb_image -f Makefile config=$(stb_image_config)
+	@${MAKE} --no-print-directory -C Game/vendor -f stb_image.make config=$(stb_image_config)
 endif
 
 GLFW:
 ifneq (,$(GLFW_config))
 	@echo "==== Building GLFW ($(GLFW_config)) ===="
-	@${MAKE} --no-print-directory -C Game/vendor/glfw -f Makefile config=$(GLFW_config)
+	@${MAKE} --no-print-directory -C Game/vendor -f GLFW.make config=$(GLFW_config)
 endif
 
 ImGui:
 ifneq (,$(ImGui_config))
 	@echo "==== Building ImGui ($(ImGui_config)) ===="
-	@${MAKE} --no-print-directory -C Game/vendor/imgui -f Makefile config=$(ImGui_config)
+	@${MAKE} --no-print-directory -C Game/vendor -f ImGui.make config=$(ImGui_config)
 endif
 
 Glad:
 ifneq (,$(Glad_config))
 	@echo "==== Building Glad ($(Glad_config)) ===="
-	@${MAKE} --no-print-directory -C Game/vendor/glad -f Makefile config=$(Glad_config)
+	@${MAKE} --no-print-directory -C Game/vendor -f Glad.make config=$(Glad_config)
 endif
 
 lodepng:
 ifneq (,$(lodepng_config))
 	@echo "==== Building lodepng ($(lodepng_config)) ===="
-	@${MAKE} --no-print-directory -C Game/vendor/lodepng -f Makefile config=$(lodepng_config)
+	@${MAKE} --no-print-directory -C Game/vendor -f lodepng.make config=$(lodepng_config)
 endif
 
 Game: GLFW stb_image Glad ImGui lodepng
@@ -105,11 +105,11 @@ ifneq (,$(Game_config))
 endif
 
 clean:
-	@${MAKE} --no-print-directory -C Game/vendor/stb_image -f Makefile clean
-	@${MAKE} --no-print-directory -C Game/vendor/glfw -f Makefile clean
-	@${MAKE} --no-print-directory -C Game/vendor/imgui -f Makefile clean
-	@${MAKE} --no-print-directory -C Game/vendor/glad -f Makefile clean
-	@${MAKE} --no-print-directory -C Game/vendor/lodepng -f Makefile clean
+	@${MAKE} --no-print-directory -C Game/vendor -f stb_image.make clean
+	@${MAKE} --no-print-directory -C Game/vendor -f GLFW.make clean
+	@${MAKE} --no-print-directory -C Game/vendor -f ImGui.make clean
+	@${MAKE} --no-print-directory -C Game/vendor -f Glad.make clean
+	@${MAKE} --no-print-directory -C Game/vendor -f lodepng.make clean
 	@${MAKE} --no-print-directory -C Game -f Makefile clean
 
 help:

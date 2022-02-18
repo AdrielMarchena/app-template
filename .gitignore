@@ -76,6 +76,7 @@ bin-int
 
 #add assest resources
 !*/assets/img/*
+!*/assets/fonts/*
 
 #misc
 
