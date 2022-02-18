@@ -1,6 +1,7 @@
 #pragma once
 #include "glm/glm.hpp"
 #include <algorithm>
+
 namespace Game
 {
 	struct ColisionRect
@@ -19,13 +20,13 @@ namespace Game
 	class Colide
 	{
 	public:
-		_NODISCARD static bool RectVsRect(const ColisionRect& t, const ColisionRect& f);
+		static bool RectVsRect(const ColisionRect& t, const ColisionRect& f);
 
-		_NODISCARD static bool PointVsRect(const glm::vec2& p, const ColisionRect& r);
+		static bool PointVsRect(const glm::vec2& p, const ColisionRect& r);
 
-		_NODISCARD static bool RayVsRect(const glm::vec2& ray_origin, const glm::vec2& ray_dir, const ColisionRect& target, glm::vec2& contact_point, glm::vec2& contact_normal, float_t& t_hit_near);
+		static bool RayVsRect(const glm::vec2& ray_origin, const glm::vec2& ray_dir, const ColisionRect& target, glm::vec2& contact_point, glm::vec2& contact_normal, float& t_hit_near);
 
-		_NODISCARD static bool DynamicRectVsRect(const ColisionRect& moving, const ColisionRect& target, glm::vec2& contact_point, glm::vec2& contact_normal, float_t& contact_time, float_t deltaTime);
+		static bool DynamicRectVsRect(const ColisionRect& moving, const ColisionRect& target, glm::vec2& contact_point, glm::vec2& contact_normal, float& contact_time, float deltaTime);
 
 	};
 

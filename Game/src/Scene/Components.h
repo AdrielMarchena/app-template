@@ -35,16 +35,16 @@ namespace Game
 	{
 		glm::vec4 Color{ 1.0f,1.0f,1.0f,1.0f };
 		bool Visible = true;
+		Ref<Game::Texture> Texture;//Conflict name if above constructors
 
 		SpriteComponent() = default;
 		SpriteComponent(const SpriteComponent&) = default;
 
 		SpriteComponent(const glm::vec4& color)
 			:Color(color){}
-		SpriteComponent(const Ref<Texture>& texture)
+		SpriteComponent(const Ref<Game::Texture>& texture)
 			:Texture(texture) {}
 
-		Ref<Texture> Texture;//Conflict name if above constructors
 	};
 
 	struct TransformComponent

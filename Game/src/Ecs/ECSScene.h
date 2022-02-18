@@ -110,7 +110,7 @@ namespace ecs
 			if (entities[GetEntityIndex(ent)].id != ent)
 				return;
 
-			int ComponentID = GetId<T>();
+			int ComponentID = GetID<T>();
 			ent = GetEntityIndex(ent);
 			entities[ent].mask.reset(ComponentID);
 		}

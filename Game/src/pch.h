@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <bits/functional_hash.h>
 #include <functional>
 #include <memory>
 #include <thread>

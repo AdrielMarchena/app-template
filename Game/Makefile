@@ -113,6 +113,10 @@ GENERATED :=
 OBJECTS :=
 
 GENERATED += $(OBJDIR)/Application.o
+GENERATED += $(OBJDIR)/BusNode.o
+GENERATED += $(OBJDIR)/Colide.o
+GENERATED += $(OBJDIR)/Components.o
+GENERATED += $(OBJDIR)/Entity.o
 GENERATED += $(OBJDIR)/Files.o
 GENERATED += $(OBJDIR)/Framebuffer.o
 GENERATED += $(OBJDIR)/FramebufferRender.o
@@ -122,6 +126,7 @@ GENERATED += $(OBJDIR)/GL_Types.o
 GENERATED += $(OBJDIR)/GameCamera.o
 GENERATED += $(OBJDIR)/Generic.o
 GENERATED += $(OBJDIR)/GlContext1.o
+GENERATED += $(OBJDIR)/GlobalD.o
 GENERATED += $(OBJDIR)/ImGuiLayer.o
 GENERATED += $(OBJDIR)/IndexBuffer.o
 GENERATED += $(OBJDIR)/Keyboard.o
@@ -129,19 +134,27 @@ GENERATED += $(OBJDIR)/Layer.o
 GENERATED += $(OBJDIR)/LayerStack.o
 GENERATED += $(OBJDIR)/Log.o
 GENERATED += $(OBJDIR)/Main.o
+GENERATED += $(OBJDIR)/Message.o
+GENERATED += $(OBJDIR)/MessageBus.o
 GENERATED += $(OBJDIR)/Mouse.o
 GENERATED += $(OBJDIR)/MyGame.o
 GENERATED += $(OBJDIR)/ParseArgs.o
 GENERATED += $(OBJDIR)/Render2D.o
+GENERATED += $(OBJDIR)/Scene.o
 GENERATED += $(OBJDIR)/Shader.o
 GENERATED += $(OBJDIR)/Texture.o
 GENERATED += $(OBJDIR)/TextureSpecifications.o
+GENERATED += $(OBJDIR)/UUID.o
 GENERATED += $(OBJDIR)/VertexArray.o
 GENERATED += $(OBJDIR)/VertexAttribute.o
 GENERATED += $(OBJDIR)/VertexBuffer.o
 GENERATED += $(OBJDIR)/WindowGlfw.o
 GENERATED += $(OBJDIR)/pch.o
 OBJECTS += $(OBJDIR)/Application.o
+OBJECTS += $(OBJDIR)/BusNode.o
+OBJECTS += $(OBJDIR)/Colide.o
+OBJECTS += $(OBJDIR)/Components.o
+OBJECTS += $(OBJDIR)/Entity.o
 OBJECTS += $(OBJDIR)/Files.o
 OBJECTS += $(OBJDIR)/Framebuffer.o
 OBJECTS += $(OBJDIR)/FramebufferRender.o
@@ -151,6 +164,7 @@ OBJECTS += $(OBJDIR)/GL_Types.o
 OBJECTS += $(OBJDIR)/GameCamera.o
 OBJECTS += $(OBJDIR)/Generic.o
 OBJECTS += $(OBJDIR)/GlContext1.o
+OBJECTS += $(OBJDIR)/GlobalD.o
 OBJECTS += $(OBJDIR)/ImGuiLayer.o
 OBJECTS += $(OBJDIR)/IndexBuffer.o
 OBJECTS += $(OBJDIR)/Keyboard.o
@@ -158,13 +172,17 @@ OBJECTS += $(OBJDIR)/Layer.o
 OBJECTS += $(OBJDIR)/LayerStack.o
 OBJECTS += $(OBJDIR)/Log.o
 OBJECTS += $(OBJDIR)/Main.o
+OBJECTS += $(OBJDIR)/Message.o
+OBJECTS += $(OBJDIR)/MessageBus.o
 OBJECTS += $(OBJDIR)/Mouse.o
 OBJECTS += $(OBJDIR)/MyGame.o
 OBJECTS += $(OBJDIR)/ParseArgs.o
 OBJECTS += $(OBJDIR)/Render2D.o
+OBJECTS += $(OBJDIR)/Scene.o
 OBJECTS += $(OBJDIR)/Shader.o
 OBJECTS += $(OBJDIR)/Texture.o
 OBJECTS += $(OBJDIR)/TextureSpecifications.o
+OBJECTS += $(OBJDIR)/UUID.o
 OBJECTS += $(OBJDIR)/VertexArray.o
 OBJECTS += $(OBJDIR)/VertexAttribute.o
 OBJECTS += $(OBJDIR)/VertexBuffer.o
@@ -233,6 +251,12 @@ endif
 # File Rules
 # #############################################
 
+$(OBJDIR)/Colide.o: src/Colision/Colide.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/GlobalD.o: src/Ecs/GlobalD.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Application.o: src/Entry/Application.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -258,6 +282,15 @@ $(OBJDIR)/Log.o: src/Log/Log.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Main.o: src/Main.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/BusNode.o: src/Message/BusNode.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Message.o: src/Message/Message.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/MessageBus.o: src/Message/MessageBus.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/MyGame.o: src/MyLayer/MyGame.cpp
@@ -303,6 +336,18 @@ $(OBJDIR)/GameCamera.o: src/Render/GameCamera.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Render2D.o: src/Render/Render2D.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Components.o: src/Scene/Components.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Entity.o: src/Scene/Entity.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Scene.o: src/Scene/Scene.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/UUID.o: src/Scene/UUID.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Files.o: src/Utils/Files.cpp

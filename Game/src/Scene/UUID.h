@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include <xhash>
+#include <bits/functional_hash.h>
 #include <unordered_map>
 
 namespace Game
