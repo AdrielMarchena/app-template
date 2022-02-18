@@ -6,6 +6,9 @@
 #include "Event/MouseEvent.h"
 #include "Event/KeyEvent.h"
 
+#include "Input/Keyboard.h"
+#include "Input/Mouse.h"
+
 #include "GLFW/glfw3.h"
 
 #define CALLBACK_STATIC_CAST(type,window) static_cast<type*>(glfwGetWindowUserPointer(window))
@@ -174,6 +177,8 @@ namespace Game
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double_t xOffSet, double_t yOffSet)
 			{
 				auto data = CALLBACK_STATIC_CAST(WindowData, window);
+				Mouse::on_mouse_scroll(xOffSet, yOffSet);
+
 				MouseScrollEvent evt((float)xOffSet, (float)yOffSet);
 				data->EventCallback(evt);
 			});
@@ -188,6 +193,7 @@ namespace Game
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double_t xPos, double_t yPos)
 			{
 				auto data = CALLBACK_STATIC_CAST(WindowData, window);
+				Mouse::on_mouse_cursor(xPos, yPos);
 				MouseMovedEvent evt(xPos, yPos);
 				data->EventCallback(evt);
 			});
@@ -195,7 +201,7 @@ namespace Game
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int32_t key, int32_t action, int32_t mods)
 			{
 				auto data = CALLBACK_STATIC_CAST(WindowData, window);
-
+				Mouse::on_mouse_button(key, action, mods);
 				switch (action)
 				{
 				case GLFW_PRESS:
@@ -217,6 +223,7 @@ namespace Game
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int32_t key, int32_t scancode, int32_t action, int32_t mods)
 			{
 				auto data = CALLBACK_STATIC_CAST(WindowData, window);
+				Keyboard::on_keyboard_button(key, scancode, action, mods);
 				switch (action)
 				{
 				case GLFW_PRESS:

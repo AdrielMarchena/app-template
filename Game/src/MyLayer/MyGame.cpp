@@ -3,26 +3,14 @@
 
 #include "Input/Keyboard.h"
 #include "Render/Render2D.h"
+#include "Render/GL/FramebufferRender.h"
+#include "Render/GameCamera.h"
+#include "Render/GL/Texture.h"
 #include "Entry/Application.h"
 
 #include <glm/gtx/quaternion.hpp>
-struct Transform
-{
-	glm::vec3 Translation = {0.0f,0.0f,0.0f};
-	glm::vec3 Scale = {1.0f,1.0f,1.0f};
-	glm::vec3 Rotation = {0.0f,0.0f,0.0f};
-
-	glm::mat4 GetTransform() const
-	{
-		glm::mat4 rotation = glm::toMat4(glm::quat(Rotation));
-
-		return glm::translate(glm::mat4(1.0f), Translation)
-			* rotation
-			* glm::scale(glm::mat4(1.0f), Scale);
-	}
-
-} s_CameraTransform, s_FrameBuffCameraT, s_QuadT;
-
+#include "imgui.h"
+#include "Message/BusNode.h"
 struct MyGameKeyBindings
 {
 	static void KeyW(MyGame& g)
@@ -46,14 +34,6 @@ struct MyGameKeyBindings
 MyGame::MyGame(const std::string& name)
 	:Game::Layer(name)
 {
-	Game::FrameBufferRenderSpecification specs;
-	auto& app = Game::Application::Get();
-
-	specs.width = app.GetWindow().GetWidth();
-	specs.height = app.GetWindow().GetHeight();
-	specs.scale_factor = 1.0f;
-
-	m_FrameBufferR = Game::MakeScope<Game::FramebufferRender>(specs);
 }
 
 void MyGame::OnAttach()
@@ -69,36 +49,99 @@ void MyGame::OnAttach()
 	auto w = app.GetWindow().GetWidth();
 	auto h = app.GetWindow().GetHeight();
 	float ar = (float)w / (float)h;
-	m_Camera.SetViewportSize(w, h);
 
-	float sc = m_Camera.GetOrthographicSize();
+	m_Scene = Game::MakeScope<Game::Scene>();
 
-	m_FrameBufferR->SetQuadPosition({ 0.0f,0.0f,0.0f });
-	m_FrameBufferR->SetQuadScale({ sc * ar,sc,1.0f });
-	m_FrameBufferR->SetQuadRotation({ 0.0f,0.0f,0.0f });
+	m_Scene->OnResize(w, h);
+
+	//m_Camera.SetViewportSize(w, h);
+
+	{
+		m_Camera = m_Scene->CreateEntity("Main_Camera");
+
+		auto& cameraComponent = m_Camera.Add<Game::CameraComponent>();
+		cameraComponent.Camera.SetViewportSize(w, h);
+		//cameraComponent.Camera.SetOrthographicNearClip(-1.0f);
+		//cameraComponent.Camera.SetOrthographicFarClip(10.0f);
+		auto& tr = m_Camera.Get<Game::TransformComponent>();
+		tr.Translation = { 0.0f,0.0f,0.0f };
+		tr.Scale = { 1.0f,1.0f,1.0f };
+		tr.Translation = { 0.0f,0.0f,0.0f };
+		cameraComponent.Primary = true;
+	}
+
+	{
+		m_Quad = m_Scene->CreateEntity("Quad");
+		auto texture = Game::Texture::CreateTexture("assets/img/shrekOnion.jpg");
+		m_Quad.Add<Game::SpriteComponent>(texture);
+		auto& tr = m_Quad.Get<Game::TransformComponent>();
+
+		float texture_ar = texture->GetSize().x / texture->GetSize().y;
+		tr.SetScaleWithAr(texture_ar);
+		tr.Translation = { 0.0f,4.0f,0.0f };
+
+		auto& b = m_Quad.Add<Game::BoxColiderComponent>();
+		b.BodyType = Game::BoxColiderComponent::Type::Dynamic;
+		b.Velocity = { 0.0f, 0.0f };
+	}
+
+	{
+		m_Platform = m_Scene->CreateEntity("Platform");
+		auto texture = Game::Texture::CreateTexture("assets/img/chalote.jpg");
+		m_Platform.Add<Game::SpriteComponent>(texture);
+		auto& tr = m_Platform.Get<Game::TransformComponent>();
+
+		tr.Translation = { 0.0f,0.0f,0.0f };
+		tr.Scale = { 10.0f,1.0f,1.0f };
+
+		auto& b = m_Platform.Add<Game::BoxColiderComponent>();
+		b.BodyType = Game::BoxColiderComponent::Type::Static;
+		b.Velocity = { 0.0f, 0.0f };
+	}
+
 }
 
 void MyGame::OnUpdate(Game::Timestamp dt)
 {
-	//TODO: Pass this render routine to other place
-	m_FrameBufferR->BindFrameBuffer();
-	
-	m_FrameBufferR->SetGLViewport(true);
+	auto& mes = m_Quad.Get<Game::MessageComponent>();
+	if(Game::Keyboard::isClicked(GAME_KEY_S))
+		mes.Node.Send({ &m_Quad,Game::MessageEvent::PLAYER_DIED });
+	m_Scene->OnUpdate(dt);
+}
 
-	Game::Render2D::Clear();
-	Game::Render2D::BeginScene(m_Camera, s_CameraTransform.GetTransform());
-	Game::Render2D::BeginBatch();
+void MyGame::OnImGuiRender()
+{
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("Options"))
+		{
+			static float scalor = 1.0f;
+			if (ImGui::SliderFloat("Framebuffer Scaler", &scalor, 0.05f, 1.0f))
+			{
+				m_Scene->FramebufferSetScalor(scalor);
+			}
 
-	Game::Render2D::DrawQuad(s_QuadT.GetTransform(), Game::Colors::White);
+			if(ImGui::Button("Exit")) Game::Application::Get().Close();
 
-	Game::Render2D::EndBatch();
-	Game::Render2D::Flush();
+			ImGui::EndMenu();
+		}
 
-	m_FrameBufferR->UnbindFrameBuffer();
+		if (ImGui::BeginMenu("Post Effects"))
+		{
+			auto& postEffects = m_Scene->FramebufferGetPostEffects();
 
-	m_FrameBufferR->SetGLViewport(false);
-	// TODO: This should be another camera, but will do for now
-	m_FrameBufferR->DrawFrameBuffer(m_Camera, s_CameraTransform.GetTransform());
+			for (const auto& effect : postEffects)
+			{
+				if (ImGui::Button(effect.first.c_str()))
+					m_Scene->FramebufferSetPostEffect(effect.first);
+			}
+
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMainMenuBar();
+	}
+
 }
 
 void MyGame::OnDetach()
@@ -117,13 +160,8 @@ bool MyGame::OnWindowResize(WindowResizeEvent& e)
 {
 	auto w = e.GetWidth();
 	auto h = e.GetHeight();
-	m_Camera.SetViewportSize(w, h);
-	m_FrameBufferR->GetSpec().width = w;
-	m_FrameBufferR->GetSpec().height = h;
-	float ar = (float)w / (float)h;
-	float sc = m_Camera.GetOrthographicSize();
-	m_FrameBufferR->SetQuadScale({ sc * ar,sc,1.0f });
-	m_FrameBufferR->InvalidateFrameBuffer(); // Recreate Framebuffer
+	m_Camera.Get<Game::CameraComponent>().Camera.SetViewportSize(w,h);
+	m_Scene->OnResize(w, h);
 	return false;
 }
 

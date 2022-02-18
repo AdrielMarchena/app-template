@@ -81,13 +81,11 @@ namespace Game
 	void FramebufferRender::BindFrameBuffer()
 	{
 		m_Framebuffer->Bind();
-		GLCall(glViewport(0, 0, m_Specs.width * m_Specs.scale_factor, m_Specs.height * m_Specs.scale_factor));
 	}
 
 	void FramebufferRender::UnbindFrameBuffer()
 	{
 		m_Framebuffer->Unbind();
-		GLCall(glViewport(0, 0, m_Specs.width, m_Specs.height));
 	}
 
 	FramebufferRender::~FramebufferRender()

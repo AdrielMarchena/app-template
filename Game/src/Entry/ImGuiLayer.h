@@ -12,10 +12,10 @@ namespace Game
 	public:
 		ImGuiLayer(const std::string& name = "ImGuiLayer");
 
-		virtual void OnAttach() override;
-		virtual void OnImGuiRender() override;
-		virtual void OnDetach() override;
-		virtual void OnEvent(Event& e) override;
+		void OnAttach() override;
+		void OnImGuiRender() override;
+		void OnDetach() override;
+		void OnEvent(Event& e) override;
 
 		void BlockEvents(bool block) { m_Blockevents = block; }
 
