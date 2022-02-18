@@ -18,7 +18,7 @@ project "Game"
 	includedirs
 	{
 		"src/",
-		--"%{IncludeDirectories.Glfw}",
+		"%{IncludeDirectories.Glfw}",
 		"%{IncludeDirectories.Glad}",
 		"%{IncludeDirectories.ImGui}",
 		"%{IncludeDirectories.stb_image}",
@@ -30,8 +30,6 @@ project "Game"
 
 	links
 	{
-		"pthread ",
-		"dl",
 		"GLFW",
 		"stb_image",
 		"Glad",
@@ -85,6 +83,12 @@ project "Game"
 			"GAME_LINUX_BUILD",
 			"GAME_STATIC_BUILD"
 		}
+
+		links
+	{
+		"pthread",
+		"dl",
+	}
 
 	filter "configurations:Debug"
 		defines "GAME_DEBUG"
