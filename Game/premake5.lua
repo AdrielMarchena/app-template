@@ -24,7 +24,8 @@ project "Game"
 		"%{IncludeDirectories.stb_image}",
 		"%{IncludeDirectories.spdlog}",
 		"%{IncludeDirectories.glm}",
-		"%{IncludeDirectories.debugbreak}"
+		"%{IncludeDirectories.debugbreak}",
+		"%{IncludeDirectories.lodepng}"
 	}
 
 	links
@@ -35,6 +36,7 @@ project "Game"
 		"stb_image",
 		"Glad",
 		"ImGui",
+		"lodepng"
 		--"opengl32.lib"
 		--"glfw3.lib ",
 	}

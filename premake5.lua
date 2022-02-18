@@ -51,6 +51,7 @@ include "Game/vendor/stb_image"
 include "Game/vendor/glfw"
 include "Game/vendor/imgui"
 include "Game/vendor/glad"
+include "Game/vendor/lodepng"
 group ""
 
 --Projects
