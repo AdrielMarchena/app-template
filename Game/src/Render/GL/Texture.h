@@ -48,7 +48,7 @@ namespace Game
 
 		operator bool() const { return (bool)m_Id; }
 		static TextureSpecifications GetImageInfo(const std::string& path);
-		//static TextureSpecifications GetImageInfoLodePNG(const std::string& path);
+		static TextureSpecifications GetImageInfoLodePNG(const std::string& path);
 		static TextureSpecifications GetImageInfoStbi(const std::string& path);
 	private:
 	};

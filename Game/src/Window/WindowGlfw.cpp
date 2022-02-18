@@ -11,6 +11,8 @@
 
 #include "GLFW/glfw3.h"
 
+#include "Render/GL/Texture.h"
+
 #define CALLBACK_STATIC_CAST(type,window) static_cast<type*>(glfwGetWindowUserPointer(window))
 
 namespace Game
@@ -118,14 +120,15 @@ namespace Game
 		m_Data.Fullscreen = specs.Fullscreen;
 		m_Data.Resizeble = specs.Resizeble;
 		m_Data.TitleBar = specs.Decorated;
-
+		
 		if (!s_GLFWInitialized)
 		{
 			//Window things
-			if (glfwInit() == GLFW_FALSE)
-				GUI_ASSERT(false, "Error on glfw initialization");
+			GAME_CORE_ASSERT(glfwInit() == GLFW_TRUE, "Error on glfw initialization");
 
 			s_GLFWInitialized = true;
+
+			GAME_LOG_TRACE("glfw intialized");
 
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -155,6 +158,21 @@ namespace Game
 			glfwSetWindowPos(m_Window, m_Data.XPos, m_Data.YPos);
 		}
 
+		GLFWimage icons[1];
+		const char* iconPath = "assets/img/icon.png";
+
+		auto imageInfo = Texture::GetImageInfo(iconPath);
+		if(imageInfo.Buffer)
+		{
+			icons[0].pixels = imageInfo.Buffer;
+			icons[0].width = imageInfo.Width;
+			icons[0].height = imageInfo.Height;
+			glfwSetWindowIcon(m_Window,1,icons);
+			Texture::DeleteTextureBuffer(imageInfo.Buffer);
+			GAME_LOG_TRACE("icon '{0}' loaded",iconPath);
+		}
+		else
+			GAME_LOG_TRACE("could not load icon '{0}'",iconPath);
 		m_OpenGLContext = std::make_unique<GlContext>(m_Window);
 		m_OpenGLContext->Init();
 
