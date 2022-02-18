@@ -32,8 +32,6 @@ endef
 define PRELINKCMDS
 endef
 define POSTBUILDCMDS
-	@echo Running postbuild commands
-	cp -rf "src/**.h" "include/Game"
 endef
 
 ifeq ($(config),debug_x64)

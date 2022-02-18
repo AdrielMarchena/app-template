@@ -192,7 +192,7 @@ namespace Game
 			offset += 4;
 		}
 
-		qptr->indexBuffer = IndexBuffer::CreateIndexBuffer(GAME_MSIZE(indices), indices);
+		qptr->indexBuffer = IndexBuffer::CreateIndexBuffer(sizeof(uint32_t) * QuadMaxIndexCount, indices);
 		delete[] indices;
 
 		utils::SampleTextureOnShader(qptr->shader, 16, qptr->TexturesID);

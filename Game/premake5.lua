@@ -41,7 +41,7 @@ project "Game"
 
 	postbuildcommands
 	{
-		("{COPYDIR} \"./src/**.h\" \"./include/Game\""),
+		--("{COPYDIR} \"./src/**.h\" \"./include/Game\""),
 	}
 
 	--filter { 'files:vendor/stb_image/**.h' }

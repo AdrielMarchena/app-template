@@ -42,10 +42,20 @@ project "ImGui"
 		"backends/imgui_impl_glut.cpp",
 		"misc/freetype/imgui_freetype.cpp",
 		"misc/freetype/imgui_freetype.h",
+		"backends/imgui_impl_dx9.cpp",
+		"backends/imgui_impl_dx9.h",
+		"backends/imgui_impl_dx10.cpp",
+		"backends/imgui_impl_dx10.h",
+		"backends/imgui_impl_dx11.cpp",
+		"backends/imgui_impl_dx11.h",
+		"backends/imgui_impl_dx12.cpp",
+		"backends/imgui_impl_dx12.h",
 		"main.cpp",
 		"examples/**.cpp",
 		"examples/**.h",
 		"examples/**.hpp",
+
+		"backends/imgui_impl_win32.cpp",
 	}
 
 	includedirs
@@ -61,7 +71,7 @@ project "ImGui"
 		system "windows"
 
 	filter "system:Unix"
-	system "linux"
+		system "linux"
 
 	filter "system:windows"
 		systemversion "latest"
