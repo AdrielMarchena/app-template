@@ -10,3 +10,6 @@
 [submodule "Game/vendor/imgui"]
 	path = Game/vendor/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "Game/vendor/lodepng"]
+	path = Game/vendor/lodepng
+	url = https://github.com/lvandeve/lodepng.git
