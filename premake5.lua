@@ -8,11 +8,11 @@ workspace "Game"
 		"x86"
 	}
 
-	system
-	(
-		"Windows",
-		"Unix"
-	)
+	--system
+	--(
+	--	"Windows",
+	--	"Unix"
+	--)
 
 	configurations
 	{
