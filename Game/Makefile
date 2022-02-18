@@ -41,8 +41,8 @@ OBJDIR = bin-int/Debug-windows-x86_64/Game
 DEFINES += -DGAME_WINDOWS_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
-LIBS += vendor/glfw/bin/Debug-windows-x86_64/GLFW/GLFW.lib vendor/stb_image/bin/Debug-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Debug-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Debug-windows-x86_64/ImGui/ImGui.lib vendor/lodepng/bin/Debug-windows-x86_64/lodepng/lodepng.lib -lpthread  -ldl
-LDDEPS += vendor/glfw/bin/Debug-windows-x86_64/GLFW/GLFW.lib vendor/stb_image/bin/Debug-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Debug-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Debug-windows-x86_64/ImGui/ImGui.lib vendor/lodepng/bin/Debug-windows-x86_64/lodepng/lodepng.lib
+LIBS += vendor/glfw/bin/Debug-windows-x86_64/GLFW/GLFW.lib vendor/bin/Debug-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Debug-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Debug-windows-x86_64/ImGui/ImGui.lib vendor/bin/Debug-windows-x86_64/lodepng/lodepng.lib -lpthread  -ldl
+LDDEPS += vendor/glfw/bin/Debug-windows-x86_64/GLFW/GLFW.lib vendor/bin/Debug-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Debug-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Debug-windows-x86_64/ImGui/ImGui.lib vendor/bin/Debug-windows-x86_64/lodepng/lodepng.lib
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),debug_x86)
@@ -52,8 +52,8 @@ OBJDIR = bin-int/Debug-windows-x86/Game
 DEFINES += -DGAME_WINDOWS_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++17
-LIBS += vendor/glfw/bin/Debug-windows-x86/GLFW/GLFW.lib vendor/stb_image/bin/Debug-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Debug-windows-x86/Glad/Glad.lib vendor/imgui/bin/Debug-windows-x86/ImGui/ImGui.lib vendor/lodepng/bin/Debug-windows-x86/lodepng/lodepng.lib -lpthread  -ldl
-LDDEPS += vendor/glfw/bin/Debug-windows-x86/GLFW/GLFW.lib vendor/stb_image/bin/Debug-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Debug-windows-x86/Glad/Glad.lib vendor/imgui/bin/Debug-windows-x86/ImGui/ImGui.lib vendor/lodepng/bin/Debug-windows-x86/lodepng/lodepng.lib
+LIBS += vendor/glfw/bin/Debug-windows-x86/GLFW/GLFW.lib vendor/bin/Debug-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Debug-windows-x86/Glad/Glad.lib vendor/imgui/bin/Debug-windows-x86/ImGui/ImGui.lib vendor/bin/Debug-windows-x86/lodepng/lodepng.lib -lpthread  -ldl
+LDDEPS += vendor/glfw/bin/Debug-windows-x86/GLFW/GLFW.lib vendor/bin/Debug-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Debug-windows-x86/Glad/Glad.lib vendor/imgui/bin/Debug-windows-x86/ImGui/ImGui.lib vendor/bin/Debug-windows-x86/lodepng/lodepng.lib
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
 
 else ifeq ($(config),release_x64)
@@ -63,8 +63,8 @@ OBJDIR = bin-int/Release-windows-x86_64/Game
 DEFINES += -DGAME_WINDOWS_BUILD -DGAME_STATIC_BUILD -DGAME_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
-LIBS += vendor/glfw/bin/Release-windows-x86_64/GLFW/GLFW.lib vendor/stb_image/bin/Release-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Release-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Release-windows-x86_64/ImGui/ImGui.lib vendor/lodepng/bin/Release-windows-x86_64/lodepng/lodepng.lib -lpthread  -ldl
-LDDEPS += vendor/glfw/bin/Release-windows-x86_64/GLFW/GLFW.lib vendor/stb_image/bin/Release-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Release-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Release-windows-x86_64/ImGui/ImGui.lib vendor/lodepng/bin/Release-windows-x86_64/lodepng/lodepng.lib
+LIBS += vendor/glfw/bin/Release-windows-x86_64/GLFW/GLFW.lib vendor/bin/Release-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Release-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Release-windows-x86_64/ImGui/ImGui.lib vendor/bin/Release-windows-x86_64/lodepng/lodepng.lib -lpthread  -ldl
+LDDEPS += vendor/glfw/bin/Release-windows-x86_64/GLFW/GLFW.lib vendor/bin/Release-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Release-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Release-windows-x86_64/ImGui/ImGui.lib vendor/bin/Release-windows-x86_64/lodepng/lodepng.lib
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),release_x86)
@@ -74,8 +74,8 @@ OBJDIR = bin-int/Release-windows-x86/Game
 DEFINES += -DGAME_WINDOWS_BUILD -DGAME_STATIC_BUILD -DGAME_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++17
-LIBS += vendor/glfw/bin/Release-windows-x86/GLFW/GLFW.lib vendor/stb_image/bin/Release-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Release-windows-x86/Glad/Glad.lib vendor/imgui/bin/Release-windows-x86/ImGui/ImGui.lib vendor/lodepng/bin/Release-windows-x86/lodepng/lodepng.lib -lpthread  -ldl
-LDDEPS += vendor/glfw/bin/Release-windows-x86/GLFW/GLFW.lib vendor/stb_image/bin/Release-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Release-windows-x86/Glad/Glad.lib vendor/imgui/bin/Release-windows-x86/ImGui/ImGui.lib vendor/lodepng/bin/Release-windows-x86/lodepng/lodepng.lib
+LIBS += vendor/glfw/bin/Release-windows-x86/GLFW/GLFW.lib vendor/bin/Release-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Release-windows-x86/Glad/Glad.lib vendor/imgui/bin/Release-windows-x86/ImGui/ImGui.lib vendor/bin/Release-windows-x86/lodepng/lodepng.lib -lpthread  -ldl
+LDDEPS += vendor/glfw/bin/Release-windows-x86/GLFW/GLFW.lib vendor/bin/Release-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Release-windows-x86/Glad/Glad.lib vendor/imgui/bin/Release-windows-x86/ImGui/ImGui.lib vendor/bin/Release-windows-x86/lodepng/lodepng.lib
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
 
 else ifeq ($(config),dist_x64)
@@ -85,8 +85,8 @@ OBJDIR = bin-int/Dist-windows-x86_64/Game
 DEFINES += -DGAME_WINDOWS_BUILD -DGAME_STATIC_BUILD -DGAME_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
-LIBS += vendor/glfw/bin/Dist-windows-x86_64/GLFW/GLFW.lib vendor/stb_image/bin/Dist-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Dist-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Dist-windows-x86_64/ImGui/ImGui.lib vendor/lodepng/bin/Dist-windows-x86_64/lodepng/lodepng.lib -lpthread  -ldl
-LDDEPS += vendor/glfw/bin/Dist-windows-x86_64/GLFW/GLFW.lib vendor/stb_image/bin/Dist-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Dist-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Dist-windows-x86_64/ImGui/ImGui.lib vendor/lodepng/bin/Dist-windows-x86_64/lodepng/lodepng.lib
+LIBS += vendor/glfw/bin/Dist-windows-x86_64/GLFW/GLFW.lib vendor/bin/Dist-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Dist-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Dist-windows-x86_64/ImGui/ImGui.lib vendor/bin/Dist-windows-x86_64/lodepng/lodepng.lib -lpthread  -ldl
+LDDEPS += vendor/glfw/bin/Dist-windows-x86_64/GLFW/GLFW.lib vendor/bin/Dist-windows-x86_64/stb_image/stb_image.lib vendor/glad/bin/Dist-windows-x86_64/Glad/Glad.lib vendor/imgui/bin/Dist-windows-x86_64/ImGui/ImGui.lib vendor/bin/Dist-windows-x86_64/lodepng/lodepng.lib
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist_x86)
@@ -96,8 +96,8 @@ OBJDIR = bin-int/Dist-windows-x86/Game
 DEFINES += -DGAME_WINDOWS_BUILD -DGAME_STATIC_BUILD -DGAME_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++17
-LIBS += vendor/glfw/bin/Dist-windows-x86/GLFW/GLFW.lib vendor/stb_image/bin/Dist-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Dist-windows-x86/Glad/Glad.lib vendor/imgui/bin/Dist-windows-x86/ImGui/ImGui.lib vendor/lodepng/bin/Dist-windows-x86/lodepng/lodepng.lib -lpthread  -ldl
-LDDEPS += vendor/glfw/bin/Dist-windows-x86/GLFW/GLFW.lib vendor/stb_image/bin/Dist-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Dist-windows-x86/Glad/Glad.lib vendor/imgui/bin/Dist-windows-x86/ImGui/ImGui.lib vendor/lodepng/bin/Dist-windows-x86/lodepng/lodepng.lib
+LIBS += vendor/glfw/bin/Dist-windows-x86/GLFW/GLFW.lib vendor/bin/Dist-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Dist-windows-x86/Glad/Glad.lib vendor/imgui/bin/Dist-windows-x86/ImGui/ImGui.lib vendor/bin/Dist-windows-x86/lodepng/lodepng.lib -lpthread  -ldl
+LDDEPS += vendor/glfw/bin/Dist-windows-x86/GLFW/GLFW.lib vendor/bin/Dist-windows-x86/stb_image/stb_image.lib vendor/glad/bin/Dist-windows-x86/Glad/Glad.lib vendor/imgui/bin/Dist-windows-x86/ImGui/ImGui.lib vendor/bin/Dist-windows-x86/lodepng/lodepng.lib
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
 
 endif
