@@ -35,49 +35,49 @@ define POSTBUILDCMDS
 endef
 
 ifeq ($(config),debug_x64)
-TARGETDIR = glad/bin/Debug-windows-x86_64/Glad
-TARGET = $(TARGETDIR)/Glad.lib
-OBJDIR = glad/bin-int/Debug-windows-x86_64/Glad
+TARGETDIR = glad/bin/Debug-linux-x86_64/Glad
+TARGET = $(TARGETDIR)/libGlad.a
+OBJDIR = glad/bin-int/Debug-linux-x86_64/Glad
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),debug_x86)
-TARGETDIR = glad/bin/Debug-windows-x86/Glad
-TARGET = $(TARGETDIR)/Glad.lib
-OBJDIR = glad/bin-int/Debug-windows-x86/Glad
+TARGETDIR = glad/bin/Debug-linux-x86/Glad
+TARGET = $(TARGETDIR)/libGlad.a
+OBJDIR = glad/bin-int/Debug-linux-x86/Glad
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
 
 else ifeq ($(config),release_x64)
-TARGETDIR = glad/bin/Release-windows-x86_64/Glad
-TARGET = $(TARGETDIR)/Glad.lib
-OBJDIR = glad/bin-int/Release-windows-x86_64/Glad
+TARGETDIR = glad/bin/Release-linux-x86_64/Glad
+TARGET = $(TARGETDIR)/libGlad.a
+OBJDIR = glad/bin-int/Release-linux-x86_64/Glad
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),release_x86)
-TARGETDIR = glad/bin/Release-windows-x86/Glad
-TARGET = $(TARGETDIR)/Glad.lib
-OBJDIR = glad/bin-int/Release-windows-x86/Glad
+TARGETDIR = glad/bin/Release-linux-x86/Glad
+TARGET = $(TARGETDIR)/libGlad.a
+OBJDIR = glad/bin-int/Release-linux-x86/Glad
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
 
 else ifeq ($(config),dist_x64)
-TARGETDIR = glad/bin/Dist-windows-x86_64/Glad
-TARGET = $(TARGETDIR)/Glad.lib
-OBJDIR = glad/bin-int/Dist-windows-x86_64/Glad
+TARGETDIR = glad/bin/Dist-linux-x86_64/Glad
+TARGET = $(TARGETDIR)/libGlad.a
+OBJDIR = glad/bin-int/Dist-linux-x86_64/Glad
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),dist_x86)
-TARGETDIR = glad/bin/Dist-windows-x86/Glad
-TARGET = $(TARGETDIR)/Glad.lib
-OBJDIR = glad/bin-int/Dist-windows-x86/Glad
+TARGETDIR = glad/bin/Dist-linux-x86/Glad
+TARGET = $(TARGETDIR)/libGlad.a
+OBJDIR = glad/bin-int/Dist-linux-x86/Glad
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
