@@ -6,6 +6,7 @@
 #include "Core/Core.h"
 
 #include "stb_image.h"
+#include "lodepng.h"
 
 #include "Utils/Generic.h"
 
@@ -233,15 +234,15 @@ namespace Game
 	{
 		const std::string ext = utils::ToLower(path.substr(path.find_last_of('.') + 1));
 		
-		//if (ext == "png")
-		//{
-		//	return GetImageInfoLodePNG(path);
-		//}
+		if (ext == "png")
+		{
+			return GetImageInfoLodePNG(path);
+		}
 		
 		return GetImageInfoStbi(path);
 	}
 
-	/*TextureSpecifications Texture::GetImageInfoLodePNG(const std::string& path)
+	TextureSpecifications Texture::GetImageInfoLodePNG(const std::string& path)
 	{
 		TextureSpecifications info;
 
@@ -258,24 +259,7 @@ namespace Game
 		info.Channels = 4;
 		auto size = image.size();
 		info.Buffer = CreateTextureBuffer(image.size());
-		/*TextureBufferType* BufferPtr = info.Buffer;
-		
-		unsigned char* buff = image.data();
-		unsigned char* last_ptr = &image.back();
-
-		for (int i = h - 1; i >= 0; i--)
-		{
-			unsigned char* ptr = last_ptr - w;
-			for (int j = 0; j < w; j++)
-			{
-				*BufferPtr = *ptr;
-				BufferPtr++;
-				ptr++;
-			}
-			if (last_ptr <= info.Buffer)
-				break;
-			last_ptr = ptr;
-		}//
+		TextureBufferType* BufferPtr = info.Buffer;
 
 		std::copy(image.begin(), image.end(), info.Buffer);
 		image.clear();
@@ -284,7 +268,7 @@ namespace Game
 		info.CopySourceBuffer = false;
 		info.KeepSourceBuffer = true;
 		return info;
-	}*/
+	}
 
 	TextureSpecifications Texture::GetImageInfoStbi(const std::string& path)
 	{
@@ -297,10 +281,10 @@ namespace Game
 		const char* er = stbi_failure_reason();
 		if (er)
 		{
+			GAME_CORE_ASSERT(false, "Failed to load image '{0}' | error: '{1}'",path,er);
 			if(px)
 				stbi_image_free(px);
 			info.Buffer = nullptr;
-			GAME_CORE_ASSERT(false, "Failed to load image");
 		}
 		info.Buffer = px;
 

@@ -74,6 +74,10 @@ bin-int
 #add all .lua
 !*.lua
 
+#add assest resources
+!*/assets/img/*
+!*/assets/fonts/*
+
 #misc
 
 #specific

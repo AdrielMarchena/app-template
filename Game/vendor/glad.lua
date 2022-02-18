@@ -3,19 +3,19 @@ project "Glad"
 	language "C"
 	staticruntime "off"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("glad/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("glad/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files 
 	{
-		"include/glad/glad.h",
-		"include/KHR/khrplatform.h",
-		"src/glad.c"
+		"glad/include/glad/glad.h",
+		"glad/include/KHR/khrplatform.h",
+		"glad/src/glad.c"
 	}
 
 	includedirs
 	{
-		"include"
+		"glad/include"
 	}
 
 	filter "system:linux"
