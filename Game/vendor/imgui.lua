@@ -67,12 +67,6 @@ project "ImGui"
 		"imgui/"
 	}
 
-	filter "system:Windows"
-		system "windows"
-
-	filter "system:Unix"
-		system "linux"
-
 	filter "system:windows"
 		systemversion "latest"
 		cppdialect "C++17"

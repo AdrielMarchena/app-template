@@ -2,25 +2,14 @@ project "lodepng"
 	kind "StaticLib"
 	language "C++"
 
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
 	files 
 	{
 		"lodepng/lodepng.h",
 		"lodepng/lodepng.cpp"
 	}
-
--- The system:os filter just don't work, so, this bellow is for linux
-
-	filter "system:Windows"
-		system "windows"
-		
-		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	filter "system:Unix"
-		system "linux"
-	
-		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")	
 
 	filter "system:linux"
 		pic "On"

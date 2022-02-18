@@ -2,23 +2,23 @@ project "Game"
 	kind "ConsoleApp"
 	language "C++"
 
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
 	pchheader "pch.h"
 	pchsource ( "src/pch.cpp" )
 
 	files 
 	{
-		--"vendor/stb_image/stb_image.cpp",
-		
 		"src/**.h",
 		"src/**.c",
 		"src/**.cpp",
-
 	}
 
 	includedirs
 	{
 		"src/",
-		--"%{IncludeDirectories.Glfw}",
+		"%{IncludeDirectories.Glfw}",
 		"%{IncludeDirectories.Glad}",
 		"%{IncludeDirectories.ImGui}",
 		"%{IncludeDirectories.stb_image}",
@@ -30,8 +30,6 @@ project "Game"
 
 	links
 	{
-		"pthread ",
-		"dl",
 		"GLFW",
 		"stb_image",
 		"Glad",
@@ -45,24 +43,6 @@ project "Game"
 	{
 		--("{COPYDIR} \"./src/**.h\" \"./include/Game\""),
 	}
-
-	--filter { 'files:vendor/stb_image/**.h' }
-	--	flags { 'NoPCH' }
-	--
-	--filter { 'files:vendor/stb_image/**.cpp' }
-	--	flags { 'NoPCH' }
-
-	filter "system:Windows"
-		system "windows"
-		
-		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	filter "system:Unix"
-		system "linux"
-
-		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
 	filter "system:Windows"
 		cppdialect "C++17"
@@ -84,6 +64,12 @@ project "Game"
 		{
 			"GAME_LINUX_BUILD",
 			"GAME_STATIC_BUILD"
+		}
+
+		links
+		{
+			"pthread",
+			"dl"
 		}
 
 	filter "configurations:Debug"

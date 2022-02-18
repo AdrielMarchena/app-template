@@ -35,51 +35,51 @@ define POSTBUILDCMDS
 endef
 
 ifeq ($(config),debug_x64)
-TARGETDIR = bin/Debug-windows-x86_64/lodepng
-TARGET = $(TARGETDIR)/lodepng.lib
-OBJDIR = bin-int/Debug-windows-x86_64/lodepng
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g
+TARGETDIR = bin/x64/Debug
+TARGET = $(TARGETDIR)/liblodepng.a
+OBJDIR = obj/x64/Debug/lodepng
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),debug_x86)
-TARGETDIR = bin/Debug-windows-x86/lodepng
-TARGET = $(TARGETDIR)/lodepng.lib
-OBJDIR = bin-int/Debug-windows-x86/lodepng
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g
+TARGETDIR = bin/x86/Debug
+TARGET = $(TARGETDIR)/liblodepng.a
+OBJDIR = obj/x86/Debug/lodepng
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -fPIC -g
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -fPIC -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
 
 else ifeq ($(config),release_x64)
-TARGETDIR = bin/Release-windows-x86_64/lodepng
-TARGET = $(TARGETDIR)/lodepng.lib
-OBJDIR = bin-int/Release-windows-x86_64/lodepng
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2
+TARGETDIR = bin/x64/Release
+TARGET = $(TARGETDIR)/liblodepng.a
+OBJDIR = obj/x64/Release/lodepng
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),release_x86)
-TARGETDIR = bin/Release-windows-x86/lodepng
-TARGET = $(TARGETDIR)/lodepng.lib
-OBJDIR = bin-int/Release-windows-x86/lodepng
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2
+TARGETDIR = bin/x86/Release
+TARGET = $(TARGETDIR)/liblodepng.a
+OBJDIR = obj/x86/Release/lodepng
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -fPIC
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
 
 else ifeq ($(config),dist_x64)
-TARGETDIR = bin/Dist-windows-x86_64/lodepng
-TARGET = $(TARGETDIR)/lodepng.lib
-OBJDIR = bin-int/Dist-windows-x86_64/lodepng
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g
+TARGETDIR = bin/x64/Dist
+TARGET = $(TARGETDIR)/liblodepng.a
+OBJDIR = obj/x64/Dist/lodepng
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),dist_x86)
-TARGETDIR = bin/Dist-windows-x86/lodepng
-TARGET = $(TARGETDIR)/lodepng.lib
-OBJDIR = bin-int/Dist-windows-x86/lodepng
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g
+TARGETDIR = bin/x86/Dist
+TARGET = $(TARGETDIR)/liblodepng.a
+OBJDIR = obj/x86/Dist/lodepng
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -fPIC -g
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -fPIC -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
 
 endif

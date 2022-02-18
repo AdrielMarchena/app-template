@@ -2,7 +2,16 @@
 
 #include <iostream>
 #include <algorithm>
+
+#ifdef GAME_WINDOWS_BUILD
+
+#include <xhash>
+
+#else
+
 #include <bits/functional_hash.h>
+
+#endif
 #include <functional>
 #include <memory>
 #include <thread>
