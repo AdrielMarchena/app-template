@@ -80,6 +80,18 @@ bin-int
 
 #misc
 
+*.workspace
+*.mk
+*.project
+*.batch_build
+.codelite
+.build-*
+
+Game/vendor/*.txt
+Game/Game.txt
+
+
+
 #specific
 #Base include subdirs
 Game/include
