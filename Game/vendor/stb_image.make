@@ -35,49 +35,49 @@ define POSTBUILDCMDS
 endef
 
 ifeq ($(config),debug_x64)
-TARGETDIR = bin/x64/Debug
+TARGETDIR = bin/Debug-linux-x86_64/stb_image
 TARGET = $(TARGETDIR)/libstb_image.a
-OBJDIR = obj/x64/Debug/stb_image
+OBJDIR = bin-int/Debug-linux-x86_64/stb_image
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),debug_x86)
-TARGETDIR = bin/x86/Debug
+TARGETDIR = bin/Debug-linux-x86/stb_image
 TARGET = $(TARGETDIR)/libstb_image.a
-OBJDIR = obj/x86/Debug/stb_image
+OBJDIR = bin-int/Debug-linux-x86/stb_image
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -fPIC -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
 
 else ifeq ($(config),release_x64)
-TARGETDIR = bin/x64/Release
+TARGETDIR = bin/Release-linux-x86_64/stb_image
 TARGET = $(TARGETDIR)/libstb_image.a
-OBJDIR = obj/x64/Release/stb_image
+OBJDIR = bin-int/Release-linux-x86_64/stb_image
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),release_x86)
-TARGETDIR = bin/x86/Release
+TARGETDIR = bin/Release-linux-x86/stb_image
 TARGET = $(TARGETDIR)/libstb_image.a
-OBJDIR = obj/x86/Release/stb_image
+OBJDIR = bin-int/Release-linux-x86/stb_image
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -fPIC
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
 
 else ifeq ($(config),dist_x64)
-TARGETDIR = bin/x64/Dist
+TARGETDIR = bin/Dist-linux-x86_64/stb_image
 TARGET = $(TARGETDIR)/libstb_image.a
-OBJDIR = obj/x64/Dist/stb_image
+OBJDIR = bin-int/Dist-linux-x86_64/stb_image
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),dist_x86)
-TARGETDIR = bin/x86/Dist
+TARGETDIR = bin/Dist-linux-x86/stb_image
 TARGET = $(TARGETDIR)/libstb_image.a
-OBJDIR = obj/x86/Dist/stb_image
+OBJDIR = bin-int/Dist-linux-x86/stb_image
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -fPIC -g
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32

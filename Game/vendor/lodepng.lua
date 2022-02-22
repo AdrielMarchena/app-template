@@ -2,8 +2,8 @@ project "lodepng"
 	kind "StaticLib"
 	language "C++"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("lodepng/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("lodepng/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files 
 	{

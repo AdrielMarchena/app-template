@@ -2,8 +2,8 @@ project "stb_image"
 	kind "StaticLib"
 	language "C"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("stb_image/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("stb_image/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files 
 	{
