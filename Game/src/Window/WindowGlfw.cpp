@@ -11,7 +11,7 @@
 
 #include "GLFW/glfw3.h"
 
-#include "Render/GL/Texture.h"
+#include "Utils/Image/ImageLoader.h"
 
 #define CALLBACK_STATIC_CAST(type,window) static_cast<type*>(glfwGetWindowUserPointer(window))
 
@@ -161,14 +161,14 @@ namespace Game
 		GLFWimage icons[1];
 		const char* iconPath = "assets/img/icon.png";
 
-		auto imageInfo = Texture::GetImageInfo(iconPath);
+		auto imageInfo = utils::GetImageInfo(iconPath);
 		if(imageInfo.Buffer)
 		{
 			icons[0].pixels = imageInfo.Buffer;
 			icons[0].width = imageInfo.Width;
 			icons[0].height = imageInfo.Height;
 			glfwSetWindowIcon(m_Window,1,icons);
-			Texture::DeleteTextureBuffer(imageInfo.Buffer);
+			utils::DeleteImageBuffer(imageInfo.Buffer);
 			GAME_LOG_TRACE("icon '{0}' loaded",iconPath);
 		}
 		else
