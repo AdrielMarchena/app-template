@@ -86,7 +86,7 @@ bin-int
 *.batch_build
 .codelite
 .build-*
-
+./pre
 Game/vendor/*.txt
 Game/Game.txt
 
