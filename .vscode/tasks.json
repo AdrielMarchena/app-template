@@ -5,7 +5,7 @@
             "label": "C/C++: g++ make build",
             "command": "make",
             "args": [
-                "config=dubug_x64"
+                "config=debug_x64"
             ],
             "options": {
             },
