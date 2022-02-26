@@ -41,8 +41,8 @@ OBJDIR = bin-int/Debug-linux-x86_64/Game
 DEFINES += -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
-LIBS += vendor/glfw/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/bin/x64/Debug/libstb_image.a vendor/glad/bin/Debug-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a vendor/bin/x64/Debug/liblodepng.a -lpthread -ldl
-LDDEPS += vendor/glfw/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/bin/x64/Debug/libstb_image.a vendor/glad/bin/Debug-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a vendor/bin/x64/Debug/liblodepng.a
+LIBS += vendor/glfw/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/stb_image/bin/Debug-linux-x86_64/stb_image/libstb_image.a vendor/glad/bin/Debug-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a vendor/lodepng/bin/Debug-linux-x86_64/lodepng/liblodepng.a -lpthread -ldl
+LDDEPS += vendor/glfw/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/stb_image/bin/Debug-linux-x86_64/stb_image/libstb_image.a vendor/glad/bin/Debug-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a vendor/lodepng/bin/Debug-linux-x86_64/lodepng/liblodepng.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),debug_x86)
@@ -52,8 +52,8 @@ OBJDIR = bin-int/Debug-linux-x86/Game
 DEFINES += -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++17
-LIBS += vendor/glfw/bin/Debug-linux-x86/GLFW/libGLFW.a vendor/bin/x86/Debug/libstb_image.a vendor/glad/bin/Debug-linux-x86/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86/ImGui/libImGui.a vendor/bin/x86/Debug/liblodepng.a -lpthread -ldl
-LDDEPS += vendor/glfw/bin/Debug-linux-x86/GLFW/libGLFW.a vendor/bin/x86/Debug/libstb_image.a vendor/glad/bin/Debug-linux-x86/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86/ImGui/libImGui.a vendor/bin/x86/Debug/liblodepng.a
+LIBS += vendor/glfw/bin/Debug-linux-x86/GLFW/libGLFW.a vendor/stb_image/bin/Debug-linux-x86/stb_image/libstb_image.a vendor/glad/bin/Debug-linux-x86/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86/ImGui/libImGui.a vendor/lodepng/bin/Debug-linux-x86/lodepng/liblodepng.a -lpthread -ldl
+LDDEPS += vendor/glfw/bin/Debug-linux-x86/GLFW/libGLFW.a vendor/stb_image/bin/Debug-linux-x86/stb_image/libstb_image.a vendor/glad/bin/Debug-linux-x86/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86/ImGui/libImGui.a vendor/lodepng/bin/Debug-linux-x86/lodepng/liblodepng.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
 
 else ifeq ($(config),release_x64)
@@ -63,8 +63,8 @@ OBJDIR = bin-int/Release-linux-x86_64/Game
 DEFINES += -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
-LIBS += vendor/glfw/bin/Release-linux-x86_64/GLFW/libGLFW.a vendor/bin/x64/Release/libstb_image.a vendor/glad/bin/Release-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86_64/ImGui/libImGui.a vendor/bin/x64/Release/liblodepng.a -lpthread -ldl
-LDDEPS += vendor/glfw/bin/Release-linux-x86_64/GLFW/libGLFW.a vendor/bin/x64/Release/libstb_image.a vendor/glad/bin/Release-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86_64/ImGui/libImGui.a vendor/bin/x64/Release/liblodepng.a
+LIBS += vendor/glfw/bin/Release-linux-x86_64/GLFW/libGLFW.a vendor/stb_image/bin/Release-linux-x86_64/stb_image/libstb_image.a vendor/glad/bin/Release-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86_64/ImGui/libImGui.a vendor/lodepng/bin/Release-linux-x86_64/lodepng/liblodepng.a -lpthread -ldl
+LDDEPS += vendor/glfw/bin/Release-linux-x86_64/GLFW/libGLFW.a vendor/stb_image/bin/Release-linux-x86_64/stb_image/libstb_image.a vendor/glad/bin/Release-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86_64/ImGui/libImGui.a vendor/lodepng/bin/Release-linux-x86_64/lodepng/liblodepng.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),release_x86)
@@ -74,8 +74,8 @@ OBJDIR = bin-int/Release-linux-x86/Game
 DEFINES += -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++17
-LIBS += vendor/glfw/bin/Release-linux-x86/GLFW/libGLFW.a vendor/bin/x86/Release/libstb_image.a vendor/glad/bin/Release-linux-x86/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86/ImGui/libImGui.a vendor/bin/x86/Release/liblodepng.a -lpthread -ldl
-LDDEPS += vendor/glfw/bin/Release-linux-x86/GLFW/libGLFW.a vendor/bin/x86/Release/libstb_image.a vendor/glad/bin/Release-linux-x86/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86/ImGui/libImGui.a vendor/bin/x86/Release/liblodepng.a
+LIBS += vendor/glfw/bin/Release-linux-x86/GLFW/libGLFW.a vendor/stb_image/bin/Release-linux-x86/stb_image/libstb_image.a vendor/glad/bin/Release-linux-x86/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86/ImGui/libImGui.a vendor/lodepng/bin/Release-linux-x86/lodepng/liblodepng.a -lpthread -ldl
+LDDEPS += vendor/glfw/bin/Release-linux-x86/GLFW/libGLFW.a vendor/stb_image/bin/Release-linux-x86/stb_image/libstb_image.a vendor/glad/bin/Release-linux-x86/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86/ImGui/libImGui.a vendor/lodepng/bin/Release-linux-x86/lodepng/liblodepng.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
 
 else ifeq ($(config),dist_x64)
@@ -85,8 +85,8 @@ OBJDIR = bin-int/Dist-linux-x86_64/Game
 DEFINES += -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
-LIBS += vendor/glfw/bin/Dist-linux-x86_64/GLFW/libGLFW.a vendor/bin/x64/Dist/libstb_image.a vendor/glad/bin/Dist-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86_64/ImGui/libImGui.a vendor/bin/x64/Dist/liblodepng.a -lpthread -ldl
-LDDEPS += vendor/glfw/bin/Dist-linux-x86_64/GLFW/libGLFW.a vendor/bin/x64/Dist/libstb_image.a vendor/glad/bin/Dist-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86_64/ImGui/libImGui.a vendor/bin/x64/Dist/liblodepng.a
+LIBS += vendor/glfw/bin/Dist-linux-x86_64/GLFW/libGLFW.a vendor/stb_image/bin/Dist-linux-x86_64/stb_image/libstb_image.a vendor/glad/bin/Dist-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86_64/ImGui/libImGui.a vendor/lodepng/bin/Dist-linux-x86_64/lodepng/liblodepng.a -lpthread -ldl
+LDDEPS += vendor/glfw/bin/Dist-linux-x86_64/GLFW/libGLFW.a vendor/stb_image/bin/Dist-linux-x86_64/stb_image/libstb_image.a vendor/glad/bin/Dist-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86_64/ImGui/libImGui.a vendor/lodepng/bin/Dist-linux-x86_64/lodepng/liblodepng.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist_x86)
@@ -96,8 +96,8 @@ OBJDIR = bin-int/Dist-linux-x86/Game
 DEFINES += -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++17
-LIBS += vendor/glfw/bin/Dist-linux-x86/GLFW/libGLFW.a vendor/bin/x86/Dist/libstb_image.a vendor/glad/bin/Dist-linux-x86/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86/ImGui/libImGui.a vendor/bin/x86/Dist/liblodepng.a -lpthread -ldl
-LDDEPS += vendor/glfw/bin/Dist-linux-x86/GLFW/libGLFW.a vendor/bin/x86/Dist/libstb_image.a vendor/glad/bin/Dist-linux-x86/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86/ImGui/libImGui.a vendor/bin/x86/Dist/liblodepng.a
+LIBS += vendor/glfw/bin/Dist-linux-x86/GLFW/libGLFW.a vendor/stb_image/bin/Dist-linux-x86/stb_image/libstb_image.a vendor/glad/bin/Dist-linux-x86/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86/ImGui/libImGui.a vendor/lodepng/bin/Dist-linux-x86/lodepng/liblodepng.a -lpthread -ldl
+LDDEPS += vendor/glfw/bin/Dist-linux-x86/GLFW/libGLFW.a vendor/stb_image/bin/Dist-linux-x86/stb_image/libstb_image.a vendor/glad/bin/Dist-linux-x86/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86/ImGui/libImGui.a vendor/lodepng/bin/Dist-linux-x86/lodepng/liblodepng.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
 
 endif
@@ -128,6 +128,7 @@ GENERATED += $(OBJDIR)/Generic.o
 GENERATED += $(OBJDIR)/GlContext1.o
 GENERATED += $(OBJDIR)/GlobalD.o
 GENERATED += $(OBJDIR)/ImGuiLayer.o
+GENERATED += $(OBJDIR)/ImageLoader.o
 GENERATED += $(OBJDIR)/IndexBuffer.o
 GENERATED += $(OBJDIR)/Keyboard.o
 GENERATED += $(OBJDIR)/Layer.o
@@ -166,6 +167,7 @@ OBJECTS += $(OBJDIR)/Generic.o
 OBJECTS += $(OBJDIR)/GlContext1.o
 OBJECTS += $(OBJDIR)/GlobalD.o
 OBJECTS += $(OBJDIR)/ImGuiLayer.o
+OBJECTS += $(OBJDIR)/ImageLoader.o
 OBJECTS += $(OBJDIR)/IndexBuffer.o
 OBJECTS += $(OBJDIR)/Keyboard.o
 OBJECTS += $(OBJDIR)/Layer.o
@@ -354,6 +356,9 @@ $(OBJDIR)/Files.o: src/Utils/Files.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Generic.o: src/Utils/Generic.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/ImageLoader.o: src/Utils/Image/ImageLoader.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/GlContext1.o: src/Window/GLContext/GlContext.cpp

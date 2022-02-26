@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Feb 17 21:16:52 2022
+# Make data base, printed on Fri Feb 25 21:25:52 2022
 
 # Variables
 
@@ -51,7 +51,7 @@ VTE_VERSION = 6003
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
-JOURNAL_STREAM = 8:42488
+JOURNAL_STREAM = 8:44313
 # makefile (from 'Makefile', line 4)
 config = debug_x64
 # environment
@@ -77,7 +77,7 @@ MAKELEVEL := 0
 # environment
 XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=62e46b6b063515a0b8531086620eaac3
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=d8dbe9857f201df2026784d36218bad5
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # makefile (from 'Makefile', line 8)
@@ -89,7 +89,7 @@ ImGui_config = debug_x64
 # environment
 LC_CTYPE = pt_BR.UTF-8
 # environment
-MANAGERPID = 1138
+MANAGERPID = 1197
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
@@ -105,7 +105,7 @@ PATH = /home/somei/.nvm/versions/node/v16.14.0/bin:/home/somei/.sdkman/candidate
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/Somei:@/tmp/.ICE-unix/1615,unix/Somei:/tmp/.ICE-unix/1615
+SESSION_MANAGER = local/Somei:@/tmp/.ICE-unix/1861,unix/Somei:/tmp/.ICE-unix/1861
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -133,7 +133,7 @@ DISABLE_WAYLAND = 1
 # environment
 VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=54478f9f-9fa6-496e-b989-fee162c5efd0&iid=54478f9f-9fa6-496e-b989-fee162c5efd0&sid=54478f9f-9fa6-496e-b989-fee162c5efd0","uploadToServer":true}
 # environment
-INVOCATION_ID = 9e7d445a083646438a6028d74c9ce678
+INVOCATION_ID = 8c8e338bce0747a687841d1d50daf24c
 # environment
 GDK_PIXBUF_MODULEDIR = /snap/code/88/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
 # default
@@ -148,7 +148,7 @@ SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 %F = $(notdir $%)
 # environment
 DISPLAY = :0
-# makefile (from 'Makefile', line 16)
+# makefile (from 'Makefile', line 17)
 Game_config = debug_x64
 # environment
 VSCODE_PIPE_LOGGING = true
@@ -159,7 +159,7 @@ PWD = /home/somei/Proj/Cpp/app-template
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 1559
+SSH_AGENT_PID = 1782
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -196,6 +196,8 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 GNOME_DESKTOP_SESSION_ID = this-is-deprecated
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
+# makefile (from 'Makefile', line 16)
+lodepng_config = debug_x64
 # environment
 LC_TIME = pt_BR.UTF-8
 # environment
@@ -219,7 +221,7 @@ SHLVL = 1
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-57d3d819-ec8b-4137-8faa-f77b68ab7cbc.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-40988711-6557-4111-bdc9-1ac943165d90.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -239,7 +241,7 @@ LC_TELEPHONE = pt_BR.UTF-8
 # default
 MAKE_COMMAND := make
 # environment
-OLDPWD = /home/somei/Proj/Cpp
+OLDPWD = /home/somei/Desktop
 # default
 .VARIABLES := 
 # automatic
@@ -277,18 +279,18 @@ LC_MEASUREMENT = pt_BR.UTF-8
 # environment
 SNAP_NAME = code
 # environment
+ 
 SDKMAN_CANDIDATES_DIR = /home/somei/.sdkman/candidates
 # environment
 LC_ALL = C
 # environment
 DBUS_STARTER_BUS_TYPE = session
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/fa20607b_9603_4bb5_aac0_97c3dca49aed
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/b345b105_9905_4eb2_b4d2_236416df61c9
 # automatic
 ^F = $(notdir $^)
 # environment
-GNOME_TERMINAL_SERVICE = :1.578
- 
+GNOME_TERMINAL_SERVICE = :1.147
 # default
 SUFFIXES := 
 # environment
@@ -303,8 +305,8 @@ WINDOWPATH = 2
 LC_IDENTIFICATION = pt_BR.UTF-8
 # default
 .RECIPEPREFIX := 
-# makefile (from 'Makefile', line 57)
-PROJECTS := stb_image GLFW ImGui Glad Game
+# makefile (from 'Makefile', line 63)
+PROJECTS := stb_image GLFW ImGui Glad lodepng Game
 # environment
 LC_ADDRESS = pt_BR.UTF-8
 # environment
@@ -312,11 +314,11 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 16047
+VSCODE_PID = 45403
 # environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=62e46b6b063515a0b8531086620eaac3
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=d8dbe9857f201df2026784d36218bad5
 # variable set hash-table stats:
-# Load=152/1024=15%, Rehash=0, Collisions=27/194=14%
+# Load=153/1024=15%, Rehash=0, Collisions=27/196=14%
 
 # Pattern-specific Variable Values
 
@@ -324,9 +326,9 @@ DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=62e46b6b063515a0b853108
 
 # Directories
 
-# . (device 2050, inode 49550261): 12 files, no impossibilities.
+# . (device 2050, inode 49416557): 18 files, no impossibilities.
 
-# 12 files, no impossibilities in 1 directories.
+# 18 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -334,7 +336,7 @@ DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=62e46b6b063515a0b853108
 
 # Files
 
-all: stb_image GLFW ImGui Glad Game
+all: stb_image GLFW ImGui Glad lodepng Game
 #  Phony target (prerequisite of .PHONY).
 #  Command line target.
 #  Implicit rule search has not been done.
@@ -344,13 +346,13 @@ all: stb_image GLFW ImGui Glad Game
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/7=0%
 
-Dependencies: GLFW Glad ImGui stb_image
+Dependencies: GLFW Glad ImGui lodepng stb_image
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
 
-.PHONY: all clean help stb_image GLFW ImGui Glad Game Dependencies
+.PHONY: all clean help stb_image GLFW ImGui Glad lodepng Game Dependencies
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -364,7 +366,7 @@ Dependencies: GLFW Glad ImGui stb_image
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-02-17 21:07:38.469411135
+#  Last modified 2022-02-22 00:33:50.510777597
 #  File has been updated.
 #  Successfully updated.
 
@@ -393,25 +395,25 @@ stb_image:
 # ? := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=8/15=53%
-#  recipe to execute (from 'Makefile', line 67):
+#  recipe to execute (from 'Makefile', line 73):
 	@echo "==== Building stb_image ($(stb_image_config)) ===="
-	@${MAKE} --no-print-directory -C Game/vendor/stb_image -f Makefile config=$(stb_image_config)
+	@${MAKE} --no-print-directory -C Game/vendor -f stb_image.make config=$(stb_image_config)
 
 ImGui:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 79):
+#  recipe to execute (from 'Makefile', line 85):
 	@echo "==== Building ImGui ($(ImGui_config)) ===="
-	@${MAKE} --no-print-directory -C Game/vendor/imgui -f Makefile config=$(ImGui_config)
+	@${MAKE} --no-print-directory -C Game/vendor -f ImGui.make config=$(ImGui_config)
 
 help:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 103):
+#  recipe to execute (from 'Makefile', line 116):
 	@echo "Usage: make [config=name] [target]"
 	@echo ""
 	@echo "CONFIGURATIONS:"
@@ -429,6 +431,7 @@ help:
 	@echo "   GLFW"
 	@echo "   ImGui"
 	@echo "   Glad"
+	@echo "   lodepng"
 	@echo "   Game"
 	@echo ""
 	@echo "For more information, see https://github.com/premake/premake-core/wiki"
@@ -438,9 +441,9 @@ GLFW:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 73):
+#  recipe to execute (from 'Makefile', line 79):
 	@echo "==== Building GLFW ($(GLFW_config)) ===="
-	@${MAKE} --no-print-directory -C Game/vendor/glfw -f Makefile config=$(GLFW_config)
+	@${MAKE} --no-print-directory -C Game/vendor -f GLFW.make config=$(GLFW_config)
 
 # Not a target:
 .DEFAULT:
@@ -448,12 +451,12 @@ GLFW:
 #  Modification time never checked.
 #  File has not been updated.
 
-Game: GLFW stb_image Glad ImGui
+Game: GLFW stb_image Glad ImGui lodepng
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 91):
+#  recipe to execute (from 'Makefile', line 103):
 	@echo "==== Building Game ($(Game_config)) ===="
 	@${MAKE} --no-print-directory -C Game -f Makefile config=$(Game_config)
 
@@ -462,36 +465,46 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 96):
-	@${MAKE} --no-print-directory -C Game/vendor/stb_image -f Makefile clean
-	@${MAKE} --no-print-directory -C Game/vendor/glfw -f Makefile clean
-	@${MAKE} --no-print-directory -C Game/vendor/imgui -f Makefile clean
-	@${MAKE} --no-print-directory -C Game/vendor/glad -f Makefile clean
+#  recipe to execute (from 'Makefile', line 108):
+	@${MAKE} --no-print-directory -C Game/vendor -f stb_image.make clean
+	@${MAKE} --no-print-directory -C Game/vendor -f GLFW.make clean
+	@${MAKE} --no-print-directory -C Game/vendor -f ImGui.make clean
+	@${MAKE} --no-print-directory -C Game/vendor -f Glad.make clean
+	@${MAKE} --no-print-directory -C Game/vendor -f lodepng.make clean
 	@${MAKE} --no-print-directory -C Game -f Makefile clean
+
+lodepng:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 97):
+	@echo "==== Building lodepng ($(lodepng_config)) ===="
+	@${MAKE} --no-print-directory -C Game/vendor -f lodepng.make config=$(lodepng_config)
 
 Glad:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 85):
+#  recipe to execute (from 'Makefile', line 91):
 	@echo "==== Building Glad ($(Glad_config)) ===="
-	@${MAKE} --no-print-directory -C Game/vendor/glad -f Makefile config=$(Glad_config)
+	@${MAKE} --no-print-directory -C Game/vendor -f Glad.make config=$(Glad_config)
 
 # files hash-table stats:
-# Load=13/1024=1%, Rehash=0, Collisions=0/55=0%
+# Load=14/1024=1%, Rehash=0, Collisions=0/61=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 25 / storage = 223 B / avg = 8 B
-# current buf: size = 8162 B / used = 223 B / count = 25 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 32 / storage = 306 B / avg = 9 B
+# current buf: size = 8162 B / used = 306 B / count = 32 / avg = 9 B
 
-# strcache performance: lookups = 64 / hit rate = 60%
+# strcache performance: lookups = 76 / hit rate = 57%
 # hash-table stats:
-# Load=25/8192=0%, Rehash=0, Collisions=1/64=2%
-# Finished Make data base on Thu Feb 17 21:16:52 2022
+# Load=32/8192=0%, Rehash=0, Collisions=1/76=1%
+# Finished Make data base on Fri Feb 25 21:25:52 2022
 
  

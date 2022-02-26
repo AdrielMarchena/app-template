@@ -9,6 +9,7 @@ namespace utils
 	std::string ToUpper(const std::string& str);
 	std::string ToLower(const std::string& str);
 
+	std::string ParseFileName(const std::string& path);
 	glm::mat4 pos_trans(const glm::vec3& pos, const glm::vec2& size);
 }
 }

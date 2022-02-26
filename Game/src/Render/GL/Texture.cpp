@@ -5,8 +5,7 @@
 #include "glad/glad.h"
 #include "Core/Core.h"
 
-#include "stb_image.h"
-#include "lodepng.h"
+#include "Utils/Image/ImageLoader.h"
 
 #include "Utils/Generic.h"
 
@@ -162,20 +161,6 @@ namespace Game
 		return MakeRef<Texture>(info,path);
 	}
 
-	/*void Texture::CreatePng(const std::string& path, const TextureSpecifications& image_info)
-	{
-		BASE_ASSERT(image_info.Width > 0 && image_info.Height > 0 && image_info.Buffer != nullptr && path != "" && image_info.Channels > 2);
-		auto type = image_info.Channels == 4 ? LodePNGColorType::LCT_RGBA : LodePNGColorType::LCT_RGB;
-		lodepng::encode(path, image_info.Buffer, image_info.Width, image_info.Height, type);
-	}
-
-	void Texture::CreatePng(const std::string& path) const
-	{
-		BASE_ASSERT(m_ImageInfo.Width > 0 && m_ImageInfo.Height > 0 && m_ImageInfo.Buffer != nullptr && path != "" && m_ImageInfo.Channels > 2);
-		auto type = m_ImageInfo.Channels == 4 ? LodePNGColorType::LCT_RGBA : LodePNGColorType::LCT_RGB;
-		lodepng::encode(path, m_ImageInfo.Buffer, m_ImageInfo.Width, m_ImageInfo.Height, type);
-	}*/
-
 	Ref<Texture> Texture::GetWhiteTexture()
 	{
 		static bool once = [&]()
@@ -232,65 +217,21 @@ namespace Game
 
 	TextureSpecifications Texture::GetImageInfo(const std::string& path)
 	{
-		const std::string ext = utils::ToLower(path.substr(path.find_last_of('.') + 1));
-		
-		if (ext == "png")
-		{
-			return GetImageInfoLodePNG(path);
-		}
-		
-		return GetImageInfoStbi(path);
+		TextureSpecifications textureInfo;
+		auto imageInfo = utils::GetImageInfo(path);
+
+		textureInfo.Type = imageInfo.png ? GL_TexType::UNSIGNED_INT : GL_TexType::UNSIGNED_BYTE;
+		textureInfo.Buffer = imageInfo.Buffer;
+		textureInfo.Width = imageInfo.Width;
+		textureInfo.Height = imageInfo.Height;
+		textureInfo.Channels = imageInfo.Channels;
+		textureInfo.Name = imageInfo.FileName;
+
+		textureInfo.DeleteSourceBuffer = false;
+		textureInfo.CopySourceBuffer = false;
+		textureInfo.KeepSourceBuffer = true;
+
+		return textureInfo;
 	}
 
-	TextureSpecifications Texture::GetImageInfoLodePNG(const std::string& path)
-	{
-		TextureSpecifications info;
-
-		//TODO: Flip vertically
-		unsigned w = 0, h = 0;
-		std::vector<unsigned char> image;
-
-		unsigned error = lodepng::decode(image, w, h, path);
-		if (error) //TODO: Deal properly with this error
-			GAME_CORE_ASSERT(false,lodepng_error_text(error));
-
-		info.Width = w;
-		info.Height = h;
-		info.Channels = 4;
-		auto size = image.size();
-		info.Buffer = CreateTextureBuffer(image.size());
-		TextureBufferType* BufferPtr = info.Buffer;
-
-		std::copy(image.begin(), image.end(), info.Buffer);
-		image.clear();
-
-		info.DeleteSourceBuffer = false;
-		info.CopySourceBuffer = false;
-		info.KeepSourceBuffer = true;
-		return info;
-	}
-
-	TextureSpecifications Texture::GetImageInfoStbi(const std::string& path)
-	{
-		//TODO: Fix this stbi 'no SOI' bullshit 
-		TextureSpecifications info;
-		info.Type = GL_TexType::UNSIGNED_BYTE;
-		stbi_set_flip_vertically_on_load(1);
-		auto px = stbi_load(path.c_str(), &info.Width, &info.Height, &info.Channels, 0);
-
-		const char* er = stbi_failure_reason();
-		if (er)
-		{
-			GAME_CORE_ASSERT(false, "Failed to load image '{0}' | error: '{1}'",path,er);
-			if(px)
-				stbi_image_free(px);
-			info.Buffer = nullptr;
-		}
-		info.Buffer = px;
-
-		info.DeleteSourceBuffer = false;
-		info.CopySourceBuffer = false;
-		info.KeepSourceBuffer = true;
-		return info;
-	}
 }

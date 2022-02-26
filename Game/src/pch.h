@@ -3,15 +3,17 @@
 #include <iostream>
 #include <algorithm>
 
-#ifdef GAME_WINDOWS_BUILD
+//#if defined(GAME_WINDOWS_BUILD) || defined(__clang__)
+//
+//#include <xhash>
+//
+//#else
+//
+//#include <bits/functional_hash.h>
+//
+//#endif
 
-#include <xhash>
 
-#else
-
-#include <bits/functional_hash.h>
-
-#endif
 #include <functional>
 #include <memory>
 #include <thread>

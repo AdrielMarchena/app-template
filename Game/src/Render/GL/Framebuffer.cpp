@@ -181,7 +181,7 @@ namespace Game
 
 		if (m_ColorTextures.size() > 1)
 		{
-			GAME_CORE_ASSERT(m_ColorTextures.size() <= 4,"");
+			GAME_CORE_ASSERT(m_ColorTextures.size() <= 4,"Should exist at least 1 color texture attachment");
 			GLenum buffers[4] = { GL_COLOR_ATTACHMENT0,GL_COLOR_ATTACHMENT1 ,GL_COLOR_ATTACHMENT2 ,GL_COLOR_ATTACHMENT3 };
 			GLCall(glDrawBuffers(m_ColorTextures.size(), buffers));
 		}
@@ -200,7 +200,7 @@ namespace Game
 
 	void Framebuffer::Bind()
 	{
-		GAME_CORE_ASSERT(m_Id,"");
+		GAME_CORE_ASSERT(m_Id,"FrameBuffer id can not be 0");
 		GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_Id));
 		/*if (m_DepthBuffer)
 			GLCall(glBindRenderbuffer(GL_RENDERBUFFER, m_DepthBuffer));*/
@@ -214,7 +214,7 @@ namespace Game
 
 	int Framebuffer::ReadPixel(uint32_t index, int x, int y)
 	{
-		GAME_CORE_ASSERT(index < m_ColorTextures.size(),"");
+		GAME_CORE_ASSERT(index < m_ColorTextures.size(),"index is greater than color textures available");
 		GLCall(glEnable(GL_MULTISAMPLE));
 		int pixel;
 		glReadBuffer(GL_COLOR_ATTACHMENT0 + index);
@@ -224,7 +224,7 @@ namespace Game
 
 	void Framebuffer::ClearAttachment(uint32_t index, int value)
 	{
-		GAME_CORE_ASSERT(index < m_ColorTextures.size(),"");
+		GAME_CORE_ASSERT(index < m_ColorTextures.size(),"There is no color textures on this framebuffer");
 
 		auto& spec = m_ColorAttachmentSpecs[index];
 		utils::BindTexture(false, m_ColorTextures[index]);

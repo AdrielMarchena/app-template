@@ -25,7 +25,7 @@ namespace Game
 		Framebuffer(const FramebufferSpecification& specs);
 		~Framebuffer();
 
-		uint32_t GetColorTexture(uint32_t index = 0) const { GAME_CORE_ASSERT(index < m_ColorTextures.size(),""); return m_ColorTextures[index]; }
+		uint32_t GetColorTexture(uint32_t index = 0) const { GAME_CORE_ASSERT(index < m_ColorTextures.size(),"No such color texture attachment on index '{0}'",index); return m_ColorTextures[index]; }
 		//Ref<render::Texture> GetDepthTexture() const { return m_DepthTexture; }
 		void Invalidate();
 
