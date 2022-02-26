@@ -4,32 +4,6 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
-        {
-            "name": "(gdb) Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/Game/bin/Debug-linux-x86_64/Game/Game",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/Game",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                {
-                    "description":  "Set Disassembly Flavor to Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
-                }
-            ]
-        },
-        
         {
             "name": "g++ - Build and debug active file",
             "type": "cppdbg",
@@ -56,6 +30,56 @@
             ],
             "preLaunchTask": "C/C++: g++ make build",
             "miDebuggerPath": "/usr/bin/gdb"
-        }
+        },
+        {
+            "name": "(gdb) Launch Release",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Game/bin/Release-linux-x86_64/Game/Game",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Game",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description":  "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: g++ make build release"
+        },
+        {
+            "name": "(gdb) Launch Dist",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Game/bin/Dist-linux-x86_64/Game/Game",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Game",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description":  "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: g++ make build dist"
+        },
     ]
 }
