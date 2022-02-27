@@ -28,19 +28,9 @@ jobs:
 
     - name: make Debug x64
       run: make config=debug_x64
-      
-    - name: make Debug x86
-      run: make config=debug_x86
     
     - name: make Release x64
       run: make config=release_x64
       
-    - name: make Release x86
-      run: make config=release_x86
-      
     - name: make Dist x64
       run: make config=dist_x64
-      
-    - name: make Dist x86
-      run: make config=dist_x86
-    
