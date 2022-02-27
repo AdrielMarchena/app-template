@@ -25,10 +25,7 @@ jobs:
     
     - name: premake5
       run: ./premake5 gmake2
-    
-    - name: configure
-      run: ./configure
-      
+
     - name: make Debug x64
       run: make config=debug_x64
       
