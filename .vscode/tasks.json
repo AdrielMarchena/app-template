@@ -5,6 +5,7 @@
             "label": "C/C++: g++ make build",
             "command": "make",
             "args": [
+                "config=debug_x64"
             ],
             "options": {
             },
@@ -19,17 +20,32 @@
         },
         {
             "type": "cppbuild",
-            "label": "C/C++: g++ copy build",
-            "command": "cp /home/somei/Proj/Cpp/app-template/Game/bin/Debug-linux-x86_64/Game/Game /home/somei/Proj/Cpp/app-template/Game/",
+            "label": "C/C++: g++ make build release",
+            "command": "make",
             "args": [
-                "-fdiagnostics-color=always",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "config=release_x64"
             ],
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${workspaceFolder}/"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": ""
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++ make build dist",
+            "command": "make",
+            "args": [
+                "config=dist_x64"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/"
             },
             "problemMatcher": [
                 "$gcc"

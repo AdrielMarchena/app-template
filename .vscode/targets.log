@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Feb 26 10:27:38 2022
+# Make data base, printed on Sat Feb 26 15:19:33 2022
 
 # Variables
 
@@ -223,7 +223,7 @@ SHLVL = 1
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-103dc2a5-48c1-49f0-8089-6c40932effde.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-1da1e2b9-3ecc-43a7-bacf-b21ece770d87.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -307,7 +307,6 @@ WINDOWPATH = 2
 # environment
 LC_IDENTIFICATION = pt_BR.UTF-8
 # default
- 
 .RECIPEPREFIX := 
 # makefile (from 'Makefile', line 63)
 PROJECTS := stb_image GLFW ImGui Glad lodepng Game
@@ -318,7 +317,7 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 6363
+VSCODE_PID = 68177
 # environment
 DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=90cd35f92684204e244e2aa6621a23e3
 # variable set hash-table stats:
@@ -330,9 +329,9 @@ DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=90cd35f92684204e244e2aa
 
 # Directories
 
-# . (device 2050, inode 49416557): 18 files, no impossibilities.
+# . (device 2050, inode 49416557): 16 files, no impossibilities.
 
-# 18 files, no impossibilities in 1 directories.
+# 16 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -370,7 +369,7 @@ Dependencies: GLFW Glad ImGui lodepng stb_image
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-02-22 00:33:50.510777597
+#  Last modified 2022-02-26 12:03:02.048837504
 #  File has been updated.
 #  Successfully updated.
 
@@ -382,6 +381,7 @@ stb_image:
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
+ 
 # @ := stb_image
 # automatic
 # % := 
@@ -503,12 +503,12 @@ Glad:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 32 / storage = 306 B / avg = 9 B
-# current buf: size = 8162 B / used = 306 B / count = 32 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 30 / storage = 280 B / avg = 9 B
+# current buf: size = 8162 B / used = 280 B / count = 30 / avg = 9 B
 
-# strcache performance: lookups = 76 / hit rate = 57%
+# strcache performance: lookups = 74 / hit rate = 59%
 # hash-table stats:
-# Load=32/8192=0%, Rehash=0, Collisions=1/76=1%
-# Finished Make data base on Sat Feb 26 10:27:38 2022
+# Load=30/8192=0%, Rehash=0, Collisions=1/74=1%
+# Finished Make data base on Sat Feb 26 15:19:33 2022
 
  

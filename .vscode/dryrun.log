@@ -2,10 +2,8 @@ make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/somei/Proj/Cpp/app-template'
 echo "==== Building stb_image (debug_x64) ===="
 make --no-print-directory -C Game/vendor -f stb_image.make config=debug_x64
- 
 echo Creating stb_image/bin-int/Debug-linux-x86_64/stb_image
 mkdir -p stb_image/bin-int/Debug-linux-x86_64/stb_image
- 
 echo stb_image.cpp
 g++   -MMD -MP   -m64 -fPIC -g  -o "stb_image/bin-int/Debug-linux-x86_64/stb_image/stb_image.o" -MF "stb_image/bin-int/Debug-linux-x86_64/stb_image/stb_image.d" -c "stb_image/stb_image.cpp"
 echo Creating stb_image/bin/Debug-linux-x86_64/stb_image
@@ -15,7 +13,6 @@ ar -rcs "stb_image/bin/Debug-linux-x86_64/stb_image/libstb_image.a"  stb_image/b
 :
 echo "==== Building GLFW (debug_x64) ===="
 make --no-print-directory -C Game/vendor -f GLFW.make config=debug_x64
- 
 echo Creating glfw/bin-int/Debug-linux-x86_64/GLFW
 mkdir -p glfw/bin-int/Debug-linux-x86_64/GLFW
 echo context.c
@@ -40,7 +37,6 @@ echo null_monitor.c
 cc   -MMD -MP -D_GLFW_X11 -Iglfw/include -m64 -fPIC -g  -o "glfw/bin-int/Debug-linux-x86_64/GLFW/null_monitor.o" -MF "glfw/bin-int/Debug-linux-x86_64/GLFW/null_monitor.d" -c "glfw/src/null_monitor.c"
 echo null_window.c
 cc   -MMD -MP -D_GLFW_X11 -Iglfw/include -m64 -fPIC -g  -o "glfw/bin-int/Debug-linux-x86_64/GLFW/null_window.o" -MF "glfw/bin-int/Debug-linux-x86_64/GLFW/null_window.d" -c "glfw/src/null_window.c"
- 
 echo osmesa_context.c
 cc   -MMD -MP -D_GLFW_X11 -Iglfw/include -m64 -fPIC -g  -o "glfw/bin-int/Debug-linux-x86_64/GLFW/osmesa_context.o" -MF "glfw/bin-int/Debug-linux-x86_64/GLFW/osmesa_context.d" -c "glfw/src/osmesa_context.c"
 echo platform.c
@@ -70,18 +66,15 @@ ar -rcs "glfw/bin/Debug-linux-x86_64/GLFW/libGLFW.a"  glfw/bin-int/Debug-linux-x
 :
 echo "==== Building ImGui (debug_x64) ===="
 make --no-print-directory -C Game/vendor -f ImGui.make config=debug_x64
- 
 echo Creating imgui/bin-int/Debug-linux-x86_64/ImGui
 mkdir -p imgui/bin-int/Debug-linux-x86_64/ImGui
 echo binary_to_compressed_c.cpp
 g++   -MMD -MP  -Iimgui/include/GLFW -Iimgui/include -Iimgui/src -Iglfw/include -Iimgui -m64 -fPIC -g -std=c++17  -o "imgui/bin-int/Debug-linux-x86_64/ImGui/binary_to_compressed_c.o" -MF "imgui/bin-int/Debug-linux-x86_64/ImGui/binary_to_compressed_c.d" -c "imgui/misc/fonts/binary_to_compressed_c.cpp"
- 
 echo imgui.cpp
 g++   -MMD -MP  -Iimgui/include/GLFW -Iimgui/include -Iimgui/src -Iglfw/include -Iimgui -m64 -fPIC -g -std=c++17  -o "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui.o" -MF "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui.d" -c "imgui/imgui.cpp"
 echo imgui_demo.cpp
 g++   -MMD -MP  -Iimgui/include/GLFW -Iimgui/include -Iimgui/src -Iglfw/include -Iimgui -m64 -fPIC -g -std=c++17  -o "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_demo.o" -MF "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_demo.d" -c "imgui/imgui_demo.cpp"
 echo imgui_draw.cpp
- 
 g++   -MMD -MP  -Iimgui/include/GLFW -Iimgui/include -Iimgui/src -Iglfw/include -Iimgui -m64 -fPIC -g -std=c++17  -o "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_draw.o" -MF "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_draw.d" -c "imgui/imgui_draw.cpp"
 echo imgui_impl_glfw.cpp
 g++   -MMD -MP  -Iimgui/include/GLFW -Iimgui/include -Iimgui/src -Iglfw/include -Iimgui -m64 -fPIC -g -std=c++17  -o "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_impl_glfw.o" -MF "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_impl_glfw.d" -c "imgui/backends/imgui_impl_glfw.cpp"
@@ -93,7 +86,6 @@ echo imgui_stdlib.cpp
 g++   -MMD -MP  -Iimgui/include/GLFW -Iimgui/include -Iimgui/src -Iglfw/include -Iimgui -m64 -fPIC -g -std=c++17  -o "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_stdlib.o" -MF "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_stdlib.d" -c "imgui/misc/cpp/imgui_stdlib.cpp"
 echo imgui_tables.cpp
 g++   -MMD -MP  -Iimgui/include/GLFW -Iimgui/include -Iimgui/src -Iglfw/include -Iimgui -m64 -fPIC -g -std=c++17  -o "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_tables.o" -MF "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_tables.d" -c "imgui/imgui_tables.cpp"
- 
 echo imgui_widgets.cpp
 g++   -MMD -MP  -Iimgui/include/GLFW -Iimgui/include -Iimgui/src -Iglfw/include -Iimgui -m64 -fPIC -g -std=c++17  -o "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_widgets.o" -MF "imgui/bin-int/Debug-linux-x86_64/ImGui/imgui_widgets.d" -c "imgui/imgui_widgets.cpp"
 echo Creating imgui/bin/Debug-linux-x86_64/ImGui
@@ -103,10 +95,8 @@ ar -rcs "imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a"  imgui/bin-int/Debug-lin
 :
 echo "==== Building Glad (debug_x64) ===="
 make --no-print-directory -C Game/vendor -f Glad.make config=debug_x64
- 
 echo Creating glad/bin-int/Debug-linux-x86_64/Glad
 mkdir -p glad/bin-int/Debug-linux-x86_64/Glad
- 
 echo glad.c
 cc   -MMD -MP  -Iglad/include -m64 -g  -o "glad/bin-int/Debug-linux-x86_64/Glad/glad.o" -MF "glad/bin-int/Debug-linux-x86_64/Glad/glad.d" -c "glad/src/glad.c"
 echo Creating glad/bin/Debug-linux-x86_64/Glad
@@ -116,14 +106,12 @@ ar -rcs "glad/bin/Debug-linux-x86_64/Glad/libGlad.a"  glad/bin-int/Debug-linux-x
 :
 echo "==== Building lodepng (debug_x64) ===="
 make --no-print-directory -C Game/vendor -f lodepng.make config=debug_x64
- 
 echo Creating lodepng/bin-int/Debug-linux-x86_64/lodepng
 mkdir -p lodepng/bin-int/Debug-linux-x86_64/lodepng
 echo lodepng.cpp
 g++   -MMD -MP   -m64 -fPIC -g  -o "lodepng/bin-int/Debug-linux-x86_64/lodepng/lodepng.o" -MF "lodepng/bin-int/Debug-linux-x86_64/lodepng/lodepng.d" -c "lodepng/lodepng.cpp"
 echo Creating lodepng/bin/Debug-linux-x86_64/lodepng
 mkdir -p lodepng/bin/Debug-linux-x86_64/lodepng
- 
 echo Linking lodepng
 ar -rcs "lodepng/bin/Debug-linux-x86_64/lodepng/liblodepng.a"  lodepng/bin-int/Debug-linux-x86_64/lodepng/lodepng.o
 :
@@ -132,29 +120,24 @@ make --no-print-directory -C Game -f Makefile config=debug_x64
  
 echo Creating bin-int/Debug-linux-x86_64/Game
 mkdir -p bin-int/Debug-linux-x86_64/Game
- 
 echo pch.h
 g++ -x c++-header   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17 -o "bin-int/Debug-linux-x86_64/Game/pch.h.gch" -MF "bin-int/Debug-linux-x86_64/Game/pch.h.d" -c "src/pch.h"
 touch "bin-int/Debug-linux-x86_64/Game/pch.h"
  
 echo Application.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/Application.o" -MF "bin-int/Debug-linux-x86_64/Game/Application.d" -c "src/Entry/Application.cpp"
- 
 echo BusNode.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/BusNode.o" -MF "bin-int/Debug-linux-x86_64/Game/BusNode.d" -c "src/Message/BusNode.cpp"
- 
 echo Colide.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/Colide.o" -MF "bin-int/Debug-linux-x86_64/Game/Colide.d" -c "src/Colision/Colide.cpp"
 echo Components.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/Components.o" -MF "bin-int/Debug-linux-x86_64/Game/Components.d" -c "src/Scene/Components.cpp"
- 
 echo Entity.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/Entity.o" -MF "bin-int/Debug-linux-x86_64/Game/Entity.d" -c "src/Scene/Entity.cpp"
 echo Files.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/Files.o" -MF "bin-int/Debug-linux-x86_64/Game/Files.d" -c "src/Utils/Files.cpp"
 echo Framebuffer.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/Framebuffer.o" -MF "bin-int/Debug-linux-x86_64/Game/Framebuffer.d" -c "src/Render/GL/Framebuffer.cpp"
- 
 echo FramebufferRender.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/FramebufferRender.o" -MF "bin-int/Debug-linux-x86_64/Game/FramebufferRender.d" -c "src/Render/GL/FramebufferRender.cpp"
 echo GLContext.cpp
@@ -163,7 +146,6 @@ echo GL_Commands.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/GL_Commands.o" -MF "bin-int/Debug-linux-x86_64/Game/GL_Commands.d" -c "src/Render/GL/GL_Commands.cpp"
 echo GL_Types.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/GL_Types.o" -MF "bin-int/Debug-linux-x86_64/Game/GL_Types.d" -c "src/Render/GL/GL_Types.cpp"
- 
 echo GameCamera.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/GameCamera.o" -MF "bin-int/Debug-linux-x86_64/Game/GameCamera.d" -c "src/Render/GameCamera.cpp"
 echo Generic.cpp
@@ -174,12 +156,10 @@ echo GlobalD.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/GlobalD.o" -MF "bin-int/Debug-linux-x86_64/Game/GlobalD.d" -c "src/Ecs/GlobalD.cpp"
 echo ImGuiLayer.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/ImGuiLayer.o" -MF "bin-int/Debug-linux-x86_64/Game/ImGuiLayer.d" -c "src/Entry/ImGuiLayer.cpp"
- 
 echo ImageLoader.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/ImageLoader.o" -MF "bin-int/Debug-linux-x86_64/Game/ImageLoader.d" -c "src/Utils/Image/ImageLoader.cpp"
 echo IndexBuffer.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/IndexBuffer.o" -MF "bin-int/Debug-linux-x86_64/Game/IndexBuffer.d" -c "src/Render/GL/IndexBuffer.cpp"
- 
 echo Keyboard.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/Keyboard.o" -MF "bin-int/Debug-linux-x86_64/Game/Keyboard.d" -c "src/Input/Keyboard.cpp"
 echo Layer.cpp
@@ -200,38 +180,34 @@ echo MyGame.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/MyGame.o" -MF "bin-int/Debug-linux-x86_64/Game/MyGame.d" -c "src/MyLayer/MyGame.cpp"
 echo ParseArgs.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/ParseArgs.o" -MF "bin-int/Debug-linux-x86_64/Game/ParseArgs.d" -c "src/Entry/ParseArgs.cpp"
- 
 echo Render2D.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/Render2D.o" -MF "bin-int/Debug-linux-x86_64/Game/Render2D.d" -c "src/Render/Render2D.cpp"
 echo Scene.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/Scene.o" -MF "bin-int/Debug-linux-x86_64/Game/Scene.d" -c "src/Scene/Scene.cpp"
- 
 echo Shader.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/Shader.o" -MF "bin-int/Debug-linux-x86_64/Game/Shader.d" -c "src/Render/GL/Shader.cpp"
- 
 echo Texture.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/Texture.o" -MF "bin-int/Debug-linux-x86_64/Game/Texture.d" -c "src/Render/GL/Texture.cpp"
 echo TextureSpecifications.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/TextureSpecifications.o" -MF "bin-int/Debug-linux-x86_64/Game/TextureSpecifications.d" -c "src/Render/GL/TextureSpecifications.cpp"
+echo TileMap.cpp
+g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/TileMap.o" -MF "bin-int/Debug-linux-x86_64/Game/TileMap.d" -c "src/MyLayer/TileMap/TileMap.cpp"
 echo UUID.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/UUID.o" -MF "bin-int/Debug-linux-x86_64/Game/UUID.d" -c "src/Scene/UUID.cpp"
 echo VertexArray.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/VertexArray.o" -MF "bin-int/Debug-linux-x86_64/Game/VertexArray.d" -c "src/Render/GL/VertexArray.cpp"
 echo VertexAttribute.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/VertexAttribute.o" -MF "bin-int/Debug-linux-x86_64/Game/VertexAttribute.d" -c "src/Render/GL/VertexAttribute.cpp"
- 
 echo VertexBuffer.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/VertexBuffer.o" -MF "bin-int/Debug-linux-x86_64/Game/VertexBuffer.d" -c "src/Render/GL/VertexBuffer.cpp"
 echo WindowGlfw.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/WindowGlfw.o" -MF "bin-int/Debug-linux-x86_64/Game/WindowGlfw.d" -c "src/Window/WindowGlfw.cpp"
 echo pch.cpp
 g++ -include bin-int/Debug-linux-x86_64/Game/pch.h   -MMD -MP -DGAME_LINUX_BUILD -DGAME_STATIC_BUILD -DGAME_DEBUG -Isrc -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/imgui -Ivendor/stb_image -Ivendor/spdlog/include -Ivendor/glm -Ivendor/debugbreak -Ivendor/lodepng -m64 -g -std=c++17  -o "bin-int/Debug-linux-x86_64/Game/pch.o" -MF "bin-int/Debug-linux-x86_64/Game/pch.d" -c "src/pch.cpp"
- 
 echo Creating bin/Debug-linux-x86_64/Game
 mkdir -p bin/Debug-linux-x86_64/Game
 echo Linking Game
-g++ -o "bin/Debug-linux-x86_64/Game/Game"  bin-int/Debug-linux-x86_64/Game/Application.o bin-int/Debug-linux-x86_64/Game/BusNode.o bin-int/Debug-linux-x86_64/Game/Colide.o bin-int/Debug-linux-x86_64/Game/Components.o bin-int/Debug-linux-x86_64/Game/Entity.o bin-int/Debug-linux-x86_64/Game/Files.o bin-int/Debug-linux-x86_64/Game/Framebuffer.o bin-int/Debug-linux-x86_64/Game/FramebufferRender.o bin-int/Debug-linux-x86_64/Game/GLContext.o bin-int/Debug-linux-x86_64/Game/GL_Commands.o bin-int/Debug-linux-x86_64/Game/GL_Types.o bin-int/Debug-linux-x86_64/Game/GameCamera.o bin-int/Debug-linux-x86_64/Game/Generic.o bin-int/Debug-linux-x86_64/Game/GlContext1.o bin-int/Debug-linux-x86_64/Game/GlobalD.o bin-int/Debug-linux-x86_64/Game/ImGuiLayer.o bin-int/Debug-linux-x86_64/Game/ImageLoader.o bin-int/Debug-linux-x86_64/Game/IndexBuffer.o bin-int/Debug-linux-x86_64/Game/Keyboard.o bin-int/Debug-linux-x86_64/Game/Layer.o bin-int/Debug-linux-x86_64/Game/LayerStack.o bin-int/Debug-linux-x86_64/Game/Log.o bin-int/Debug-linux-x86_64/Game/Main.o bin-int/Debug-linux-x86_64/Game/Message.o bin-int/Debug-linux-x86_64/Game/MessageBus.o bin-int/Debug-linux-x86_64/Game/Mouse.o bin-int/Debug-linux-x86_64/Game/MyGame.o bin-int/Debug-linux-x86_64/Game/ParseArgs.o bin-int/Debug-linux-x86_64/Game/Render2D.o bin-int/Debug-linux-x86_64/Game/Scene.o bin-int/Debug-linux-x86_64/Game/Shader.o bin-int/Debug-linux-x86_64/Game/Texture.o bin-int/Debug-linux-x86_64/Game/TextureSpecifications.o bin-int/Debug-linux-x86_64/Game/UUID.o bin-int/Debug-linux-x86_64/Game/VertexArray.o bin-int/Debug-linux-x86_64/Game/VertexAttribute.o bin-int/Debug-linux-x86_64/Game/VertexBuffer.o bin-int/Debug-linux-x86_64/Game/WindowGlfw.o bin-int/Debug-linux-x86_64/Game/pch.o   -L/usr/lib64 -m64 vendor/glfw/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/stb_image/bin/Debug-linux-x86_64/stb_image/libstb_image.a vendor/glad/bin/Debug-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a vendor/lodepng/bin/Debug-linux-x86_64/lodepng/liblodepng.a -lpthread -ldl
+g++ -o "bin/Debug-linux-x86_64/Game/Game"  bin-int/Debug-linux-x86_64/Game/Application.o bin-int/Debug-linux-x86_64/Game/BusNode.o bin-int/Debug-linux-x86_64/Game/Colide.o bin-int/Debug-linux-x86_64/Game/Components.o bin-int/Debug-linux-x86_64/Game/Entity.o bin-int/Debug-linux-x86_64/Game/Files.o bin-int/Debug-linux-x86_64/Game/Framebuffer.o bin-int/Debug-linux-x86_64/Game/FramebufferRender.o bin-int/Debug-linux-x86_64/Game/GLContext.o bin-int/Debug-linux-x86_64/Game/GL_Commands.o bin-int/Debug-linux-x86_64/Game/GL_Types.o bin-int/Debug-linux-x86_64/Game/GameCamera.o bin-int/Debug-linux-x86_64/Game/Generic.o bin-int/Debug-linux-x86_64/Game/GlContext1.o bin-int/Debug-linux-x86_64/Game/GlobalD.o bin-int/Debug-linux-x86_64/Game/ImGuiLayer.o bin-int/Debug-linux-x86_64/Game/ImageLoader.o bin-int/Debug-linux-x86_64/Game/IndexBuffer.o bin-int/Debug-linux-x86_64/Game/Keyboard.o bin-int/Debug-linux-x86_64/Game/Layer.o bin-int/Debug-linux-x86_64/Game/LayerStack.o bin-int/Debug-linux-x86_64/Game/Log.o bin-int/Debug-linux-x86_64/Game/Main.o bin-int/Debug-linux-x86_64/Game/Message.o bin-int/Debug-linux-x86_64/Game/MessageBus.o bin-int/Debug-linux-x86_64/Game/Mouse.o bin-int/Debug-linux-x86_64/Game/MyGame.o bin-int/Debug-linux-x86_64/Game/ParseArgs.o bin-int/Debug-linux-x86_64/Game/Render2D.o bin-int/Debug-linux-x86_64/Game/Scene.o bin-int/Debug-linux-x86_64/Game/Shader.o bin-int/Debug-linux-x86_64/Game/Texture.o bin-int/Debug-linux-x86_64/Game/TextureSpecifications.o bin-int/Debug-linux-x86_64/Game/TileMap.o bin-int/Debug-linux-x86_64/Game/UUID.o bin-int/Debug-linux-x86_64/Game/VertexArray.o bin-int/Debug-linux-x86_64/Game/VertexAttribute.o bin-int/Debug-linux-x86_64/Game/VertexBuffer.o bin-int/Debug-linux-x86_64/Game/WindowGlfw.o bin-int/Debug-linux-x86_64/Game/pch.o   -L/usr/lib64 -m64 vendor/glfw/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/stb_image/bin/Debug-linux-x86_64/stb_image/libstb_image.a vendor/glad/bin/Debug-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a vendor/lodepng/bin/Debug-linux-x86_64/lodepng/liblodepng.a -lpthread -ldl
 :
- 
 make: Leaving directory '/home/somei/Proj/Cpp/app-template'
  
