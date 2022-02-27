@@ -103,10 +103,10 @@ namespace Game
 		ScriptableClass* (*CreateInstance)();
 		void(*DisposeInstance)(NativeScriptClass*);
 
-		template<typename T, class... _Args>
-		void Bind(_Args&&... args)
+		template<typename T>
+		void Bind()
 		{
-			CreateInstance = []() { return static_cast<ScriptableClass*>(new T(std::forward<_Args>(args)...)); };
+			CreateInstance = []() { return static_cast<ScriptableClass*>(new T()); };
 			DisposeInstance = [](NativeScriptClass* script) { if (script->Instance) { delete script->Instance; script->Instance = nullptr; } };
 		}
 	};

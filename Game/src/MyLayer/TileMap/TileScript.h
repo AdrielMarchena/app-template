@@ -9,20 +9,31 @@ public:
     {
         Visible = 0b1,
         Solid = 0b01
-    }
+    };
 
     TileScript() = default;
-	virtual ~ScriptableClass() = default;
+	virtual ~TileScript() = default;
 public:
 
-	virtual void OnAttach()
+	virtual void OnAttach() override
     {
 
     }
 	
-    virtual void OnAwake(){}
-	virtual void OnUpdate(Timestamp dt){}
-	virtual void OnDestroy(){}
+    virtual void OnAwake() override
+    {
+
+    }
+
+	virtual void OnUpdate(Game::Timestamp dt) override
+    {
+
+    }
+
+	virtual void OnDestroy() override
+    {
+
+    }
 
 private:
      int32_t m_States;
