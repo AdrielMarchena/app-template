@@ -35,8 +35,10 @@ jobs:
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
         title: "Dist Build"
         prerelease: false
+        draft: false
         files: |
           Game/assets/*
           bin/Dist-linux-x86_64/Game/Game
