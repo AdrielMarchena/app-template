@@ -31,16 +31,3 @@ jobs:
       
     - name: make Dist x64
       run: make config=dist_x64
-
-  release:
-    name: "Release"
-    runs-on: "ubuntu-latest"
-    
-    steps:
-      # ...
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          prerelease: false
-          files: |
-            Game/assets/*
-            bin/Dist-linux-x86_64/Game/Game
