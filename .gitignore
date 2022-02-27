@@ -1,7 +1,3 @@
-*
-!/**/
-!*.*
-
 # Prerequisites
 *.d
 
@@ -83,7 +79,6 @@ bin-int
 !*/assets/fonts/*
 
 #misc
-
 *.workspace
 *.mk
 *.make
@@ -91,12 +86,11 @@ bin-int
 *.batch_build
 .codelite
 .build-*
-./pre
-Game/vendor/*.txt
-Game/Game.txt
+
+.vscode/*.log
+
 Makefile
-/Makefile
-**/Makefile
+Game/Makefile
 
 #specific
 #Base include subdirs
