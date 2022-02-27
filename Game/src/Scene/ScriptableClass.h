@@ -18,9 +18,12 @@ namespace Game
 		ScriptableClass() = default;
 		virtual ~ScriptableClass() = default;
 
+protected:
 		virtual void OnAttach(){}
 		virtual void OnAwake(){}
 		virtual void OnUpdate(Timestamp dt){}
 		virtual void OnDestroy(){}
+private:
+	friend class Scene;
 	};
 }
