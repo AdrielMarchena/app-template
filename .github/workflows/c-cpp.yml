@@ -28,9 +28,19 @@ jobs:
 
     - name: make Debug x64
       run: make config=debug_x64
-    
-    - name: make Release x64
-      run: make config=release_x64
       
     - name: make Dist x64
       run: make config=dist_x64
+
+  release:
+    name: "Release"
+    runs-on: "ubuntu-latest"
+    
+    steps:
+      # ...
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          prerelease: false
+          files: |
+            Game/assets/*
+            bin/Dist-linux-x86_64/Game/Game
