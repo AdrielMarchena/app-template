@@ -17,7 +17,7 @@ jobs:
     - name: Install Packages
       run: |
         sudo apt update -qq
-        sudo apt install -y git build-essential g++ make
+        sudo apt install -y git build-essential g++ make zip unzip
         sudo apt-get install -y --no-install-recommends libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libxext-dev libxfixes-dev libgl1-mesa-dev
     
     - name: Fetch git submodules
@@ -32,6 +32,9 @@ jobs:
     - name: make Dist x64
       run: make config=dist_x64
       
+    - name: zip release
+      run: cp Game/bin/Dist-linux-x86_64/Game/Game Game/GameRun && zip -r Game.zip Game/assets Game/GameRun && rm Game/GameRun
+      
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
@@ -40,6 +43,5 @@ jobs:
         prerelease: false
         draft: false
         files: |
-          Game/assets/*
-          bin/Dist-linux-x86_64/Game/Game
+          *.zip
             
