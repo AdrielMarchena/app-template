@@ -31,3 +31,13 @@ jobs:
       
     - name: make Dist x64
       run: make config=dist_x64
+      
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        title: "Dist Build"
+        prerelease: false
+        files: |
+          Game/assets/*
+          bin/Dist-linux-x86_64/Game/Game
+            
