@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/Core.h"
 #include "Entry/Timestamp.h"
+#include "Entity.h"
 namespace Game
 {
 	struct ScriptMessage
@@ -24,6 +25,8 @@ protected:
 		virtual void OnUpdate(Timestamp dt){}
 		virtual void OnDestroy(){}
 private:
+	Entity m_Entity;
+	friend class Entity;
 	friend class Scene;
 	};
 }
