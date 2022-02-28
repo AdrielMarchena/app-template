@@ -13,6 +13,3 @@
 [submodule "Game/vendor/lodepng"]
 	path = Game/vendor/lodepng
 	url = https://github.com/lvandeve/lodepng.git
-[submodule "Game/vendor/Box2D"]
-	path = Game/vendor/Box2D
-	url = git@github.com:erincatto/box2d.git
