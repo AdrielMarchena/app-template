@@ -78,7 +78,7 @@ namespace Game
 		{
 			Static = 0, 
 			Dynamic, 
-			Kynematic
+			Kinematic
 		} Type = BodyType::Static;
 
 		bool FixedRotation = false;
@@ -130,17 +130,17 @@ namespace Game
 	};
 
 	struct ScriptableClass;
-	struct NativeScriptClass
+	struct NativeScriptComponent
 	{
 		ScriptableClass* Instance;
 		ScriptableClass* (*CreateInstance)();
-		void(*DisposeInstance)(NativeScriptClass*);
+		void(*DisposeInstance)(NativeScriptComponent*);
 
 		template<typename T>
 		void Bind()
 		{
 			CreateInstance = []() { return static_cast<ScriptableClass*>(new T()); };
-			DisposeInstance = [](NativeScriptClass* script) { if (script->Instance) { delete script->Instance; script->Instance = nullptr; } };
+			DisposeInstance = [](NativeScriptComponent* script) { if (script->Instance) { delete script->Instance; script->Instance = nullptr; } };
 		}
 	};
 }

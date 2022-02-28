@@ -80,9 +80,9 @@ void MyGame::OnAttach()
 		tr.SetScaleWithAr(texture_ar);
 		tr.Translation = { 0.0f,4.0f,0.0f };
 
-		auto& b = m_Quad.Add<Game::BoxColiderComponent>();
-		b.BodyType = Game::BoxColiderComponent::Type::Dynamic;
-		b.Velocity = { 0.0f, 0.0f };
+		auto& rigBody = m_Quad.Add<Game::RigidBody2DComponent>();
+		auto& boxColider = m_Quad.Add<Game::BoxColider2DComponent>();
+		rigBody.Type = Game::RigidBody2DComponent::BodyType::Dynamic;
 	}
 
 	{
@@ -94,11 +94,10 @@ void MyGame::OnAttach()
 		tr.Translation = { 0.0f,0.0f,0.0f };
 		tr.Scale = { 10.0f,1.0f,1.0f };
 
-		auto& b = m_Platform.Add<Game::BoxColiderComponent>();
-		b.BodyType = Game::BoxColiderComponent::Type::Static;
-		b.Velocity = { 0.0f, 0.0f };
+		auto& rigBody = m_Platform.Add<Game::RigidBody2DComponent>();
+		auto& boxColider = m_Platform.Add<Game::BoxColider2DComponent>();
+		rigBody.Type = Game::RigidBody2DComponent::BodyType::Static;
 	}
-
 }
 
 void MyGame::OnUpdate(Game::Timestamp dt)
@@ -139,6 +138,20 @@ void MyGame::OnImGuiRender()
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("Runtime"))
+		{
+			if(ImGui::Button("Start"))
+			{
+				m_Scene->RuntimeInit();
+			}
+
+			if(ImGui::Button("Stop"))
+			{
+				m_Scene->RuntimeStop();
+			}
+			ImGui::EndMenu();
+		}
+
 		ImGui::EndMainMenuBar();
 	}
 
@@ -146,6 +159,7 @@ void MyGame::OnImGuiRender()
 
 void MyGame::OnDetach()
 {
+	m_Scene->RuntimeStop();
 }
 
 void MyGame::OnEvent(Event& e)
