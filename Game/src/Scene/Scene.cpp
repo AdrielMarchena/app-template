@@ -366,4 +366,14 @@ namespace Game
 	{
 		m_FramebufferRender->UsePostEffect(effect_name);
 	}
+
+	void Scene::MakeCurrentSceneRef(const Ref<Scene>& scene)
+	{
+		Scene::m_CurrentScene = scene;
+	}
+
+	void Scene::InvalidateCurrentSceneRef()
+	{
+		Scene::m_CurrentScene.reset();
+	}
 }

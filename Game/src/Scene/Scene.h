@@ -32,6 +32,11 @@ namespace Game
 		const std::unordered_map<std::string, FramebufferPostEffect>& FramebufferGetPostEffects() const;
 		void FramebufferSetPostEffect(const std::string& effect_name);
 
+		/* Holds a static Ref to a Scene */
+		static void MakeCurrentSceneRef(const Ref<Scene>& scene);
+		static Ref<Scene> GetCurrentSceneRef() { return Scene::m_CurrentScene; }
+		/* Invalidate the static Ref to Scene */ 
+		static void InvalidateCurrentSceneRef();
 	private:
 		void CreatePhysicWorld();
 		void DisposePhysicWorld();
@@ -43,6 +48,7 @@ namespace Game
 		MessageBus* m_MessageBus = nullptr;
 		b2World* m_PhysicWorld = nullptr;
 		friend class Entity;
+		static Ref<Scene> m_CurrentScene;
 	};
 }
 
