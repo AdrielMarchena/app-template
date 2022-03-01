@@ -9,9 +9,21 @@ namespace Game
 
 	LayerStack::~LayerStack()
 	{
+		DeleteAll();
+	}
+
+	void LayerStack::DeleteAll()
+	{
+		if(m_Layers.empty())
+			return;
+
 		for (Layer* layer : m_Layers)
 			if(layer)
+			{
+				layer->OnDetach();
 				delete layer;
+			}
+		m_Layers.clear();
 	}
 
 	void LayerStack::PushLayer(Layer* layer)

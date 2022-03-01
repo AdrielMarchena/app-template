@@ -32,6 +32,7 @@ namespace Game {
 
 	Application::~Application()
 	{
+		m_LayerStack.DeleteAll();
 		Render2D::Dispose();
 	}
 
