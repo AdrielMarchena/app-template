@@ -8,8 +8,28 @@
 #include "Entry/Application.h"	
 #include "Colision/Colide.h"
 #include "Message/BusNode.h"
+#include "ScriptableClass.h"
+
+#include "box2d/b2_world.h"
+#include "box2d/b2_body.h"
+#include "box2d/b2_fixture.h"
+#include "box2d/b2_polygon_shape.h"
+
 namespace Game
 {
+
+	static inline b2BodyType Getb2BoxType(RigidBody2DComponent::BodyType type)
+	{
+		switch(type)
+		{
+			case RigidBody2DComponent::BodyType::Static: return b2BodyType::b2_staticBody;
+			case RigidBody2DComponent::BodyType::Dynamic: return b2BodyType::b2_dynamicBody;
+			case RigidBody2DComponent::BodyType::Kinematic: return b2BodyType::b2_kinematicBody;
+		}
+		GAME_CORE_ASSERT(false,"Unknow body type");
+		return b2BodyType::b2_staticBody;
+	}
+
 	Scene::Scene()
 	{
 		m_Registry = MakeScope<ecs::Scene>();
@@ -42,6 +62,97 @@ namespace Game
 	{
 		if(m_MessageBus)
 			delete m_MessageBus;
+		if(m_PhysicWorld)
+			delete m_PhysicWorld;
+	}
+
+	void Scene::SceneBegin()
+	{
+		auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+		for(auto e : view)
+		{
+			Entity ent = { e, this };
+			auto& scriptComponent = ent.Get<NativeScriptComponent>();
+			if(!scriptComponent.Instance)
+			{
+				scriptComponent.Instance = scriptComponent.CreateInstance();
+				scriptComponent.Instance->m_Entity = ent;
+				scriptComponent.Instance->OnAttach();
+			}
+		}
+	}
+
+	void Scene::SceneEnd()
+	{
+		auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+		for(auto e : view)
+		{
+			Entity ent = { e, this };
+			auto& scriptComponent = ent.Get<NativeScriptComponent>();
+			if(scriptComponent.Instance)
+			{
+				scriptComponent.Instance->OnDestroy();
+				scriptComponent.DisposeInstance(&scriptComponent);
+			}
+		}
+	}
+
+	void Scene::RuntimeInit()
+	{
+		CreatePhysicWorld();
+	}
+
+	void Scene::RuntimeStop()
+	{
+		DisposePhysicWorld();
+	}
+
+	void Scene::CreatePhysicWorld()
+	{
+		if(m_PhysicWorld) return;
+		m_PhysicWorld = new b2World({0.0f,-9.8f});
+		auto view = ecs::SceneView<RigidBody2DComponent>(*m_Registry);
+		for(auto e : view)
+		{
+			Entity ent = { e, this };
+			auto& transformComponent = ent.GetTransformComponent();
+			auto& rb2d = ent.Get<RigidBody2DComponent>();
+
+			b2BodyDef bodyDef;
+
+			bodyDef.type = Getb2BoxType(rb2d.Type);
+			bodyDef.position.Set(transformComponent.Translation.x,transformComponent.Translation.y);
+			bodyDef.angle = transformComponent.Rotation.z;
+
+			b2Body* body = m_PhysicWorld->CreateBody(&bodyDef);
+			body->SetFixedRotation(rb2d.FixedRotation);
+			rb2d.RuntimeBody = body;
+
+			if(ent.Contain<BoxColider2DComponent>())
+			{
+				auto& bc2d = ent.Get<BoxColider2DComponent>();
+
+				b2PolygonShape boxShape;
+				boxShape.SetAsBox(bc2d.Size.x * transformComponent.Scale.x, bc2d.Size.y * transformComponent.Scale.y);
+
+				b2FixtureDef fixtureDef;
+				fixtureDef.shape = &boxShape;
+				fixtureDef.density = bc2d.Density;
+				fixtureDef.friction = bc2d.Friction;
+				fixtureDef.restitution = bc2d.Restitution;
+				fixtureDef.restitutionThreshold = bc2d.RestitutionThreshold;
+				body->CreateFixture(&fixtureDef);
+			}
+		}
+	}
+
+	void Scene::DisposePhysicWorld()
+	{
+		if(m_PhysicWorld)
+		{
+			delete m_PhysicWorld;
+			m_PhysicWorld = nullptr;
+		}
 	}
 
 	Entity Scene::CreateEntity(const std::string& tag, bool addMessangerComponent)
@@ -59,6 +170,44 @@ namespace Game
 
 	void Scene::OnUpdate(float dt)
 	{
+
+		{// Scripts
+			auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+			for (auto e : view)
+			{
+				Entity ent{e, this};
+				auto& scriptComponent = ent.Get<NativeScriptComponent>();
+				if(scriptComponent.Instance)
+					scriptComponent.Instance->OnUpdate(dt);
+			}
+		}
+
+		if(m_PhysicWorld)
+		{// Physics
+			constexpr int32_t velocityIterations = 6;
+			constexpr int32_t positionIterations = 2;
+
+			m_PhysicWorld->Step(dt,velocityIterations,positionIterations);
+
+			auto view = ecs::SceneView<RigidBody2DComponent>(*m_Registry);
+			for (auto e : view)
+			{
+				Entity ent{e, this};
+				auto& rb2d = ent.Get<RigidBody2DComponent>();
+
+				auto& transformComponent = ent.GetTransformComponent();
+				b2Body* body = (b2Body*)rb2d.RuntimeBody;
+				const auto& position = body->GetPosition();
+				transformComponent.Translation.x = position.x;
+				transformComponent.Translation.y = position.y;
+				transformComponent.Rotation.z = body->GetAngle();
+			}
+
+		}
+
+		//Notify all messages
+		m_MessageBus->Notify();
+
 		SceneCamera* main_camera = nullptr;
 		TransformComponent* main_camera_trasform = nullptr;
 		{
@@ -77,9 +226,6 @@ namespace Game
 
 			}
 		}
-		
-		//Notify all messages
-		m_MessageBus->Notify();
 
 		{//Physics
 			//TODO: Test this idk if works

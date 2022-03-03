@@ -72,6 +72,39 @@ namespace Game
 		operator glm::mat4() const { return GetTransform(); }
 	};
 
+	struct RigidBody2DComponent
+	{
+		enum class BodyType
+		{
+			Static = 0, 
+			Dynamic, 
+			Kinematic
+		} Type = BodyType::Static;
+
+		bool FixedRotation = false;
+		void* RuntimeBody = nullptr;
+
+		RigidBody2DComponent() = default;
+		RigidBody2DComponent(const RigidBody2DComponent&) = default;
+
+	};
+
+	struct BoxColider2DComponent
+	{
+		glm::vec2 Offset = { 0.0f, 0.0f };
+		glm::vec2 Size = { 0.5f, 0.5f };
+
+		float Density = 1.0f;
+		float Friction = 0.5f;
+		float Restitution = 0.0f;
+		float RestitutionThreshold = 0.5f;
+
+		void* RuntimeFixture = nullptr;
+
+		BoxColider2DComponent() = default;
+		BoxColider2DComponent(const BoxColider2DComponent&) = default;
+	};
+
 	struct BoxColiderComponent
 	{
 		enum class Type
@@ -97,17 +130,17 @@ namespace Game
 	};
 
 	struct ScriptableClass;
-	struct NativeScriptClass
+	struct NativeScriptComponent
 	{
 		ScriptableClass* Instance;
 		ScriptableClass* (*CreateInstance)();
-		void(*DisposeInstance)(NativeScriptClass*);
+		void(*DisposeInstance)(NativeScriptComponent*);
 
 		template<typename T>
 		void Bind()
 		{
 			CreateInstance = []() { return static_cast<ScriptableClass*>(new T()); };
-			DisposeInstance = [](NativeScriptClass* script) { if (script->Instance) { delete script->Instance; script->Instance = nullptr; } };
+			DisposeInstance = [](NativeScriptComponent* script) { if (script->Instance) { delete script->Instance; script->Instance = nullptr; } };
 		}
 	};
 }

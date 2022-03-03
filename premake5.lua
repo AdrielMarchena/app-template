@@ -52,6 +52,7 @@ include "Game/vendor/glfw.lua"
 include "Game/vendor/imgui.lua"
 include "Game/vendor/glad.lua"
 include "Game/vendor/lodepng.lua"
+include "Game/vendor/Box2D.lua"
 group ""
 
 --Projects
