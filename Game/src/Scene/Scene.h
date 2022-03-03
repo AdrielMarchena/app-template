@@ -23,6 +23,7 @@ namespace Game
 
 		void RuntimeInit();
 		void RuntimeStop();
+		bool IsRuntimeInit() const;
 
 		void OnUpdate(float dt);
 		void OnResize(int w, int h);
@@ -37,6 +38,10 @@ namespace Game
 		static Ref<Scene> GetCurrentSceneRef() { return Scene::m_CurrentScene; }
 		/* Invalidate the static Ref to Scene */ 
 		static void InvalidateCurrentSceneRef();
+
+		/* enable or disable entity body */
+		void SetEnableBody(Entity ent,bool flag);
+		bool GetEnableBody(Entity ent) const;
 	private:
 		void CreatePhysicWorld();
 		void DisposePhysicWorld();

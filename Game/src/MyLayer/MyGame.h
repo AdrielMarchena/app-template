@@ -18,7 +18,7 @@ class MyGame :
 {
 protected:
 	std::unordered_map<int, MyGameKeyBindingFunctionPtr> m_KeysBindings;
-	Game::Scope<Game::Scene> m_Scene;
+	Game::Ref<Game::Scene> m_Scene;
 
 	Game::Entity m_Camera;
 	Game::Entity m_Quad;
@@ -26,7 +26,6 @@ protected:
 public:
 	MyGame(const std::string& name = "MyGame");
 	virtual ~MyGame() = default;
-
 	void OnAttach() override;
 	void OnUpdate(Game::Timestamp dt)override;
 	void OnImGuiRender() override;
