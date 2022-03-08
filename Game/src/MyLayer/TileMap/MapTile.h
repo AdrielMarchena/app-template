@@ -9,4 +9,4 @@ private:
 public:
     MapTile(int32_t width, int32_t height);
     ~MapTile() = default;
-}
+};

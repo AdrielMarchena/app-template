@@ -3,9 +3,9 @@
 
 MapTile::MapTile(int32_t width, int32_t height)
 {
-    GAME_CORE_ASSERT(w > 0 && h > 0, "Map height and width can't be zero or negative");
+    GAME_CORE_ASSERT(width > 0 && height > 0, "Map height and width can't be zero or negative");
 
-    Game::Entity demoEntity = fab::CreateNewTileEntity();
+    /*Game::Entity demoEntity = fab::CreateNewTileEntity();
     const auto& demoTransform = demoEntity.GetTransformComponent();
     const float tileSize = demoTransform.Scale.x;
 
@@ -15,6 +15,6 @@ MapTile::MapTile(int32_t width, int32_t height)
         {
 
         }
-    }
+    }*/
 
 }
