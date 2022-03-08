@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 
 #include "Scene/Entity.h"
 #include "glm/glm.hpp"
@@ -12,4 +12,4 @@ namespace fab
 {
     inline Game::Entity CreateNewTileEntity(int32_t index = 0);
 }
-
+*/

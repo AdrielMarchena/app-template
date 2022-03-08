@@ -1,4 +1,4 @@
-#include "pch.h"
+/*#include "pch.h"
 #include "TileFabric.h"
 
 #include "Scene/Components.h"
@@ -21,4 +21,4 @@ namespace fab
 		auto& boxColider = ent.Add<Game::BoxColider2DComponent>();
 		rigBody.Type = Game::RigidBody2DComponent::BodyType::Dynamic;
     }
-}
+}*/

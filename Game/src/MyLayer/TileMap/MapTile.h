@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 
 #include "TileFabric.h"
 
@@ -9,4 +9,4 @@ private:
 public:
     MapTile(int32_t width, int32_t height);
     ~MapTile() = default;
-};
+};*/
