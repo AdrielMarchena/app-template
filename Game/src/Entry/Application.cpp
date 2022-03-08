@@ -32,6 +32,7 @@ namespace Game {
 
 	Application::~Application()
 	{
+		m_LayerStack.DeleteAll();
 		Render2D::Dispose();
 	}
 
@@ -109,4 +110,27 @@ namespace Game {
 			GLCall(glViewport(0, 0, e.GetWidth(), e.GetHeight()));
 		return false;
 	}
+
+	void Application::AddVoidPointer(const std::string& key, void* data)
+	{
+		if(!HasVoidPointer(key))
+		{
+			m_VoidMap[key] = data;
+		}
+	}
+
+	bool Application::HasVoidPointer(const std::string& key)
+	{
+		return m_VoidMap.find(key) != m_VoidMap.end();
+	}
+
+	void* Application::GetVoidPointer(const std::string& key)
+	{
+		if(HasVoidPointer(key)) 
+		{
+			return m_VoidMap[key];
+		}
+		return nullptr;
+	}
+
 }

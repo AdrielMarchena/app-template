@@ -12,7 +12,7 @@ namespace Game
 		std::string m_DebugName;
 	public:
 		Layer(const std::string& name = "Layer");
-		virtual ~Layer() = default;
+		virtual ~Layer() { OnDetach(); };
 
 		virtual void OnAttach(){}
 		virtual void OnUpdate(Timestamp dt){}

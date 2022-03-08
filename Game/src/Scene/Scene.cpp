@@ -30,6 +30,8 @@ namespace Game
 		return b2BodyType::b2_staticBody;
 	}
 
+	Ref<Scene> Scene::m_CurrentScene = nullptr; 
+
 	Scene::Scene()
 	{
 		m_Registry = MakeScope<ecs::Scene>();
@@ -105,6 +107,11 @@ namespace Game
 	void Scene::RuntimeStop()
 	{
 		DisposePhysicWorld();
+	}
+
+	bool Scene::IsRuntimeInit() const
+	{
+		return m_PhysicWorld != nullptr;
 	}
 
 	void Scene::CreatePhysicWorld()
@@ -365,5 +372,36 @@ namespace Game
 	void Scene::FramebufferSetPostEffect(const std::string& effect_name)
 	{
 		m_FramebufferRender->UsePostEffect(effect_name);
+	}
+
+	void Scene::MakeCurrentSceneRef(const Ref<Scene>& scene)
+	{
+		Scene::m_CurrentScene = scene;
+	}
+
+	void Scene::InvalidateCurrentSceneRef()
+	{
+		Scene::m_CurrentScene.reset();
+	}
+
+	void Scene::SetEnableBody(Entity ent,bool flag)
+	{
+		if(ent.Contain<RigidBody2DComponent>())
+		{
+			auto& rb2d = ent.Get<RigidBody2DComponent>();
+			b2Body* body = (b2Body*)rb2d.RuntimeBody;
+			body->SetEnabled(flag);
+		}
+	}
+
+	bool Scene::GetEnableBody(Entity ent) const
+	{
+		if(ent && ent.Contain<RigidBody2DComponent>())
+		{
+			auto& rb2d = ent.Get<RigidBody2DComponent>();
+			b2Body* body = (b2Body*)rb2d.RuntimeBody;
+			return body->IsEnabled();
+		}
+		return false;
 	}
 }

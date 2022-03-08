@@ -12,6 +12,8 @@ int main(int argc, char** argv);
 
 namespace Game {
 
+	using VoidMap = std::unordered_map<std::string,void*>;
+
 	/**
 	*  Your start point. The Application class controlls things like
 	*  the window and the Game Loop, and contains the
@@ -29,6 +31,8 @@ namespace Game {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = false;
 		uint64_t m_FrameCount;
+		/* Experimental */
+		VoidMap m_VoidMap;
 	public:
 		Application(int argc, char** argv);
 		virtual ~Application();
@@ -71,6 +75,14 @@ namespace Game {
 		ImGuiLayer& GetImGuiLayer() { return *m_ImGuiLayer; }
 
 		bool ResizeGlViewPort = true;
+
+		/* Experimental */
+		void AddVoidPointer(const std::string& key, void* data);
+		/* Experimental */
+		bool HasVoidPointer(const std::string& key);
+		/* Experimental */
+		void* GetVoidPointer(const std::string& key);
+
 	private:
 		static Application* m_AppInstance;
 		bool OnWindowClose(WindowCloseEvent& e);

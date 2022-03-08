@@ -11,10 +11,16 @@
 #include <glm/gtx/quaternion.hpp>
 #include "imgui.h"
 #include "Message/BusNode.h"
+
 struct MyGameKeyBindings
 {
 	static void KeyW(MyGame& g)
 	{
+		if(!g.m_Scene->IsRuntimeInit())
+		{
+			auto& tr = g.m_Quad.Get<Game::TransformComponent>();
+			tr.Translation = { 0.0f,4.0f,0.0f };
+		}
 	}
 	static void KeyA(MyGame& g)
 	{
@@ -50,19 +56,16 @@ void MyGame::OnAttach()
 	auto h = app.GetWindow().GetHeight();
 	float ar = (float)w / (float)h;
 
-	m_Scene = Game::MakeScope<Game::Scene>();
+	m_Scene = Game::MakeRef<Game::Scene>();
+	Game::Scene::MakeCurrentSceneRef(m_Scene);
 
 	m_Scene->OnResize(w, h);
-
-	//m_Camera.SetViewportSize(w, h);
 
 	{
 		m_Camera = m_Scene->CreateEntity("Main_Camera");
 
 		auto& cameraComponent = m_Camera.Add<Game::CameraComponent>();
 		cameraComponent.Camera.SetViewportSize(w, h);
-		//cameraComponent.Camera.SetOrthographicNearClip(-1.0f);
-		//cameraComponent.Camera.SetOrthographicFarClip(10.0f);
 		auto& tr = m_Camera.Get<Game::TransformComponent>();
 		tr.Translation = { 0.0f,0.0f,0.0f };
 		tr.Scale = { 1.0f,1.0f,1.0f };
@@ -160,6 +163,8 @@ void MyGame::OnImGuiRender()
 void MyGame::OnDetach()
 {
 	m_Scene->RuntimeStop();
+
+	m_Scene->InvalidateCurrentSceneRef();
 }
 
 void MyGame::OnEvent(Event& e)
