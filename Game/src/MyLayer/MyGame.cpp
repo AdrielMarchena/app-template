@@ -141,6 +141,20 @@ void MyGame::OnImGuiRender()
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("Runtime"))
+		{
+			if(ImGui::Button("Start"))
+			{
+				m_Scene->RuntimeInit();
+			}
+
+			if(ImGui::Button("Stop"))
+			{
+				m_Scene->RuntimeStop();
+			}
+			ImGui::EndMenu();
+		}
+
 		ImGui::EndMainMenuBar();
 	}
 
@@ -149,6 +163,7 @@ void MyGame::OnImGuiRender()
 void MyGame::OnDetach()
 {
 	m_Scene->RuntimeStop();
+
 	m_Scene->InvalidateCurrentSceneRef();
 }
 

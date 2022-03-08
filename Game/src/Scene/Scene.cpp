@@ -31,6 +31,7 @@ namespace Game
 	}
 
 	Ref<Scene> Scene::m_CurrentScene = nullptr; 
+
 	Scene::Scene()
 	{
 		m_Registry = MakeScope<ecs::Scene>();

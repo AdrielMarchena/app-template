@@ -23,6 +23,7 @@ namespace Game
 
 		void RuntimeInit();
 		void RuntimeStop();
+
 		bool IsRuntimeInit() const;
 
 		void OnUpdate(float dt);
@@ -33,6 +34,7 @@ namespace Game
 		const std::unordered_map<std::string, FramebufferPostEffect>& FramebufferGetPostEffects() const;
 		void FramebufferSetPostEffect(const std::string& effect_name);
 
+
 		/* Holds a static Ref to a Scene */
 		static void MakeCurrentSceneRef(const Ref<Scene>& scene);
 		static Ref<Scene> GetCurrentSceneRef() { return Scene::m_CurrentScene; }
@@ -42,6 +44,7 @@ namespace Game
 		/* enable or disable entity body */
 		void SetEnableBody(Entity ent,bool flag);
 		bool GetEnableBody(Entity ent) const;
+
 	private:
 		void CreatePhysicWorld();
 		void DisposePhysicWorld();
@@ -56,6 +59,3 @@ namespace Game
 		static Ref<Scene> m_CurrentScene;
 	};
 }
-
-
-
