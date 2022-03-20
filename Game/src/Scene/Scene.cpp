@@ -321,9 +321,9 @@ namespace Game
 					{
 						auto& tra = m_Registry->Get<TransformComponent>(ent);
 						if (sprite.Texture)
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture);
+							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture, sprite.Color GAME_COMMA_ENTITYID((int)ent));
 						else
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Color);
+							Render2D::DrawQuad(tra.GetTransform(), sprite.Color GAME_COMMA_ENTITYID((int)ent));
 					}
 				}
 
