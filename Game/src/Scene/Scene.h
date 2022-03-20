@@ -4,10 +4,14 @@
 #include "Render/GL/FramebufferRender.h"
 #include "Ecs/ECSScene.h"
 #include "Render/GameCamera.h"
+#include <functional>
 //#include "Message/MessageBus.h"
 class b2World;
 namespace Game
 {
+	class Scene;
+
+	using DoBeforeUnbindFramebuffer = std::function<void(Scene*)>;
 	class Entity; // Forward declaration for nice friendship
 	class MessageBus;
 	class Scene
@@ -34,6 +38,8 @@ namespace Game
 		const std::unordered_map<std::string, FramebufferPostEffect>& FramebufferGetPostEffects() const;
 		void FramebufferSetPostEffect(const std::string& effect_name);
 
+		int ReadPixel(uint32_t index, int x, int y);
+		void ClearAttachment(uint32_t index, int value);
 
 		/* Holds a static Ref to a Scene */
 		static void MakeCurrentSceneRef(const Ref<Scene>& scene);
@@ -45,11 +51,15 @@ namespace Game
 		void SetEnableBody(Entity ent,bool flag);
 		bool GetEnableBody(Entity ent) const;
 
+		void AddDoBeforeUnbindFramebuffer(DoBeforeUnbindFramebuffer func);
+		// void RemoveDoBeforeunbindFramebuffer();
+
 	private:
 		void CreatePhysicWorld();
 		void DisposePhysicWorld();
 
 	private:
+		std::vector<DoBeforeUnbindFramebuffer> m_FunctionsBeforeUnbindFramebuffer;
 		Scope<ecs::Scene> m_Registry;
 		Scope<FramebufferRender> m_FramebufferRender;
 		SceneCamera m_FramebufferCamera;

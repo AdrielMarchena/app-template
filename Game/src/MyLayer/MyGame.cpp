@@ -2,6 +2,7 @@
 #include "MyGame.h"
 
 #include "Input/Keyboard.h"
+#include "Input/Mouse.h"
 #include "Render/Render2D.h"
 #include "Render/GL/FramebufferRender.h"
 #include "Render/GameCamera.h"
@@ -101,6 +102,19 @@ void MyGame::OnAttach()
 		auto& boxColider = m_Platform.Add<Game::BoxColider2DComponent>();
 		rigBody.Type = Game::RigidBody2DComponent::BodyType::Static;
 	}
+
+	m_Scene->AddDoBeforeUnbindFramebuffer([&](Game::Scene* scene) -> void
+	{
+			if (Game::Mouse::isClicked(GAME_MOUSE_BUTTON_LEFT))
+			{
+				auto& app = Game::Application::Get();
+				auto h = app.GetWindow().GetHeight();
+				auto mousePosition = Game::Mouse::m_pos(h);
+				int entityID = scene->ReadPixel(1,mousePosition.x, mousePosition.y);
+				GAME_LOG_INFO("entityID on pixel {0}x{1} is: {2}", mousePosition.x, mousePosition.y, entityID);
+			}
+	});
+
 }
 
 void MyGame::OnUpdate(Game::Timestamp dt)
