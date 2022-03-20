@@ -8,8 +8,18 @@ namespace Game
 	{
 		constexpr glm::vec4 White{ 1.0f,1.0f,1.0f,1.0f };
 	}
-
-	//TODO: Make this without looking up
+#define GAME_USING_ENTITYID
+#ifdef GAME_USING_ENTITYID
+	#define GAME_ENTITY_ID entityID
+	#define GAME_DECLARE_ENTITY_ID int GAME_ENTITY_ID
+	#define GAME_DO_IF_ENTITYID(x) x
+	#define GAME_COMMA_ENTITYID(x) ,GAME_DO_IF_ENTITYID(x)
+#else
+	#define GAME_ENTITY_ID
+	#define GAME_DECLARE_ENTITY_ID
+	#define GAME_COMMA_ENTITYID(x)
+	#define GAME_DO_IF_ENTITYID(x)
+#endif
 
 	/**
 	* Render2D class.
@@ -41,8 +51,8 @@ namespace Game
 
 		static void Dispose();
 
-		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color);
-		static void DrawQuad(const glm::mat4& transform, Ref<Texture> texture, const glm::vec4& color = Colors::White);
+		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID));
+		static void DrawQuad(const glm::mat4& transform, Ref<Texture> texture, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID));
 
 		static RenderStats GetRenderInfo(const DrawInfo& geometry = DrawInfo::Quad);
 
