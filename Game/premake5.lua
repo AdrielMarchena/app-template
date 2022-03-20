@@ -41,6 +41,11 @@ project "Game"
 		--"glfw3.lib ",
 	}
 
+	defines
+	{
+		"GAME_USING_ENTITYID"
+	}
+
 	postbuildcommands
 	{
 		--("{COPYDIR} \"./src/**.h\" \"./include/Game\""),

@@ -8,7 +8,7 @@ namespace Game
 	{
 		constexpr glm::vec4 White{ 1.0f,1.0f,1.0f,1.0f };
 	}
-#define GAME_USING_ENTITYID
+
 #ifdef GAME_USING_ENTITYID
 	#define GAME_ENTITY_ID entityID
 	#define GAME_DECLARE_ENTITY_ID int GAME_ENTITY_ID
