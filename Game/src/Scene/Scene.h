@@ -4,10 +4,14 @@
 #include "Render/GL/FramebufferRender.h"
 #include "Ecs/ECSScene.h"
 #include "Render/GameCamera.h"
+#include <functional>
 //#include "Message/MessageBus.h"
 class b2World;
 namespace Game
 {
+	class Scene;
+
+	using DoBeforeUnbindFramebuffer = std::function<void(Scene*)>;
 	class Entity; // Forward declaration for nice friendship
 	class MessageBus;
 	class Scene
@@ -47,11 +51,15 @@ namespace Game
 		void SetEnableBody(Entity ent,bool flag);
 		bool GetEnableBody(Entity ent) const;
 
+		void AddDoBeforeUnbindFramebuffer(DoBeforeUnbindFramebuffer func);
+		// void RemoveDoBeforeunbindFramebuffer();
+
 	private:
 		void CreatePhysicWorld();
 		void DisposePhysicWorld();
 
 	private:
+		std::vector<DoBeforeUnbindFramebuffer> m_FunctionsBeforeUnbindFramebuffer;
 		Scope<ecs::Scene> m_Registry;
 		Scope<FramebufferRender> m_FramebufferRender;
 		SceneCamera m_FramebufferCamera;

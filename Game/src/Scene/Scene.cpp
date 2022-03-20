@@ -306,6 +306,8 @@ namespace Game
 			m_FramebufferRender->BindFrameBuffer();
 			Render2D::Clear();
 
+			GAME_DO_IF_ENTITYID(m_FramebufferRender->ClearAttachment(1, -1));
+
 			if (main_camera)
 			{
 				m_FramebufferRender->SetGLViewport(true);
@@ -321,15 +323,18 @@ namespace Game
 					{
 						auto& tra = m_Registry->Get<TransformComponent>(ent);
 						if (sprite.Texture)
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture, sprite.Color GAME_COMMA_ENTITYID((int)ent));
+							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture, sprite.Color GAME_COMMA_ENTITYID((int)ecs::GetEntityIndex(ent)));
 						else
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Color GAME_COMMA_ENTITYID((int)ent));
+							Render2D::DrawQuad(tra.GetTransform(), sprite.Color GAME_COMMA_ENTITYID((int)ecs::GetEntityIndex(ent)));
 					}
 				}
 
 				Render2D::EndBatch();
 				Render2D::Flush();
 			}
+
+			for (auto& f : m_FunctionsBeforeUnbindFramebuffer)
+				f(this);
 
 			m_FramebufferRender->UnbindFrameBuffer();
 
@@ -413,5 +418,12 @@ namespace Game
 			return body->IsEnabled();
 		}
 		return false;
+	}
+	void Scene::AddDoBeforeUnbindFramebuffer(DoBeforeUnbindFramebuffer func)
+	{
+		if (func)
+			m_FunctionsBeforeUnbindFramebuffer.push_back(func);
+
+		// GAME_LOG_WARN("The function '{0}' is invalid", func);
 	}
 }
