@@ -374,6 +374,16 @@ namespace Game
 		m_FramebufferRender->UsePostEffect(effect_name);
 	}
 
+	int Scene::ReadPixel(uint32_t index, int x, int y)
+	{
+		return m_FramebufferRender->ReadPixel(index, x, y);
+	}
+
+	void Scene::ClearAttachment(uint32_t index, int value)
+	{
+		m_FramebufferRender->ClearAttachment(index, value);
+	}
+
 	void Scene::MakeCurrentSceneRef(const Ref<Scene>& scene)
 	{
 		Scene::m_CurrentScene = scene;

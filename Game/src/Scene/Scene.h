@@ -34,6 +34,8 @@ namespace Game
 		const std::unordered_map<std::string, FramebufferPostEffect>& FramebufferGetPostEffects() const;
 		void FramebufferSetPostEffect(const std::string& effect_name);
 
+		int ReadPixel(uint32_t index, int x, int y);
+		void ClearAttachment(uint32_t index, int value);
 
 		/* Holds a static Ref to a Scene */
 		static void MakeCurrentSceneRef(const Ref<Scene>& scene);
