@@ -1,0 +1,2465 @@
+Game/src/Entry/Application.cpp:20:3: performance: Variable 'm_Window' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
+  m_Window = std::make_unique<WindowGlfw>(specs);
+  ^
+Game/src/Entry/Application.h:89:8: style:inconclusive: Technically the member function 'Game::Application::OnWindowResize' can be const. [functionConst]
+  bool OnWindowResize(WindowResizeEvent& e);
+       ^
+Game/src/Entry/Application.cpp:107:20: note: Technically the member function 'Game::Application::OnWindowResize' can be const.
+ bool Application::OnWindowResize(WindowResizeEvent& e)
+                   ^
+Game/src/Entry/Application.h:89:8: note: Technically the member function 'Game::Application::OnWindowResize' can be const.
+  bool OnWindowResize(WindowResizeEvent& e);
+       ^
+Game/src/Entry/Application.cpp:26:3: warning: Class 'Application' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+  m_ImGuiLayer = new ImGuiLayer(); //Deleted by layerStack
+  ^
+Game/src/Entry/Application.cpp:26:3: warning: Class 'Application' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+  m_ImGuiLayer = new ImGuiLayer(); //Deleted by layerStack
+  ^
+Game/src/Entry/Timestamp.h:9:3: style: Struct 'Timestamp' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  Timestamp(double p_dt) :dt(p_dt) {}
+  ^
+Game/src/Entry/Application.cpp:41:10: style: The scope of the variable 'deltaTime' can be reduced. [variableScope]
+  double deltaTime = 0.0;
+         ^
+Game/src/Entry/Application.cpp:41:20: style: Variable 'deltaTime' is assigned a value that is never used. [unreadVariable]
+  double deltaTime = 0.0;
+                   ^
+Game/src/Entry/ImGuiLayer.h:22:8: performance:inconclusive: Technically the member function 'Game::ImGuiLayer::ImGuiInitFrame' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+  void ImGuiInitFrame();
+       ^
+Game/src/Entry/ImGuiLayer.cpp:64:19: note: Technically the member function 'Game::ImGuiLayer::ImGuiInitFrame' can be static (but you may consider moving to unnamed namespace).
+ void ImGuiLayer::ImGuiInitFrame()
+                  ^
+Game/src/Entry/ImGuiLayer.h:22:8: note: Technically the member function 'Game::ImGuiLayer::ImGuiInitFrame' can be static (but you may consider moving to unnamed namespace).
+  void ImGuiInitFrame();
+       ^
+Game/src/Entry/ImGuiLayer.h:23:8: performance:inconclusive: Technically the member function 'Game::ImGuiLayer::ImGuiEndFrame' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+  void ImGuiEndFrame();
+       ^
+Game/src/Entry/ImGuiLayer.cpp:71:19: note: Technically the member function 'Game::ImGuiLayer::ImGuiEndFrame' can be static (but you may consider moving to unnamed namespace).
+ void ImGuiLayer::ImGuiEndFrame()
+                  ^
+Game/src/Entry/ImGuiLayer.h:23:8: note: Technically the member function 'Game::ImGuiLayer::ImGuiEndFrame' can be static (but you may consider moving to unnamed namespace).
+  void ImGuiEndFrame();
+       ^
+Game/src/Entry/ImGuiLayer.cpp:36:27: style: Variable 'HOME' is assigned a value that is never used. [unreadVariable]
+   std::string const HOME = std::getenv("HOME") ? std::getenv("HOME") : ".";
+                          ^
+Game/src/Entry/ParseArgs.cpp:50:21: performance:inconclusive: Use const reference for 'o' to avoid unnecessary data copying. [redundantCopyLocalConst]
+  const std::string o = GetOptionAsString(opt);
+                    ^
+Game/src/Entry/ParseArgs.cpp:60:21: performance:inconclusive: Use const reference for 'o' to avoid unnecessary data copying. [redundantCopyLocalConst]
+  const std::string o = GetOptionAsString(opt);
+                    ^
+Game/src/Message/BusNode.h:59:8: style: Unused private function: 'BusNode::NotifyInternal' [unusedPrivateFunction]
+  void NotifyInternal(Message message)
+       ^
+Game/src/Message/BusNode.h:54:8: performance:inconclusive: Technically the member function 'Game::BusNode::DefaultOnNotifyFunction' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+  void DefaultOnNotifyFunction(Message message)
+       ^
+Game/src/Message/Message.h:15:3: style: Struct 'MessageEvent' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  MessageEvent(uint32_t type):TypeID(type){}
+  ^
+Game/src/Message/BusNode.h:16:3: style: Class 'BusNode' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  BusNode(MessageBus* messageBus, MessageReceiverFunction receiver = nullptr)
+  ^
+Game/src/Message/BusNode.h:72:3: style: Struct 'MessageComponent' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  MessageComponent(MessageBus* bus):Node(bus){}
+  ^
+Game/src/Message/Message.h:27:10: style:inconclusive: Technically the member function 'Game::Message::GetEntity' can be const. [functionConst]
+  Entity GetEntity();
+         ^
+Game/src/Message/Message.cpp:10:18: note: Technically the member function 'Game::Message::GetEntity' can be const.
+ Entity Message::GetEntity()
+                 ^
+Game/src/Message/Message.h:27:10: note: Technically the member function 'Game::Message::GetEntity' can be const.
+  Entity GetEntity();
+         ^
+Game/src/MyLayer/MyGame.cpp:73:18: style: Variable 'tr.Translation' is reassigned a value before the old one has been used. [redundantAssignment]
+  tr.Translation = { 0.0f,0.0f,0.0f };
+                 ^
+Game/src/MyLayer/MyGame.cpp:71:18: note: tr.Translation is assigned
+  tr.Translation = { 0.0f,0.0f,0.0f };
+                 ^
+Game/src/MyLayer/MyGame.cpp:73:18: note: tr.Translation is overwritten
+  tr.Translation = { 0.0f,0.0f,0.0f };
+                 ^
+Game/src/Render/GL/Framebuffer.h:33:8: performance:inconclusive: Technically the member function 'Game::Framebuffer::Unbind' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+  void Unbind();
+       ^
+Game/src/Render/GL/Framebuffer.cpp:209:20: note: Technically the member function 'Game::Framebuffer::Unbind' can be static (but you may consider moving to unnamed namespace).
+ void Framebuffer::Unbind()
+                   ^
+Game/src/Render/GL/Framebuffer.h:33:8: note: Technically the member function 'Game::Framebuffer::Unbind' can be static (but you may consider moving to unnamed namespace).
+  void Unbind();
+       ^
+Game/src/Render/GL/Texture.h:18:3: style: Class 'Texture' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  Texture(const TextureSpecifications& info ,const std::string& path = std::string());
+  ^
+Game/src/Render/GL/FramebufferSpecifications.h:23:3: style: Struct 'FramebufferTextureSpecification' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  FramebufferTextureSpecification(FrambufferTextureFormat format)
+  ^
+Game/src/Render/GL/FramebufferSpecifications.h:33:3: style: Struct 'FramebufferAttachmentSpecification' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  FramebufferAttachmentSpecification(std::initializer_list<FramebufferTextureSpecification> attachments)
+  ^
+Game/src/Render/GL/Framebuffer.h:25:3: style: Class 'Framebuffer' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  Framebuffer(const FramebufferSpecification& specs);
+  ^
+Game/src/Render/GL/Framebuffer.cpp:229:9: style: Variable 'spec' can be declared with const [constVariable]
+  auto& spec = m_ColorAttachmentSpecs[index];
+        ^
+Game/src/Render/GL/FramebufferRender.cpp:26:3: performance: Variable 'm_Shaders' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
+  m_Shaders = MakeScope<ShaderLib>();
+  ^
+Game/src/Render/GL/FramebufferRender.h:92:8: style:inconclusive: Technically the member function 'Game::FramebufferRender::SetGLViewport' can be const. [functionConst]
+  void SetGLViewport(bool use_scalor);
+       ^
+Game/src/Render/GL/FramebufferRender.cpp:336:26: note: Technically the member function 'Game::FramebufferRender::SetGLViewport' can be const.
+ void FramebufferRender::SetGLViewport(bool use_scalor)
+                         ^
+Game/src/Render/GL/FramebufferRender.h:92:8: note: Technically the member function 'Game::FramebufferRender::SetGLViewport' can be const.
+  void SetGLViewport(bool use_scalor);
+       ^
+Game/src/Render/GL/FramebufferRender.cpp:37:3: warning: Class 'FramebufferRender' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+  m_Buffer = new FramebufferQuad[4];
+  ^
+Game/src/Render/GL/FramebufferRender.cpp:37:3: warning: Class 'FramebufferRender' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+  m_Buffer = new FramebufferQuad[4];
+  ^
+Game/src/Render/GL/VertexAttribute.h:12:3: style: Class 'VertexAttribute' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  VertexAttribute(Ref<VertexBuffer>& vb)
+  ^
+Game/src/Render/GL/Shader.h:28:3: style: Class 'Shader' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  Shader(const std::string& path);
+  ^
+Game/src/Render/GL/FramebufferRender.h:57:3: style: Class 'FramebufferRender' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  FramebufferRender(const FrameBufferRenderSpecification& spec);
+  ^
+Game/src/Render/GL/GLContext.h:15:7: performance:inconclusive: Technically the member function 'Game::GLContext::Shutdown' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+ void Shutdown();
+      ^
+Game/src/Render/GL/GLContext.cpp:62:18: note: Technically the member function 'Game::GLContext::Shutdown' can be static (but you may consider moving to unnamed namespace).
+ void GLContext::Shutdown()
+                 ^
+Game/src/Render/GL/GLContext.h:15:7: note: Technically the member function 'Game::GLContext::Shutdown' can be static (but you may consider moving to unnamed namespace).
+ void Shutdown();
+      ^
+Game/src/Render/GL/GLContext.h:11:2: style: Class 'GLContext' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+ GLContext(GLFWwindow* window);
+ ^
+Game/src/Render/GL/Shader.h:41:8: performance:inconclusive: Technically the member function 'Game::Shader::Unbind' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+  void Unbind() const;
+       ^
+Game/src/Render/GL/Shader.cpp:214:15: note: Technically the member function 'Game::Shader::Unbind' can be static (but you may consider moving to unnamed namespace).
+ void Shader::Unbind() const
+              ^
+Game/src/Render/GL/Shader.h:41:8: note: Technically the member function 'Game::Shader::Unbind' can be static (but you may consider moving to unnamed namespace).
+  void Unbind() const;
+       ^
+Game/src/Render/GL/Shader.h:54:15: performance:inconclusive: Technically the member function 'Game::Shader::ReadFile' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+  std::string ReadFile(const std::string& path);
+              ^
+Game/src/Render/GL/Shader.cpp:58:22: note: Technically the member function 'Game::Shader::ReadFile' can be static (but you may consider moving to unnamed namespace).
+ std::string Shader::ReadFile(const std::string& path)
+                     ^
+Game/src/Render/GL/Shader.h:54:15: note: Technically the member function 'Game::Shader::ReadFile' can be static (but you may consider moving to unnamed namespace).
+  std::string ReadFile(const std::string& path);
+              ^
+Game/src/Render/GL/Shader.h:55:43: performance:inconclusive: Technically the member function 'Game::Shader::PreProcess' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+  std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
+                                          ^
+Game/src/Render/GL/Shader.cpp:85:50: note: Technically the member function 'Game::Shader::PreProcess' can be static (but you may consider moving to unnamed namespace).
+ std::unordered_map<GLenum, std::string> Shader::PreProcess(const std::string& source)
+                                                 ^
+Game/src/Render/GL/Shader.h:55:43: note: Technically the member function 'Game::Shader::PreProcess' can be static (but you may consider moving to unnamed namespace).
+  std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
+                                          ^
+Game/src/Render/Render2D.cpp:32:5: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing it? [uselessAssignmentPtrArg]
+    ptr = nullptr;
+    ^
+Game/src/Render/Render2D.cpp:41:5: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing it? [uselessAssignmentPtrArg]
+    ptr = nullptr;
+    ^
+Game/src/Scene/UUID.h:20:3: style: Class 'UUID' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  UUID(uint64_t uuid);
+  ^
+Game/src/Scene/Components.h:29:3: style: Struct 'TagComponent' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  TagComponent(const std::string& tag)
+  ^
+Game/src/Scene/Components.h:43:3: style: Struct 'SpriteComponent' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  SpriteComponent(const glm::vec4& color)
+  ^
+Game/src/Scene/Components.h:45:3: style: Struct 'SpriteComponent' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  SpriteComponent(const Ref<Game::Texture>& texture)
+  ^
+Game/src/Scene/Components.h:58:3: style: Struct 'TransformComponent' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  TransformComponent(const glm::vec3& translation):Translation(translation) {};
+  ^
+Game/src/Scene/Entity.h:71:10: style:inconclusive: Member variable 'Entity::m_SceneP' is in the wrong place in the initializer list. [initializerList]
+  Scene* m_SceneP = nullptr;
+         ^
+Game/src/Scene/Entity.h:67:25: note: Member variable 'Entity::m_SceneP' is in the wrong place in the initializer list.
+   :m_Handler(handler), m_SceneP(scene), m_Registry(&(*scene->m_Registry))
+                        ^
+Game/src/Scene/Entity.h:71:10: note: Member variable 'Entity::m_SceneP' is in the wrong place in the initializer list.
+  Scene* m_SceneP = nullptr;
+         ^
+Game/src/Scene/Entity.h:63:15: style:inconclusive: Technically the member function 'Game::Entity::GetHandler' can be const. [functionConst]
+  ecs::entity GetHandler() { return m_Handler; }
+              ^
+Game/src/Scene/Scene.cpp:37:3: performance: Variable 'm_Registry' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
+  m_Registry = MakeScope<ecs::Scene>();
+  ^
+Game/src/Scene/Scene.cpp:60:3: warning: Class 'Scene' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+  m_MessageBus = new MessageBus();
+  ^
+Game/src/Scene/Scene.cpp:60:3: warning: Class 'Scene' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+  m_MessageBus = new MessageBus();
+  ^
+Game/src/Scene/Scene.cpp:250:11: style: The scope of the variable 'ct' can be reduced. [variableScope]
+    float ct = 0;
+          ^
+Game/src/Scene/Scene.cpp:174:14: style: Variable 'mes' is assigned a value that is never used. [unreadVariable]
+   auto& mes = ent.Add<MessageComponent>(m_MessageBus);
+             ^
+Game/src/Utils/Image/ImageLoader.cpp:65:17: style: Variable 'size' is assigned a value that is never used. [unreadVariable]
+      auto size = image.size();
+                ^
+Game/src/Window/GLContext/GlContext.h:18:7: performance:inconclusive: Technically the member function 'GlContext::Shutdown' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+ void Shutdown();
+      ^
+Game/src/Window/GLContext/GlContext.cpp:29:17: note: Technically the member function 'GlContext::Shutdown' can be static (but you may consider moving to unnamed namespace).
+void GlContext::Shutdown()
+                ^
+Game/src/Window/GLContext/GlContext.h:18:7: note: Technically the member function 'GlContext::Shutdown' can be static (but you may consider moving to unnamed namespace).
+ void Shutdown();
+      ^
+Game/src/Window/GLContext/GlContext.h:14:2: style: Class 'GlContext' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+ GlContext(GLFWwindow* window);
+ ^
+Game/src/Window/WindowGlfw.h:54:3: style: Class 'WindowGlfw' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  WindowGlfw(const WindowSpecification& specs);
+  ^
+Game/vendor/glad/src/glad.c:137:15: style: Condition 'result==NULL' is always true [knownConditionTrueFalse]
+    if(result == NULL) {
+              ^
+Game/vendor/glad/src/glad.c:129:20: note: Assignment 'result=NULL', assigned value is 0
+    void* result = NULL;
+                   ^
+Game/vendor/glad/src/glad.c:130:14: note: Assuming condition is false
+    if(libGL == NULL) return NULL;
+             ^
+Game/vendor/glad/src/glad.c:137:15: note: Condition 'result==NULL' is always true
+    if(result == NULL) {
+              ^
+Game/vendor/glm/test/bug/bug_ms_vec_static.cpp:8:7: style: struct member '_swizzle::_buffer' is never used. [unusedStructMember]
+ char _buffer[1];
+      ^
+Game/vendor/glm/test/core/core_force_pure.cpp:397:14: style: Condition 'i0==i4' is always true [knownConditionTrueFalse]
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_force_pure.cpp:391:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_force_pure.cpp:397:14: note: Condition 'i0==i4' is always true
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_force_pure.cpp:398:14: style: Condition 'i1==i2' is always true [knownConditionTrueFalse]
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_force_pure.cpp:391:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_force_pure.cpp:392:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/core/core_force_pure.cpp:394:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/core/core_force_pure.cpp:398:14: note: Condition 'i1==i2' is always true
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_force_pure.cpp:399:14: style: Condition 'i1==i3' is always true [knownConditionTrueFalse]
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_force_pure.cpp:391:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_force_pure.cpp:392:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/core/core_force_pure.cpp:394:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/core/core_force_pure.cpp:399:14: note: Condition 'i1==i3' is always true
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_force_pure.cpp:38:28: style: Variable 'v' is assigned a value that is never used. [unreadVariable]
+  std::vector<glm::vec4> v = {
+                           ^
+Game/vendor/glm/test/core/core_force_pure.cpp:46:29: style: Variable 'v' is assigned a value that is never used. [unreadVariable]
+  std::vector<glm::dvec4> v = {
+                            ^
+Game/vendor/glm/test/core/core_func_common.cpp:832:35: style: Same expression on both sides of '/'. [duplicateExpression]
+   Error += true == glm::isnan(0.0/Zero_d) ? 0 : 1;
+                                  ^
+Game/vendor/glm/test/core/core_func_common.cpp:829:20: note: 'Zero_d' is assigned value '0.0' here.
+  double Zero_d = 0.0;
+                   ^
+Game/vendor/glm/test/core/core_func_common.cpp:832:35: note: Same expression on both sides of '/'.
+   Error += true == glm::isnan(0.0/Zero_d) ? 0 : 1;
+                                  ^
+Game/vendor/glm/test/core/core_func_common.cpp:833:56: style: Same expression on both sides of '/'. [duplicateExpression]
+   Error += true == glm::any(glm::isnan(glm::dvec2(0.0 / Zero_d))) ? 0 : 1;
+                                                       ^
+Game/vendor/glm/test/core/core_func_common.cpp:829:20: note: 'Zero_d' is assigned value '0.0' here.
+  double Zero_d = 0.0;
+                   ^
+Game/vendor/glm/test/core/core_func_common.cpp:833:56: note: Same expression on both sides of '/'.
+   Error += true == glm::any(glm::isnan(glm::dvec2(0.0 / Zero_d))) ? 0 : 1;
+                                                       ^
+Game/vendor/glm/test/core/core_func_common.cpp:834:56: style: Same expression on both sides of '/'. [duplicateExpression]
+   Error += true == glm::any(glm::isnan(glm::dvec3(0.0 / Zero_d))) ? 0 : 1;
+                                                       ^
+Game/vendor/glm/test/core/core_func_common.cpp:829:20: note: 'Zero_d' is assigned value '0.0' here.
+  double Zero_d = 0.0;
+                   ^
+Game/vendor/glm/test/core/core_func_common.cpp:834:56: note: Same expression on both sides of '/'.
+   Error += true == glm::any(glm::isnan(glm::dvec3(0.0 / Zero_d))) ? 0 : 1;
+                                                       ^
+Game/vendor/glm/test/core/core_func_common.cpp:835:56: style: Same expression on both sides of '/'. [duplicateExpression]
+   Error += true == glm::any(glm::isnan(glm::dvec4(0.0 / Zero_d))) ? 0 : 1;
+                                                       ^
+Game/vendor/glm/test/core/core_func_common.cpp:829:20: note: 'Zero_d' is assigned value '0.0' here.
+  double Zero_d = 0.0;
+                   ^
+Game/vendor/glm/test/core/core_func_common.cpp:835:56: note: Same expression on both sides of '/'.
+   Error += true == glm::any(glm::isnan(glm::dvec4(0.0 / Zero_d))) ? 0 : 1;
+                                                       ^
+Game/vendor/glm/test/core/core_func_common.cpp:828:9: style: The scope of the variable 'Zero_f' can be reduced. [variableScope]
+  float Zero_f = 0.0;
+        ^
+Game/vendor/glm/test/core/core_func_common.cpp:829:10: style: The scope of the variable 'Zero_d' can be reduced. [variableScope]
+  double Zero_d = 0.0;
+         ^
+Game/vendor/glm/test/core/core_func_common.cpp:855:9: style: The scope of the variable 'Zero_f' can be reduced. [variableScope]
+  float Zero_f = 0.0;
+        ^
+Game/vendor/glm/test/core/core_func_common.cpp:856:10: style: The scope of the variable 'Zero_d' can be reduced. [variableScope]
+  double Zero_d = 0.0;
+         ^
+Game/vendor/glm/test/core/core_func_common.cpp:1306:30: style: Variable 'A' is assigned a value that is never used. [unreadVariable]
+ constexpr glm::vec1 const A = glm::abs(glm::vec1(1.0f));
+                             ^
+Game/vendor/glm/test/core/core_func_common.cpp:1307:30: style: Variable 'B' is assigned a value that is never used. [unreadVariable]
+ constexpr glm::vec2 const B = glm::abs(glm::vec2(1.0f));
+                             ^
+Game/vendor/glm/test/core/core_func_common.cpp:1308:30: style: Variable 'C' is assigned a value that is never used. [unreadVariable]
+ constexpr glm::vec3 const C = glm::abs(glm::vec3(1.0f));
+                             ^
+Game/vendor/glm/test/core/core_func_common.cpp:1309:30: style: Variable 'D' is assigned a value that is never used. [unreadVariable]
+ constexpr glm::vec4 const D = glm::abs(glm::vec4(1.0f));
+                             ^
+Game/vendor/glm/test/core/core_func_geometric.cpp:97:24: style: Variable 'Normalize3' is assigned a value that is never used. [unreadVariable]
+  glm::vec3 Normalize3 = glm::normalize(glm::vec3(-0.6, 0.7, -0.5));
+                       ^
+Game/vendor/glm/test/core/core_func_geometric.cpp:102:15: style: Variable 'v' is assigned a value that is never used. [unreadVariable]
+  glm::vec3 v = glm::cross(u, w);
+              ^
+Game/vendor/glm/test/core/core_func_geometric.cpp:123:16: style: Variable 'F' is assigned a value that is never used. [unreadVariable]
+   glm::vec3 F = glm::faceforward(N, I, Nref);
+               ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:58:21: style: Condition 'y!=0' is always true [knownConditionTrueFalse]
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:56:8: note: Assuming that condition 'x==0' is not redundant
+ if (x == 0) return 32;
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:58:8: note: Assignment 'y=x<<16', assigned value is 0
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:58:21: note: Condition 'y!=0' is always true
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:59:21: style: Condition 'y!=0' is always true [knownConditionTrueFalse]
+ y = x << 8;  if (y != 0) {n = n - 8;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:58:21: note: Assuming that condition 'y!=0' is not redundant
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:58:44: note: Assignment 'x=y', assigned value is 0
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                                           ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:59:8: note: Assignment 'y=x<<8', assigned value is 0
+ y = x << 8;  if (y != 0) {n = n - 8;  x = y;}
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:59:21: note: Condition 'y!=0' is always true
+ y = x << 8;  if (y != 0) {n = n - 8;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:60:21: style: Condition 'y!=0' is always true [knownConditionTrueFalse]
+ y = x << 4;  if (y != 0) {n = n - 4;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:58:21: note: Assuming that condition 'y!=0' is not redundant
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:58:44: note: Assignment 'x=y', assigned value is 0
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                                           ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:60:8: note: Assignment 'y=x<<4', assigned value is 0
+ y = x << 4;  if (y != 0) {n = n - 4;  x = y;}
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:60:21: note: Condition 'y!=0' is always true
+ y = x << 4;  if (y != 0) {n = n - 4;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:61:21: style: Condition 'y!=0' is always true [knownConditionTrueFalse]
+ y = x << 2;  if (y != 0) {n = n - 2;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:58:21: note: Assuming that condition 'y!=0' is not redundant
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:58:44: note: Assignment 'x=y', assigned value is 0
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                                           ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:61:8: note: Assignment 'y=x<<2', assigned value is 0
+ y = x << 2;  if (y != 0) {n = n - 2;  x = y;}
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:61:21: note: Condition 'y!=0' is always true
+ y = x << 2;  if (y != 0) {n = n - 2;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:62:21: style: Condition 'y!=0' is always true [knownConditionTrueFalse]
+ y = x << 1;  if (y != 0) {n = n - 1;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:58:21: note: Assuming that condition 'y!=0' is not redundant
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:58:44: note: Assignment 'x=y', assigned value is 0
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                                           ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:62:8: note: Assignment 'y=x<<1', assigned value is 0
+ y = x << 1;  if (y != 0) {n = n - 1;}
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:62:21: note: Condition 'y!=0' is always true
+ y = x << 1;  if (y != 0) {n = n - 1;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:73:21: style: Condition 'y!=0' is always true [knownConditionTrueFalse]
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:71:8: note: Assuming that condition 'x==0' is not redundant
+ if (x == 0) return 32;
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:73:8: note: Assignment 'y=x<<16', assigned value is 0
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:73:21: note: Condition 'y!=0' is always true
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:74:21: style: Condition 'y!=0' is always true [knownConditionTrueFalse]
+ y = x << 8;  if (y != 0) {n = n - 8;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:73:21: note: Assuming that condition 'y!=0' is not redundant
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:73:44: note: Assignment 'x=y', assigned value is 0
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                                           ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:74:8: note: Assignment 'y=x<<8', assigned value is 0
+ y = x << 8;  if (y != 0) {n = n - 8;  x = y;}
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:74:21: note: Condition 'y!=0' is always true
+ y = x << 8;  if (y != 0) {n = n - 8;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:75:21: style: Condition 'y!=0' is always true [knownConditionTrueFalse]
+ y = x << 4;  if (y != 0) {n = n - 4;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:73:21: note: Assuming that condition 'y!=0' is not redundant
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:73:44: note: Assignment 'x=y', assigned value is 0
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                                           ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:75:8: note: Assignment 'y=x<<4', assigned value is 0
+ y = x << 4;  if (y != 0) {n = n - 4;  x = y;}
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:75:21: note: Condition 'y!=0' is always true
+ y = x << 4;  if (y != 0) {n = n - 4;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:76:21: style: Condition 'y!=0' is always true [knownConditionTrueFalse]
+ y = x << 2;  if (y != 0) {n = n - 2;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:73:21: note: Assuming that condition 'y!=0' is not redundant
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:73:44: note: Assignment 'x=y', assigned value is 0
+ y = x <<16;  if (y != 0) {n = n -16;  x = y;}
+                                           ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:76:8: note: Assignment 'y=x<<2', assigned value is 0
+ y = x << 2;  if (y != 0) {n = n - 2;  x = y;}
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:76:21: note: Condition 'y!=0' is always true
+ y = x << 2;  if (y != 0) {n = n - 2;  x = y;}
+                    ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:255:4: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+   printf("n = %d\n", n);
+   ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:145:8: style: Opposite expression on both sides of '&'. [oppositeExpression]
+ y = x & -x;               // Isolate rightmost 1-bit.
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:164:8: style: Opposite expression on both sides of '&'. [oppositeExpression]
+ y = x & -x;               // Isolate rightmost 1-bit.
+       ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:188:9: style: Opposite expression on both sides of '&'. [oppositeExpression]
+ x = (x & -x)*0x0450FBAF;
+        ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:203:9: style: Opposite expression on both sides of '&'. [oppositeExpression]
+ x = (x & -x);
+        ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:221:9: style: Opposite expression on both sides of '&'. [oppositeExpression]
+ x = (x & -x)%37;
+        ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:238:11: style: Opposite expression on both sides of '&'. [oppositeExpression]
+   x = (x & -x)*0x04D7651F;
+          ^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:254:10: style: Opposite expression on both sides of '&'. [oppositeExpression]
+   n = n & (-n);        /* isolate lsb */
+         ^
+Game/vendor/glm/test/core/core_func_integer_find_msb.cpp:61:13: style: The scope of the variable 'y' can be reduced. [variableScope]
+   unsigned y;
+            ^
+Game/vendor/glm/test/core/core_func_matrix.cpp:91:16: style: Variable 'm' is assigned a value that is never used. [unreadVariable]
+ { glm::mat2 m = glm::outerProduct(glm::vec2(1.0f), glm::vec2(1.0f)); }
+               ^
+Game/vendor/glm/test/core/core_func_matrix.cpp:92:16: style: Variable 'm' is assigned a value that is never used. [unreadVariable]
+ { glm::mat3 m = glm::outerProduct(glm::vec3(1.0f), glm::vec3(1.0f)); }
+               ^
+Game/vendor/glm/test/core/core_func_matrix.cpp:93:16: style: Variable 'm' is assigned a value that is never used. [unreadVariable]
+ { glm::mat4 m = glm::outerProduct(glm::vec4(1.0f), glm::vec4(1.0f)); }
+               ^
+Game/vendor/glm/test/core/core_func_matrix.cpp:95:18: style: Variable 'm' is assigned a value that is never used. [unreadVariable]
+ { glm::mat2x3 m = glm::outerProduct(glm::vec3(1.0f), glm::vec2(1.0f)); }
+                 ^
+Game/vendor/glm/test/core/core_func_matrix.cpp:96:18: style: Variable 'm' is assigned a value that is never used. [unreadVariable]
+ { glm::mat2x4 m = glm::outerProduct(glm::vec4(1.0f), glm::vec2(1.0f)); }
+                 ^
+Game/vendor/glm/test/core/core_func_matrix.cpp:98:18: style: Variable 'm' is assigned a value that is never used. [unreadVariable]
+ { glm::mat3x2 m = glm::outerProduct(glm::vec2(1.0f), glm::vec3(1.0f)); }
+                 ^
+Game/vendor/glm/test/core/core_func_matrix.cpp:99:18: style: Variable 'm' is assigned a value that is never used. [unreadVariable]
+ { glm::mat3x4 m = glm::outerProduct(glm::vec4(1.0f), glm::vec3(1.0f)); }
+                 ^
+Game/vendor/glm/test/core/core_func_matrix.cpp:101:18: style: Variable 'm' is assigned a value that is never used. [unreadVariable]
+ { glm::mat4x2 m = glm::outerProduct(glm::vec2(1.0f), glm::vec4(1.0f)); }
+                 ^
+Game/vendor/glm/test/core/core_func_matrix.cpp:102:18: style: Variable 'm' is assigned a value that is never used. [unreadVariable]
+ { glm::mat4x3 m = glm::outerProduct(glm::vec3(1.0f), glm::vec4(1.0f)); }
+                 ^
+Game/vendor/glm/test/core/core_type_cast.cpp:27:14: style: Variable 'J' is assigned a value that is never used. [unreadVariable]
+ glm::vec2 J = static_cast<glm::vec2>(I);
+             ^
+Game/vendor/glm/test/core/core_type_cast.cpp:131:5: style: Variable 'v2' is assigned a value that is never used. [unreadVariable]
+ v2 = v1;
+    ^
+Game/vendor/glm/test/core/core_type_mat2x2.cpp:25:14: style: Variable 'a' is assigned a value that is never used. [unreadVariable]
+ glm::vec2 a = m * u;
+             ^
+Game/vendor/glm/test/core/core_type_mat2x2.cpp:26:14: style: Variable 'b' is assigned a value that is never used. [unreadVariable]
+ glm::vec2 b = v * m;
+             ^
+Game/vendor/glm/test/core/core_type_mat2x2.cpp:27:16: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x2 n = x / m;
+               ^
+Game/vendor/glm/test/core/core_type_mat2x2.cpp:28:16: style: Variable 'o' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x2 o = m / x;
+               ^
+Game/vendor/glm/test/core/core_type_mat2x2.cpp:29:16: style: Variable 'p' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x2 p = x * m;
+               ^
+Game/vendor/glm/test/core/core_type_mat2x3.cpp:23:14: style: Variable 'a' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 a = m * u;
+             ^
+Game/vendor/glm/test/core/core_type_mat2x3.cpp:24:14: style: Variable 'b' is assigned a value that is never used. [unreadVariable]
+ glm::vec2 b = v * m;
+             ^
+Game/vendor/glm/test/core/core_type_mat2x3.cpp:25:16: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x3 n = x / m;
+               ^
+Game/vendor/glm/test/core/core_type_mat2x3.cpp:26:16: style: Variable 'o' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x3 o = m / x;
+               ^
+Game/vendor/glm/test/core/core_type_mat2x3.cpp:27:16: style: Variable 'p' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x3 p = x * m;
+               ^
+Game/vendor/glm/test/core/core_type_mat2x4.cpp:24:14: style: Variable 'a' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 a = m * u;
+             ^
+Game/vendor/glm/test/core/core_type_mat2x4.cpp:25:14: style: Variable 'b' is assigned a value that is never used. [unreadVariable]
+ glm::vec2 b = v * m;
+             ^
+Game/vendor/glm/test/core/core_type_mat2x4.cpp:26:16: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x4 n = x / m;
+               ^
+Game/vendor/glm/test/core/core_type_mat2x4.cpp:27:16: style: Variable 'o' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x4 o = m / x;
+               ^
+Game/vendor/glm/test/core/core_type_mat2x4.cpp:28:16: style: Variable 'p' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x4 p = x * m;
+               ^
+Game/vendor/glm/test/core/core_type_mat3x2.cpp:23:14: style: Variable 'a' is assigned a value that is never used. [unreadVariable]
+ glm::vec2 a = m * u;
+             ^
+Game/vendor/glm/test/core/core_type_mat3x2.cpp:24:14: style: Variable 'b' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 b = v * m;
+             ^
+Game/vendor/glm/test/core/core_type_mat3x2.cpp:25:16: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x2 n = x / m;
+               ^
+Game/vendor/glm/test/core/core_type_mat3x2.cpp:26:16: style: Variable 'o' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x2 o = m / x;
+               ^
+Game/vendor/glm/test/core/core_type_mat3x2.cpp:27:16: style: Variable 'p' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x2 p = x * m;
+               ^
+Game/vendor/glm/test/core/core_type_mat3x3.cpp:37:14: style: Variable 'a' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 a = m * u;
+             ^
+Game/vendor/glm/test/core/core_type_mat3x3.cpp:38:14: style: Variable 'b' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 b = v * m;
+             ^
+Game/vendor/glm/test/core/core_type_mat3x3.cpp:39:16: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x3 n = x / m;
+               ^
+Game/vendor/glm/test/core/core_type_mat3x3.cpp:40:16: style: Variable 'o' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x3 o = m / x;
+               ^
+Game/vendor/glm/test/core/core_type_mat3x3.cpp:41:16: style: Variable 'p' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x3 p = x * m;
+               ^
+Game/vendor/glm/test/core/core_type_mat3x4.cpp:24:14: style: Variable 'a' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 a = m * u;
+             ^
+Game/vendor/glm/test/core/core_type_mat3x4.cpp:25:14: style: Variable 'b' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 b = v * m;
+             ^
+Game/vendor/glm/test/core/core_type_mat3x4.cpp:26:16: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x4 n = x / m;
+               ^
+Game/vendor/glm/test/core/core_type_mat3x4.cpp:27:16: style: Variable 'o' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x4 o = m / x;
+               ^
+Game/vendor/glm/test/core/core_type_mat3x4.cpp:28:16: style: Variable 'p' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x4 p = x * m;
+               ^
+Game/vendor/glm/test/core/core_type_mat4x2.cpp:23:14: style: Variable 'a' is assigned a value that is never used. [unreadVariable]
+ glm::vec2 a = m * u;
+             ^
+Game/vendor/glm/test/core/core_type_mat4x2.cpp:24:14: style: Variable 'b' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 b = v * m;
+             ^
+Game/vendor/glm/test/core/core_type_mat4x2.cpp:25:16: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
+ glm::mat4x2 n = x / m;
+               ^
+Game/vendor/glm/test/core/core_type_mat4x2.cpp:26:16: style: Variable 'o' is assigned a value that is never used. [unreadVariable]
+ glm::mat4x2 o = m / x;
+               ^
+Game/vendor/glm/test/core/core_type_mat4x2.cpp:27:16: style: Variable 'p' is assigned a value that is never used. [unreadVariable]
+ glm::mat4x2 p = x * m;
+               ^
+Game/vendor/glm/test/core/core_type_mat4x3.cpp:23:14: style: Variable 'a' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 a = m * u;
+             ^
+Game/vendor/glm/test/core/core_type_mat4x3.cpp:24:14: style: Variable 'b' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 b = v * m;
+             ^
+Game/vendor/glm/test/core/core_type_mat4x3.cpp:25:16: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
+ glm::mat4x3 n = x / m;
+               ^
+Game/vendor/glm/test/core/core_type_mat4x3.cpp:26:16: style: Variable 'o' is assigned a value that is never used. [unreadVariable]
+ glm::mat4x3 o = m / x;
+               ^
+Game/vendor/glm/test/core/core_type_mat4x3.cpp:27:16: style: Variable 'p' is assigned a value that is never used. [unreadVariable]
+ glm::mat4x3 p = x * m;
+               ^
+Game/vendor/glm/test/core/core_type_mat4x4.cpp:149:18: warning: Struct 'repro' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+  repro(){ this->matrix = new glm::mat4(); }
+                 ^
+Game/vendor/glm/test/core/core_type_mat4x4.cpp:149:18: warning: Struct 'repro' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+  repro(){ this->matrix = new glm::mat4(); }
+                 ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:122:14: style: Condition 'i0==i4' is always true [knownConditionTrueFalse]
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:116:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:122:14: note: Condition 'i0==i4' is always true
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:123:14: style: Condition 'i1==i2' is always true [knownConditionTrueFalse]
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:116:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:117:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:119:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:123:14: note: Condition 'i1==i2' is always true
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:124:14: style: Condition 'i1==i3' is always true [knownConditionTrueFalse]
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:116:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:117:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:119:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:124:14: note: Condition 'i1==i3' is always true
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:75:15: style: Variable 'A' is assigned a value that is never used. [unreadVariable]
+  glm::vec2 A = glm::vec2(2.0f);
+              ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:76:15: style: Variable 'B' is assigned a value that is never used. [unreadVariable]
+  glm::vec2 B = glm::vec2(2.0f, 3.0f);
+              ^
+Game/vendor/glm/test/core/core_type_vec1.cpp:77:15: style: Variable 'C' is assigned a value that is never used. [unreadVariable]
+  glm::vec2 C = glm::vec2(2.0f, 3.0);
+              ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:330:14: style: Condition 'i0==i4' is always true [knownConditionTrueFalse]
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:324:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:330:14: note: Condition 'i0==i4' is always true
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:331:14: style: Condition 'i1==i2' is always true [knownConditionTrueFalse]
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:324:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:325:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:327:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:331:14: note: Condition 'i1==i2' is always true
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:332:14: style: Condition 'i1==i3' is always true [knownConditionTrueFalse]
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:324:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:325:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:327:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:332:14: note: Condition 'i1==i3' is always true
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:242:15: style: Variable 'A' is assigned a value that is never used. [unreadVariable]
+  glm::vec2 A = glm::vec2(2.0f);
+              ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:243:15: style: Variable 'B' is assigned a value that is never used. [unreadVariable]
+  glm::vec2 B = glm::vec2(2.0f, 3.0f);
+              ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:244:15: style: Variable 'C' is assigned a value that is never used. [unreadVariable]
+  glm::vec2 C = glm::vec2(2.0f, 3.0);
+              ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:226:28: style: Variable 'v' is assigned a value that is never used. [unreadVariable]
+  std::vector<glm::vec2> v = {
+                           ^
+Game/vendor/glm/test/core/core_type_vec2.cpp:234:29: style: Variable 'v' is assigned a value that is never used. [unreadVariable]
+  std::vector<glm::dvec2> v = {
+                            ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:541:14: style: Condition 'i0==i4' is always true [knownConditionTrueFalse]
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:535:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:541:14: note: Condition 'i0==i4' is always true
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:542:14: style: Condition 'i1==i2' is always true [knownConditionTrueFalse]
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:535:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:536:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:538:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:542:14: note: Condition 'i1==i2' is always true
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:543:14: style: Condition 'i1==i3' is always true [knownConditionTrueFalse]
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:535:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:536:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:538:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:543:14: note: Condition 'i1==i3' is always true
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:34:28: style: Variable 'v' is assigned a value that is never used. [unreadVariable]
+  std::vector<glm::vec3> v = {
+                           ^
+Game/vendor/glm/test/core/core_type_vec3.cpp:42:29: style: Variable 'v' is assigned a value that is never used. [unreadVariable]
+  std::vector<glm::dvec3> v = {
+                            ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:686:2: error: Class 'A' which is inherited by class 'B' does not have a virtual destructor. [virtualDestructor]
+ struct A
+ ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:609:14: style: Condition 'i0==i4' is always true [knownConditionTrueFalse]
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:603:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:609:14: note: Condition 'i0==i4' is always true
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:610:14: style: Condition 'i1==i2' is always true [knownConditionTrueFalse]
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:603:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:604:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:606:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:610:14: note: Condition 'i1==i2' is always true
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:611:14: style: Condition 'i1==i3' is always true [knownConditionTrueFalse]
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:603:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:604:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:606:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:611:14: note: Condition 'i1==i3' is always true
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:63:28: style: Variable 'v' is assigned a value that is never used. [unreadVariable]
+  std::vector<glm::vec4> v = {
+                           ^
+Game/vendor/glm/test/core/core_type_vec4.cpp:71:29: style: Variable 'v' is assigned a value that is never used. [unreadVariable]
+  std::vector<glm::dvec4> v = {
+                            ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:105:14: style: Condition 'i0==i4' is always true [knownConditionTrueFalse]
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:99:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:105:14: note: Condition 'i0==i4' is always true
+ Error += i0 == i4 ? 0 : 1;
+             ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:106:14: style: Condition 'i1==i2' is always true [knownConditionTrueFalse]
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:99:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:100:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:102:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:106:14: note: Condition 'i1==i2' is always true
+ Error += i1 == i2 ? 0 : 1;
+             ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:107:14: style: Condition 'i1==i3' is always true [knownConditionTrueFalse]
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:99:9: note: Assignment 'i0=1', assigned value is 1
+ int i0(1);
+        ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:100:9: note: Assignment 'i1=i0', assigned value is 1
+ int i1(i0);
+        ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:102:13: note: i1 is incremented', new value is 2
+ int i3 = ++i1;
+            ^
+Game/vendor/glm/test/ext/ext_vec1.cpp:107:14: note: Condition 'i1==i3' is always true
+ Error += i1 == i3 ? 0 : 1;
+             ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:106:8: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+  std::printf("mask[mix]: %d\n", static_cast<unsigned int>(TimeMix));
+       ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:107:8: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+  std::printf("mask[loop]: %d\n", static_cast<unsigned int>(TimeLoop));
+       ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:108:8: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+  std::printf("mask[default]: %d\n", static_cast<unsigned int>(TimeDefault));
+       ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:109:8: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+  std::printf("mask[zero]: %d\n", static_cast<unsigned int>(TimeZero));
+       ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:110:8: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+  std::printf("mask[half]: %d\n", static_cast<unsigned int>(TimeHalf));
+       ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:668:87: style: Same expression on both sides of '-'. [duplicateExpression]
+  const glm::uint32 a = static_cast<glm::uint32>((Result & 0x000000000000FFFF) >> ( 0 - 0));
+                                                                                      ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:20:17: portability: Shifting a negative value is technically undefined behaviour [shiftNegativeLHS]
+  return ~((~0) << Bits);
+                ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:34:31: portability: Shifting a negative value is technically undefined behaviour [shiftNegativeLHS]
+  int const ShiftHaft = (Fill << Half);
+                              ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:20:17: portability: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+  return ~((~0) << Bits);
+                ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:86:27: note: Calling function 'mask_zero', 1st argument 'i%32' value is 31
+    Mask[i] = mask_zero(i % 32);
+                          ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:20:17: note: Shift
+  return ~((~0) << Bits);
+                ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:25:70: portability: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+  return Bits >= sizeof(int) * 8 ? 0xffffffff : (static_cast<int>(1) << Bits) - static_cast<int>(1);
+                                                                     ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:59:26: note: Calling function 'mask_mix', 1st argument 'i%32' value is 31
+    Mask[i] = mask_mix(i % 32);
+                         ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:25:70: note: Shift
+  return Bits >= sizeof(int) * 8 ? 0xffffffff : (static_cast<int>(1) << Bits) - static_cast<int>(1);
+                                                                     ^
+Game/vendor/glm/test/gtc/gtc_color_space.cpp:42:29: style: Variable 'ColorGNA' is assigned a value that is never used. [unreadVariable]
+   glm::vec4 const ColorGNA = glm::convertSRGBToLinear(ColorSourceGNI) * glm::vec4(255);
+                            ^
+Game/vendor/glm/test/gtc/gtc_color_space.cpp:43:29: style: Variable 'ColorGNE' is assigned a value that is never used. [unreadVariable]
+   glm::vec4 const ColorGNE = glm::convertLinearToSRGB(ColorSourceGNI) * glm::vec4(255);
+                            ^
+Game/vendor/glm/test/gtc/gtc_matrix_transform.cpp:9:23: style: Variable 'Projection' is assigned a value that is never used. [unreadVariable]
+ glm::mat4 Projection = glm::perspective(glm::pi<float>() * 0.25f, 4.0f / 3.0f, 0.1f, 100.0f);
+                      ^
+Game/vendor/glm/test/gtc/gtc_matrix_transform.cpp:18:17: style: Variable 'Pick' is assigned a value that is never used. [unreadVariable]
+ glm::mat4 Pick = glm::pickMatrix(glm::vec2(1, 2), glm::vec2(3, 4), glm::ivec4(0, 0, 320, 240));
+                ^
+Game/vendor/glm/test/gtc/gtc_matrix_transform.cpp:27:24: style: Variable 'ProjectionA' is assigned a value that is never used. [unreadVariable]
+ glm::mat4 ProjectionA = glm::tweakedInfinitePerspective(45.f, 640.f/480.f, 1.0f);
+                       ^
+Game/vendor/glm/test/gtc/gtc_matrix_transform.cpp:28:24: style: Variable 'ProjectionB' is assigned a value that is never used. [unreadVariable]
+ glm::mat4 ProjectionB = glm::tweakedInfinitePerspective(45.f, 640.f/480.f, 1.0f, 0.001f);
+                       ^
+Game/vendor/glm/test/gtc/gtc_matrix_transform.cpp:40:19: style: Variable 't' is assigned a value that is never used. [unreadVariable]
+ glm::lowp_mat4 t = glm::translate(m, v);
+                  ^
+Game/vendor/glm/test/gtc/gtc_quaternion.cpp:150:20: style: Variable 'Y45rot1' is assigned a value that is never used. [unreadVariable]
+ glm::quat Y45rot1 = glm::slerp(id, Y90rot, 0.5f);
+                   ^
+Game/vendor/glm/test/gtc/gtc_quaternion.cpp:183:21: style: Variable 'almostid' is assigned a value that is never used. [unreadVariable]
+ glm::quat almostid = glm::slerp(id, glm::angleAxis(0.1f, glm::vec3(0.0f, 1.0f, 0.0f)), 0.5f);
+                    ^
+Game/vendor/glm/test/gtc/gtc_quaternion.cpp:297:18: style: Variable 'temp4' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 temp4 = temp2 * transformed0 * glm::inverse(temp2);
+                 ^
+Game/vendor/glm/test/gtc/gtc_quaternion.cpp:300:18: style: Variable 'temp6' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 temp6 = temp5 * glm::vec3(0.0, 1.0, 0.0) * glm::inverse(temp5);
+                 ^
+Game/vendor/glm/test/gtc/gtc_type_precision.cpp:978:21: style: Variable 'a' is assigned a value that is never used. [unreadVariable]
+  glm::highp_vec4 a = glm::vec4(1, 2, 3, 4);
+                    ^
+Game/vendor/glm/test/gtc/gtc_type_precision.cpp:983:21: style: Variable 'f' is assigned a value that is never used. [unreadVariable]
+  glm::lowp_ivec3 f = glm::ivec3(e);
+                    ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:197:22: style: Variable 'Mat2x2A' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x2 Mat2x2A = glm::make_mat2x2(ArrayA);
+                     ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:198:22: style: Variable 'Mat2x3A' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x3 Mat2x3A = glm::make_mat2x3(ArrayA);
+                     ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:199:22: style: Variable 'Mat2x4A' is assigned a value that is never used. [unreadVariable]
+ glm::mat2x4 Mat2x4A = glm::make_mat2x4(ArrayA);
+                     ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:200:22: style: Variable 'Mat3x2A' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x2 Mat3x2A = glm::make_mat3x2(ArrayA);
+                     ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:201:22: style: Variable 'Mat3x3A' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x3 Mat3x3A = glm::make_mat3x3(ArrayA);
+                     ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:202:22: style: Variable 'Mat3x4A' is assigned a value that is never used. [unreadVariable]
+ glm::mat3x4 Mat3x4A = glm::make_mat3x4(ArrayA);
+                     ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:203:22: style: Variable 'Mat4x2A' is assigned a value that is never used. [unreadVariable]
+ glm::mat4x2 Mat4x2A = glm::make_mat4x2(ArrayA);
+                     ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:204:22: style: Variable 'Mat4x3A' is assigned a value that is never used. [unreadVariable]
+ glm::mat4x3 Mat4x3A = glm::make_mat4x3(ArrayA);
+                     ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:205:22: style: Variable 'Mat4x4A' is assigned a value that is never used. [unreadVariable]
+ glm::mat4x4 Mat4x4A = glm::make_mat4x4(ArrayA);
+                     ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:207:23: style: Variable 'Mat2x2B' is assigned a value that is never used. [unreadVariable]
+ glm::dmat2x2 Mat2x2B = glm::make_mat2x2(ArrayB);
+                      ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:208:23: style: Variable 'Mat2x3B' is assigned a value that is never used. [unreadVariable]
+ glm::dmat2x3 Mat2x3B = glm::make_mat2x3(ArrayB);
+                      ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:209:23: style: Variable 'Mat2x4B' is assigned a value that is never used. [unreadVariable]
+ glm::dmat2x4 Mat2x4B = glm::make_mat2x4(ArrayB);
+                      ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:210:23: style: Variable 'Mat3x2B' is assigned a value that is never used. [unreadVariable]
+ glm::dmat3x2 Mat3x2B = glm::make_mat3x2(ArrayB);
+                      ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:211:23: style: Variable 'Mat3x3B' is assigned a value that is never used. [unreadVariable]
+ glm::dmat3x3 Mat3x3B = glm::make_mat3x3(ArrayB);
+                      ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:212:23: style: Variable 'Mat3x4B' is assigned a value that is never used. [unreadVariable]
+ glm::dmat3x4 Mat3x4B = glm::make_mat3x4(ArrayB);
+                      ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:213:23: style: Variable 'Mat4x2B' is assigned a value that is never used. [unreadVariable]
+ glm::dmat4x2 Mat4x2B = glm::make_mat4x2(ArrayB);
+                      ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:214:23: style: Variable 'Mat4x3B' is assigned a value that is never used. [unreadVariable]
+ glm::dmat4x3 Mat4x3B = glm::make_mat4x3(ArrayB);
+                      ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:215:23: style: Variable 'Mat4x4B' is assigned a value that is never used. [unreadVariable]
+ glm::dmat4x4 Mat4x4B = glm::make_mat4x4(ArrayB);
+                      ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:228:18: style: Variable 'Vec2A' is assigned a value that is never used. [unreadVariable]
+ glm::vec2 Vec2A = glm::make_vec2(ArrayA);
+                 ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:229:18: style: Variable 'Vec3A' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 Vec3A = glm::make_vec3(ArrayA);
+                 ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:230:18: style: Variable 'Vec4A' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 Vec4A = glm::make_vec4(ArrayA);
+                 ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:232:19: style: Variable 'Vec2B' is assigned a value that is never used. [unreadVariable]
+ glm::ivec2 Vec2B = glm::make_vec2(ArrayB);
+                  ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:233:19: style: Variable 'Vec3B' is assigned a value that is never used. [unreadVariable]
+ glm::ivec3 Vec3B = glm::make_vec3(ArrayB);
+                  ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:234:19: style: Variable 'Vec4B' is assigned a value that is never used. [unreadVariable]
+ glm::ivec4 Vec4B = glm::make_vec4(ArrayB);
+                  ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:236:19: style: Variable 'Vec2C' is assigned a value that is never used. [unreadVariable]
+ glm::bvec2 Vec2C = glm::make_vec2(ArrayC);
+                  ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:237:19: style: Variable 'Vec3C' is assigned a value that is never used. [unreadVariable]
+ glm::bvec3 Vec3C = glm::make_vec3(ArrayC);
+                  ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:238:19: style: Variable 'Vec4C' is assigned a value that is never used. [unreadVariable]
+ glm::bvec4 Vec4C = glm::make_vec4(ArrayC);
+                  ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:256:22: style: Variable 'v4' is assigned a value that is never used. [unreadVariable]
+ glm::ivec1 const v4 = glm::make_vec1(glm::ivec4(2));
+                     ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:275:22: style: Variable 'v4' is assigned a value that is never used. [unreadVariable]
+ glm::ivec2 const v4 = glm::make_vec2(glm::ivec4(2));
+                     ^
+Game/vendor/glm/test/gtc/gtc_type_ptr.cpp:294:22: style: Variable 'v4' is assigned a value that is never used. [unreadVariable]
+ glm::ivec3 const v4 = glm::make_vec3(glm::ivec4(2));
+                     ^
+Game/vendor/glm/test/gtx/gtx_color_space.cpp:8:18: style: Variable 'Color' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 Color = glm::saturation(1.0f, glm::vec4(1.0, 0.5, 0.0, 1.0));
+                 ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:17:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::quadraticEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:15:5: note: r is assigned
+  r = glm::linearInterpolation(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:17:5: note: r is overwritten
+  r = glm::quadraticEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:18:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::quadraticEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:17:5: note: r is assigned
+  r = glm::quadraticEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:18:5: note: r is overwritten
+  r = glm::quadraticEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:19:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::quadraticEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:18:5: note: r is assigned
+  r = glm::quadraticEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:19:5: note: r is overwritten
+  r = glm::quadraticEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:21:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::cubicEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:19:5: note: r is assigned
+  r = glm::quadraticEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:21:5: note: r is overwritten
+  r = glm::cubicEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:22:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::cubicEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:21:5: note: r is assigned
+  r = glm::cubicEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:22:5: note: r is overwritten
+  r = glm::cubicEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:23:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::cubicEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:22:5: note: r is assigned
+  r = glm::cubicEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:23:5: note: r is overwritten
+  r = glm::cubicEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:25:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::quarticEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:23:5: note: r is assigned
+  r = glm::cubicEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:25:5: note: r is overwritten
+  r = glm::quarticEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:26:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::quarticEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:25:5: note: r is assigned
+  r = glm::quarticEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:26:5: note: r is overwritten
+  r = glm::quarticEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:27:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::quinticEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:26:5: note: r is assigned
+  r = glm::quarticEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:27:5: note: r is overwritten
+  r = glm::quinticEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:29:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::sineEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:27:5: note: r is assigned
+  r = glm::quinticEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:29:5: note: r is overwritten
+  r = glm::sineEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:30:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::sineEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:29:5: note: r is assigned
+  r = glm::sineEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:30:5: note: r is overwritten
+  r = glm::sineEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:31:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::sineEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:30:5: note: r is assigned
+  r = glm::sineEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:31:5: note: r is overwritten
+  r = glm::sineEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:33:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::circularEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:31:5: note: r is assigned
+  r = glm::sineEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:33:5: note: r is overwritten
+  r = glm::circularEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:34:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::circularEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:33:5: note: r is assigned
+  r = glm::circularEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:34:5: note: r is overwritten
+  r = glm::circularEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:35:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::circularEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:34:5: note: r is assigned
+  r = glm::circularEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:35:5: note: r is overwritten
+  r = glm::circularEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:37:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::exponentialEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:35:5: note: r is assigned
+  r = glm::circularEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:37:5: note: r is overwritten
+  r = glm::exponentialEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:38:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::exponentialEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:37:5: note: r is assigned
+  r = glm::exponentialEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:38:5: note: r is overwritten
+  r = glm::exponentialEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:39:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::exponentialEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:38:5: note: r is assigned
+  r = glm::exponentialEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:39:5: note: r is overwritten
+  r = glm::exponentialEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:41:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::elasticEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:39:5: note: r is assigned
+  r = glm::exponentialEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:41:5: note: r is overwritten
+  r = glm::elasticEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:42:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::elasticEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:41:5: note: r is assigned
+  r = glm::elasticEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:42:5: note: r is overwritten
+  r = glm::elasticEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:43:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::elasticEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:42:5: note: r is assigned
+  r = glm::elasticEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:43:5: note: r is overwritten
+  r = glm::elasticEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:45:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::backEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:43:5: note: r is assigned
+  r = glm::elasticEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:45:5: note: r is overwritten
+  r = glm::backEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:46:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::backEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:45:5: note: r is assigned
+  r = glm::backEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:46:5: note: r is overwritten
+  r = glm::backEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:47:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::backEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:46:5: note: r is assigned
+  r = glm::backEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:47:5: note: r is overwritten
+  r = glm::backEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:49:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::bounceEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:47:5: note: r is assigned
+  r = glm::backEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:49:5: note: r is overwritten
+  r = glm::bounceEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:50:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::bounceEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:49:5: note: r is assigned
+  r = glm::bounceEaseIn(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:50:5: note: r is overwritten
+  r = glm::bounceEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:51:5: style: Variable 'r' is reassigned a value before the old one has been used. [redundantAssignment]
+  r = glm::bounceEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:50:5: note: r is assigned
+  r = glm::bounceEaseOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:51:5: note: r is overwritten
+  r = glm::bounceEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_easing.cpp:51:5: style: Variable 'r' is assigned a value that is never used. [unreadVariable]
+  r = glm::bounceEaseInOut(a);
+    ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:21:59: style: Same expression on both sides of '/'. [duplicateExpression]
+  glm::vec1 A0 = glm::fmin(glm::vec1(1), glm::vec1(Zero_f / 0.0f));
+                                                          ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:20:19: note: 'Zero_f' is assigned value '0.0f' here.
+  float Zero_f = 0.0f;
+                  ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:21:59: note: Same expression on both sides of '/'.
+  glm::vec1 A0 = glm::fmin(glm::vec1(1), glm::vec1(Zero_f / 0.0f));
+                                                          ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:24:45: style: Same expression on both sides of '/'. [duplicateExpression]
+  glm::vec1 A1 = glm::fmin(glm::vec1(Zero_f / 0.0f), glm::vec1(1));
+                                            ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:20:19: note: 'Zero_f' is assigned value '0.0f' here.
+  float Zero_f = 0.0f;
+                  ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:24:45: note: Same expression on both sides of '/'.
+  glm::vec1 A1 = glm::fmin(glm::vec1(Zero_f / 0.0f), glm::vec1(1));
+                                            ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:53:59: style: Same expression on both sides of '/'. [duplicateExpression]
+  glm::vec1 A0 = glm::fmax(glm::vec1(1), glm::vec1(Zero_f / 0.0f));
+                                                          ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:52:19: note: 'Zero_f' is assigned value '0.0f' here.
+  float Zero_f = 0.0f;
+                  ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:53:59: note: Same expression on both sides of '/'.
+  glm::vec1 A0 = glm::fmax(glm::vec1(1), glm::vec1(Zero_f / 0.0f));
+                                                          ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:56:45: style: Same expression on both sides of '/'. [duplicateExpression]
+  glm::vec1 A1 = glm::fmax(glm::vec1(Zero_f / 0.0f), glm::vec1(1));
+                                            ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:52:19: note: 'Zero_f' is assigned value '0.0f' here.
+  float Zero_f = 0.0f;
+                  ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:56:45: note: Same expression on both sides of '/'.
+  glm::vec1 A1 = glm::fmax(glm::vec1(Zero_f / 0.0f), glm::vec1(1));
+                                            ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:85:61: style: Same expression on both sides of '/'. [duplicateExpression]
+  glm::vec1 A0 = glm::fclamp(glm::vec1(1), glm::vec1(Zero_f / 0.0f), glm::vec1(2.0f));
+                                                            ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:84:19: note: 'Zero_f' is assigned value '0.0f' here.
+  float Zero_f = 0.0f;
+                  ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:85:61: note: Same expression on both sides of '/'.
+  glm::vec1 A0 = glm::fclamp(glm::vec1(1), glm::vec1(Zero_f / 0.0f), glm::vec1(2.0f));
+                                                            ^
+Game/vendor/glm/test/gtx/gtx_extended_min_max.cpp:56:16: style: Variable 'A1' is assigned a value that is never used. [unreadVariable]
+  glm::vec1 A1 = glm::fmax(glm::vec1(Zero_f / 0.0f), glm::vec1(1));
+               ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:22:16: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+  float result = 0.f;
+               ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:26:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::fastCos(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:30:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::cos(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:56:16: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+  float result = 0.f;
+               ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:60:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::fastSin(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:64:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::sin(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:82:16: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+  float result = 0.f;
+               ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:86:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::fastTan(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:90:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::tan(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:108:16: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+  float result = 0.f;
+               ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:112:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::fastAcos(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:116:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::acos(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:135:16: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+  float result = 0.f;
+               ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:138:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::fastAsin(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:141:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::asin(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:158:16: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+  float result = 0.f;
+               ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:161:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::fastAtan(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:164:11: style: Variable 'result' is assigned a value that is never used. [unreadVariable]
+   result = glm::atan(i);
+          ^
+Game/vendor/glm/test/gtx/gtx_quaternion.cpp:91:14: style: Variable 'r' is assigned a value that is never used. [unreadVariable]
+ glm::quat r = glm::exp(p);
+             ^
+Game/vendor/glm/test/gtx/gtx_range.cpp:32:6: style: Consider using std::fill algorithm instead of a raw loop. [useStlAlgorithm]
+   x = 0;
+     ^
+Game/vendor/glm/test/gtx/gtx_range.cpp:60:26: style: Consider using std::fill algorithm instead of a raw loop. [useStlAlgorithm]
+  for (float& x : m) { x = 0; }
+                         ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:10:14: style: Variable 'A' is assigned a value that is never used. [unreadVariable]
+ glm::vec2 A = glm::rotate(glm::vec2(1, 0), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:11:14: style: Variable 'B' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 B = glm::rotate(glm::vec3(1, 0, 0), glm::pi<float>() * 0.5f, glm::vec3(0, 0, 1));
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:12:14: style: Variable 'C' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 C = glm::rotate(glm::vec4(1, 0, 0, 1), glm::pi<float>() * 0.5f, glm::vec3(0, 0, 1));
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:13:14: style: Variable 'D' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 D = glm::rotateX(glm::vec3(1, 0, 0), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:14:14: style: Variable 'E' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 E = glm::rotateX(glm::vec4(1, 0, 0, 1), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:15:14: style: Variable 'F' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 F = glm::rotateY(glm::vec3(1, 0, 0), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:16:14: style: Variable 'G' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 G = glm::rotateY(glm::vec4(1, 0, 0, 1), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:17:14: style: Variable 'H' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 H = glm::rotateZ(glm::vec3(1, 0, 0), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:18:14: style: Variable 'I' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 I = glm::rotateZ(glm::vec4(1, 0, 0,1 ), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:19:14: style: Variable 'O' is assigned a value that is never used. [unreadVariable]
+ glm::mat4 O = glm::orientation(glm::normalize(glm::vec3(1)), glm::vec3(0, 0, 1));
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:28:14: style: Variable 'D' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 D = glm::rotateX(glm::vec3(1, 0, 0), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:29:14: style: Variable 'E' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 E = glm::rotateX(glm::vec4(1, 0, 0, 1), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:38:14: style: Variable 'F' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 F = glm::rotateY(glm::vec3(1, 0, 0), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:39:14: style: Variable 'G' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 G = glm::rotateY(glm::vec4(1, 0, 0, 1), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:49:14: style: Variable 'H' is assigned a value that is never used. [unreadVariable]
+ glm::vec3 H = glm::rotateZ(glm::vec3(1, 0, 0), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:50:14: style: Variable 'I' is assigned a value that is never used. [unreadVariable]
+ glm::vec4 I = glm::rotateZ(glm::vec4(1, 0, 0,1 ), glm::pi<float>() * 0.5f);
+             ^
+Game/vendor/glm/test/gtx/gtx_rotate_vector.cpp:59:14: style: Variable 'O' is assigned a value that is never used. [unreadVariable]
+ glm::mat4 O = glm::orientation(glm::normalize(glm::vec3(1)), glm::vec3(0, 0, 1));
+             ^
+Game/vendor/glm/test/gtx/gtx_spline.cpp:13:21: style: Variable 'Result2' is assigned a value that is never used. [unreadVariable]
+  glm::vec2 Result2 = glm::catmullRom(
+                    ^
+Game/vendor/glm/test/gtx/gtx_spline.cpp:19:21: style: Variable 'Result3' is assigned a value that is never used. [unreadVariable]
+  glm::vec3 Result3 = glm::catmullRom(
+                    ^
+Game/vendor/glm/test/gtx/gtx_spline.cpp:25:21: style: Variable 'Result4' is assigned a value that is never used. [unreadVariable]
+  glm::vec4 Result4 = glm::catmullRom(
+                    ^
+Game/vendor/glm/test/gtx/gtx_spline.cpp:41:21: style: Variable 'Result2' is assigned a value that is never used. [unreadVariable]
+  glm::vec2 Result2 = glm::hermite(
+                    ^
+Game/vendor/glm/test/gtx/gtx_spline.cpp:47:21: style: Variable 'Result3' is assigned a value that is never used. [unreadVariable]
+  glm::vec3 Result3 = glm::hermite(
+                    ^
+Game/vendor/glm/test/gtx/gtx_spline.cpp:53:21: style: Variable 'Result4' is assigned a value that is never used. [unreadVariable]
+  glm::vec4 Result4 = glm::hermite(
+                    ^
+Game/vendor/glm/test/gtx/gtx_spline.cpp:69:21: style: Variable 'Result2' is assigned a value that is never used. [unreadVariable]
+  glm::vec2 Result2 = glm::cubic(
+                    ^
+Game/vendor/glm/test/gtx/gtx_spline.cpp:75:21: style: Variable 'Result3' is assigned a value that is never used. [unreadVariable]
+  glm::vec3 Result3 = glm::cubic(
+                    ^
+Game/vendor/glm/test/gtx/gtx_spline.cpp:81:20: style: Variable 'Result' is assigned a value that is never used. [unreadVariable]
+  glm::vec4 Result = glm::cubic(
+                   ^
+Game/vendor/stb_image/stb_image.cpp:0:0: information: Too many #ifdef configurations - cppcheck only checks 12 of 18 configurations. Use --force to check all configurations. [toomanyconfigs]
+
+^
+Game/vendor/stb_image/stb_image.h:2101:28: warning: Either the condition 'n>=(int)(sizeof(stbi__bmask)/sizeof(*stbi__bmask))' is redundant or the array 'stbi__jbias[16]' is accessed at index 16, which is out of bounds. [arrayIndexOutOfBoundsCond]
+    return k + (stbi__jbias[n] & ~sgn);
+                           ^
+Game/vendor/stb_image/stb_image.h:2097:20: note: Assuming that condition 'n>=(int)(sizeof(stbi__bmask)/sizeof(*stbi__bmask))' is not redundant
+    if (n < 0 || n >= (int)(sizeof(stbi__bmask) / sizeof(*stbi__bmask))) return 0;
+                   ^
+Game/vendor/stb_image/stb_image.h:2101:28: note: Array index out of bounds
+    return k + (stbi__jbias[n] & ~sgn);
+                           ^
+Game/vendor/stb_image/stb_image.h:5473:18: style: Redundant condition: If 'req_comp >= 3', the comparison 'req_comp' is always true. [redundantCondition]
+    if (req_comp && req_comp >= 3) // we can directly decode 3 or 4
+                 ^
+Game/vendor/stb_image/stb_image.h:7019:7: style: Redundant initialization for 'c'. The initialized value is overwritten before it is read. [redundantInitialization]
+    c = (char)stbi__get8(z);
+      ^
+Game/vendor/stb_image/stb_image.h:7017:12: note: c is initialized
+    char c = '\0';
+           ^
+Game/vendor/stb_image/stb_image.h:7019:7: note: c is overwritten
+    c = (char)stbi__get8(z);
+      ^
+Game/vendor/stb_image/stb_image.h:1127:12: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    return stbi__errpuc("unknown image type", "Image not of any known type, or corrupt");
+           ^
+Game/vendor/stb_image/stb_image.h:1137:33: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (reduced == NULL) return stbi__errpuc("outofmem", "Out of memory");
+                                ^
+Game/vendor/stb_image/stb_image.h:1153:49: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (enlarged == NULL) return (stbi__uint16*)stbi__errpuc("outofmem", "Out of memory");
+                                                ^
+Game/vendor/stb_image/stb_image.h:1310:20: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (!f) return stbi__errpuc("can't fopen", "Unable to open file");
+                   ^
+Game/vendor/stb_image/stb_image.h:1346:30: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (!f) return (stbi_us*)stbi__errpuc("can't fopen", "Unable to open file");
+                             ^
+Game/vendor/stb_image/stb_image.h:1415:12: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    return stbi__errpf("unknown image type", "Image not of any known type, or corrupt");
+           ^
+Game/vendor/stb_image/stb_image.h:1437:20: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (!f) return stbi__errpf("can't fopen", "Unable to open file");
+                   ^
+Game/vendor/stb_image/stb_image.h:1707:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("outofmem", "Out of memory");
+               ^
+Game/vendor/stb_image/stb_image.h:1731:75: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        default: STBI_ASSERT(0); STBI_FREE(data); STBI_FREE(good); return stbi__errpuc("unsupported", "Unsupported format conversion");
+                                                                          ^
+Game/vendor/stb_image/stb_image.h:1764:31: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return (stbi__uint16*)stbi__errpuc("outofmem", "Out of memory");
+                              ^
+Game/vendor/stb_image/stb_image.h:1788:90: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        default: STBI_ASSERT(0); STBI_FREE(data); STBI_FREE(good); return (stbi__uint16*)stbi__errpuc("unsupported", "Unsupported format conversion");
+                                                                                         ^
+Game/vendor/stb_image/stb_image.h:1805:51: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (output == NULL) { STBI_FREE(data); return stbi__errpf("outofmem", "Out of memory"); }
+                                                  ^
+Game/vendor/stb_image/stb_image.h:1831:51: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (output == NULL) { STBI_FREE(data); return stbi__errpuc("outofmem", "Out of memory"); }
+                                                  ^
+Game/vendor/stb_image/stb_image.h:3792:46: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (req_comp < 0 || req_comp > 4) return stbi__errpuc("bad req_comp", "Internal error");
+                                             ^
+Game/vendor/stb_image/stb_image.h:3822:74: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+            if (!z->img_comp[k].linebuf) { stbi__cleanup_jpeg(z); return stbi__errpuc("outofmem", "Out of memory"); }
+                                                                         ^
+Game/vendor/stb_image/stb_image.h:3840:54: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        if (!output) { stbi__cleanup_jpeg(z); return stbi__errpuc("outofmem", "Out of memory"); }
+                                                     ^
+Game/vendor/stb_image/stb_image.h:5179:46: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (req_comp < 0 || req_comp > 4) return stbi__errpuc("bad req_comp", "Internal error");
+                                             ^
+Game/vendor/stb_image/stb_image.h:5186:20: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+            return stbi__errpuc("bad bits_per_channel", "PNG not supported: unsupported color depth");
+                   ^
+Game/vendor/stb_image/stb_image.h:5338:62: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (stbi__get8(s) != 'B' || stbi__get8(s) != 'M') return stbi__errpuc("not BMP", "Corrupt BMP");
+                                                             ^
+Game/vendor/stb_image/stb_image.h:5347:34: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (info->offset < 0) return stbi__errpuc("bad BMP", "bad BMP");
+                                 ^
+Game/vendor/stb_image/stb_image.h:5349:81: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (hsz != 12 && hsz != 40 && hsz != 56 && hsz != 108 && hsz != 124) return stbi__errpuc("unknown BMP", "BMP type not supported: unknown");
+                                                                                ^
+Game/vendor/stb_image/stb_image.h:5358:39: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (stbi__get16le(s) != 1) return stbi__errpuc("bad BMP", "bad BMP");
+                                      ^
+Game/vendor/stb_image/stb_image.h:5362:52: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        if (compress == 1 || compress == 2) return stbi__errpuc("BMP RLE", "BMP type not supported: RLE");
+                                                   ^
+Game/vendor/stb_image/stb_image.h:5398:32: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                        return stbi__errpuc("bad BMP", "bad BMP");
+                               ^
+Game/vendor/stb_image/stb_image.h:5402:28: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                    return stbi__errpuc("bad BMP", "bad BMP");
+                           ^
+Game/vendor/stb_image/stb_image.h:5408:24: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                return stbi__errpuc("bad BMP", "bad BMP");
+                       ^
+Game/vendor/stb_image/stb_image.h:5445:48: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large", "Very large image (corrupt?)");
+                                               ^
+Game/vendor/stb_image/stb_image.h:5446:48: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large", "Very large image (corrupt?)");
+                                               ^
+Game/vendor/stb_image/stb_image.h:5465:20: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+            return stbi__errpuc("bad offset", "Corrupt BMP");
+                   ^
+Game/vendor/stb_image/stb_image.h:5480:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("too large", "Corrupt BMP");
+               ^
+Game/vendor/stb_image/stb_image.h:5483:22: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (!out) return stbi__errpuc("outofmem", "Out of memory");
+                     ^
+Game/vendor/stb_image/stb_image.h:5486:65: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        if (psize == 0 || psize > 256) { STBI_FREE(out); return stbi__errpuc("invalid", "Corrupt BMP"); }
+                                                                ^
+Game/vendor/stb_image/stb_image.h:5498:39: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        else { STBI_FREE(out); return stbi__errpuc("bad bpp", "Corrupt BMP"); }
+                                      ^
+Game/vendor/stb_image/stb_image.h:5558:61: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+            if (!mr || !mg || !mb) { STBI_FREE(out); return stbi__errpuc("bad masks", "Corrupt BMP"); }
+                                                            ^
+Game/vendor/stb_image/stb_image.h:5564:96: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+            if (rcount > 8 || gcount > 8 || bcount > 8 || acount > 8) { STBI_FREE(out); return stbi__errpuc("bad masks", "Corrupt BMP"); }
+                                                                                               ^
+Game/vendor/stb_image/stb_image.h:5793:50: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (tga_height > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large", "Very large image (corrupt?)");
+                                                 ^
+Game/vendor/stb_image/stb_image.h:5794:49: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (tga_width > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large", "Very large image (corrupt?)");
+                                                ^
+Game/vendor/stb_image/stb_image.h:5809:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("bad format", "Can't find out TGA pixelformat");
+               ^
+Game/vendor/stb_image/stb_image.h:5817:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("too large", "Corrupt TGA");
+               ^
+Game/vendor/stb_image/stb_image.h:5820:27: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (!tga_data) return stbi__errpuc("outofmem", "Out of memory");
+                          ^
+Game/vendor/stb_image/stb_image.h:5838:24: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                return stbi__errpuc("bad palette", "Corrupt TGA");
+                       ^
+Game/vendor/stb_image/stb_image.h:5847:24: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                return stbi__errpuc("outofmem", "Out of memory");
+                       ^
+Game/vendor/stb_image/stb_image.h:5860:24: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                return stbi__errpuc("bad palette", "Corrupt TGA");
+                       ^
+Game/vendor/stb_image/stb_image.h:6038:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("not PSD", "Corrupt PSD image");
+               ^
+Game/vendor/stb_image/stb_image.h:6042:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("wrong version", "Unsupported version of PSD image");
+               ^
+Game/vendor/stb_image/stb_image.h:6050:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("wrong channel count", "Unsupported number of channels in PSD image");
+               ^
+Game/vendor/stb_image/stb_image.h:6056:41: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (h > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large", "Very large image (corrupt?)");
+                                        ^
+Game/vendor/stb_image/stb_image.h:6057:41: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (w > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large", "Very large image (corrupt?)");
+                                        ^
+Game/vendor/stb_image/stb_image.h:6062:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("unsupported bit depth", "PSD bit depth is not 8 or 16 bit");
+               ^
+Game/vendor/stb_image/stb_image.h:6075:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("wrong color format", "PSD is not in RGB color format");
+               ^
+Game/vendor/stb_image/stb_image.h:6092:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("bad compression", "PSD has an unknown compression format");
+               ^
+Game/vendor/stb_image/stb_image.h:6096:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("too large", "Corrupt PSD");
+               ^
+Game/vendor/stb_image/stb_image.h:6107:22: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (!out) return stbi__errpuc("outofmem", "Out of memory");
+                     ^
+Game/vendor/stb_image/stb_image.h:6141:28: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                    return stbi__errpuc("corrupt", "bad RLE data");
+                           ^
+Game/vendor/stb_image/stb_image.h:6281:41: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+            if (stbi__at_eof(s)) return stbi__errpuc("bad file", "PIC file too short");
+                                        ^
+Game/vendor/stb_image/stb_image.h:6309:20: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+            return stbi__errpuc("bad format", "too many packets");
+                   ^
+Game/vendor/stb_image/stb_image.h:6320:46: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        if (stbi__at_eof(s))          return stbi__errpuc("bad file", "file too short (reading packets)");
+                                             ^
+Game/vendor/stb_image/stb_image.h:6321:40: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        if (packet->size != 8)  return stbi__errpuc("bad format", "packet isn't 8bpp");
+                                       ^
+Game/vendor/stb_image/stb_image.h:6335:24: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                return stbi__errpuc("bad format", "packet has bad compression type");
+                       ^
+Game/vendor/stb_image/stb_image.h:6354:51: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                    if (stbi__at_eof(s))   return stbi__errpuc("bad file", "file too short (pure read count)");
+                                                  ^
+Game/vendor/stb_image/stb_image.h:6372:50: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                    if (stbi__at_eof(s))  return stbi__errpuc("bad file", "file too short (mixed read count)");
+                                                 ^
+Game/vendor/stb_image/stb_image.h:6382:36: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                            return stbi__errpuc("bad file", "scanline overrun");
+                                   ^
+Game/vendor/stb_image/stb_image.h:6392:50: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                        if (count > left) return stbi__errpuc("bad file", "scanline overrun");
+                                                 ^
+Game/vendor/stb_image/stb_image.h:6423:41: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large", "Very large image (corrupt?)");
+                                        ^
+Game/vendor/stb_image/stb_image.h:6424:41: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large", "Very large image (corrupt?)");
+                                        ^
+Game/vendor/stb_image/stb_image.h:6426:34: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (stbi__at_eof(s))  return stbi__errpuc("bad file", "file too short (pic header)");
+                                 ^
+Game/vendor/stb_image/stb_image.h:6427:52: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (!stbi__mad3sizes_valid(x, y, 4, 0)) return stbi__errpuc("too large", "PIC image too large to decode");
+                                                   ^
+Game/vendor/stb_image/stb_image.h:6656:28: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                    return stbi__errpuc("no clear code", "Corrupt GIF");
+                           ^
+Game/vendor/stb_image/stb_image.h:6662:32: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                        return stbi__errpuc("too many codes", "Corrupt GIF");
+                               ^
+Game/vendor/stb_image/stb_image.h:6670:28: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                    return stbi__errpuc("illegal code in raster", "Corrupt GIF");
+                           ^
+Game/vendor/stb_image/stb_image.h:6682:24: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                return stbi__errpuc("illegal code in raster", "Corrupt GIF");
+                       ^
+Game/vendor/stb_image/stb_image.h:6703:20: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+            return stbi__errpuc("too large", "GIF image is too large");
+                   ^
+Game/vendor/stb_image/stb_image.h:6709:20: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+            return stbi__errpuc("outofmem", "Out of memory");
+                   ^
+Game/vendor/stb_image/stb_image.h:6770:24: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                return stbi__errpuc("bad Image Descriptor", "Corrupt GIF");
+                       ^
+Game/vendor/stb_image/stb_image.h:6806:24: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                return stbi__errpuc("missing color table", "Corrupt GIF");
+                       ^
+Game/vendor/stb_image/stb_image.h:6867:20: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+            return stbi__errpuc("unknown code", "Corrupt GIF");
+                   ^
+Game/vendor/stb_image/stb_image.h:6904:32: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                        return stbi__errpuc("outofmem", "Out of memory");
+                               ^
+Game/vendor/stb_image/stb_image.h:6948:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("not GIF", "Image was not as a gif type.");
+               ^
+Game/vendor/stb_image/stb_image.h:7081:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpf("not HDR", "Corrupt HDR image");
+               ^
+Game/vendor/stb_image/stb_image.h:7090:27: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (!valid)    return stbi__errpf("unsupported format", "Unsupported HDR format");
+                          ^
+Game/vendor/stb_image/stb_image.h:7095:43: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (strncmp(token, "-Y ", 3))  return stbi__errpf("unsupported data layout", "Unsupported HDR format");
+                                          ^
+Game/vendor/stb_image/stb_image.h:7099:43: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (strncmp(token, "+X ", 3))  return stbi__errpf("unsupported data layout", "Unsupported HDR format");
+                                          ^
+Game/vendor/stb_image/stb_image.h:7103:46: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (height > STBI_MAX_DIMENSIONS) return stbi__errpf("too large", "Very large image (corrupt?)");
+                                             ^
+Game/vendor/stb_image/stb_image.h:7104:45: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (width > STBI_MAX_DIMENSIONS) return stbi__errpf("too large", "Very large image (corrupt?)");
+                                            ^
+Game/vendor/stb_image/stb_image.h:7113:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpf("too large", "HDR image is too large");
+               ^
+Game/vendor/stb_image/stb_image.h:7118:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpf("outofmem", "Out of memory");
+               ^
+Game/vendor/stb_image/stb_image.h:7157:82: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+            if (len != width) { STBI_FREE(hdr_data); STBI_FREE(scanline); return stbi__errpf("invalid decoded scanline length", "corrupt HDR"); }
+                                                                                 ^
+Game/vendor/stb_image/stb_image.h:7162:28: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                    return stbi__errpf("outofmem", "Out of memory");
+                           ^
+Game/vendor/stb_image/stb_image.h:7175:95: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                        if (count > nleft) { STBI_FREE(hdr_data); STBI_FREE(scanline); return stbi__errpf("corrupt", "bad RLE data in HDR"); }
+                                                                                              ^
+Game/vendor/stb_image/stb_image.h:7181:95: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+                        if (count > nleft) { STBI_FREE(hdr_data); STBI_FREE(scanline); return stbi__errpf("corrupt", "bad RLE data in HDR"); }
+                                                                                              ^
+Game/vendor/stb_image/stb_image.h:7422:48: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large", "Very large image (corrupt?)");
+                                               ^
+Game/vendor/stb_image/stb_image.h:7423:48: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large", "Very large image (corrupt?)");
+                                               ^
+Game/vendor/stb_image/stb_image.h:7430:16: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+        return stbi__errpuc("too large", "PNM too large");
+               ^
+Game/vendor/stb_image/stb_image.h:7433:22: style: Same value in both branches of ternary operator. [duplicateValueTernary]
+    if (!out) return stbi__errpuc("outofmem", "Out of memory");
+                     ^
+Game/vendor/stb_image/stb_image.h:2200:9: style: The scope of the variable 'diff' can be reduced. [variableScope]
+    int diff, dc;
+        ^
+Game/vendor/stb_image/stb_image.h:2200:15: style: The scope of the variable 'dc' can be reduced. [variableScope]
+    int diff, dc;
+              ^
+Game/vendor/stb_image/stb_image.h:2201:9: style: The scope of the variable 't' can be reduced. [variableScope]
+    int t;
+        ^
+Game/vendor/stb_image/stb_image.h:3212:19: style: The scope of the variable 'q' can be reduced. [variableScope]
+    int Lf, p, i, q, h_max = 1, v_max = 1, c;
+                  ^
+Game/vendor/stb_image/stb_image.h:3429:12: style: The scope of the variable 't0' can be reduced. [variableScope]
+    int i, t0, t1;
+           ^
+Game/vendor/stb_image/stb_image.h:4163:12: style: The scope of the variable 's' can be reduced. [variableScope]
+    int b, s;
+           ^
+Game/vendor/stb_image/stb_image.h:4387:16: style: The scope of the variable 'type' can be reduced. [variableScope]
+    int final, type;
+               ^
+Game/vendor/stb_image/stb_image.h:4816:13: style: The scope of the variable 'i' can be reduced. [variableScope]
+        int i, j, x, y;
+            ^
+Game/vendor/stb_image/stb_image.h:4816:16: style: The scope of the variable 'j' can be reduced. [variableScope]
+        int i, j, x, y;
+               ^
+Game/vendor/stb_image/stb_image.h:5647:9: style: The scope of the variable 'sz' can be reduced. [variableScope]
+    int sz, tga_colormap_type;
+        ^
+Game/vendor/stb_image/stb_image.h:5784:12: style: The scope of the variable 'j' can be reduced. [variableScope]
+    int i, j;
+           ^
+Game/vendor/stb_image/stb_image.h:5786:9: style: The scope of the variable 'RLE_count' can be reduced. [variableScope]
+    int RLE_count = 0;
+        ^
+Game/vendor/stb_image/stb_image.h:5787:9: style: The scope of the variable 'RLE_repeating' can be reduced. [variableScope]
+    int RLE_repeating = 0;
+        ^
+Game/vendor/stb_image/stb_image.h:5788:9: style: The scope of the variable 'read_next_pixel' can be reduced. [variableScope]
+    int read_next_pixel = 1;
+        ^
+Game/vendor/stb_image/stb_image.h:5988:23: style: The scope of the variable 'len' can be reduced. [variableScope]
+    int count, nleft, len;
+                      ^
+Game/vendor/stb_image/stb_image.h:6692:9: style: The scope of the variable 'dispose' can be reduced. [variableScope]
+    int dispose;
+        ^
+Game/vendor/stb_image/stb_image.h:6881:13: style: The scope of the variable 'out_size' can be reduced. [variableScope]
+        int out_size = 0;
+            ^
+Game/vendor/stb_image/stb_image.h:6882:13: style: The scope of the variable 'delays_size' can be reduced. [variableScope]
+        int delays_size = 0;
+            ^
+Game/vendor/stb_image/stb_image.h:5323:7: error: Shifting by a negative value is undefined behaviour [shiftNegative]
+    v >>= (8 - bits);
+      ^
+Game/vendor/stb_image/stb_image.h:1306:71: style:inconclusive: Function 'stbi_load' argument 4 names different: declaration 'channels_in_file' definition 'comp'. [funcArgNamesDifferent]
+STBIDEF stbi_uc* stbi_load(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                      ^
+Game/vendor/stb_image/stb_image.h:396:75: note: Function 'stbi_load' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+    STBIDEF stbi_uc* stbi_load(char const* filename, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                          ^
+Game/vendor/stb_image/stb_image.h:1306:71: note: Function 'stbi_load' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+STBIDEF stbi_uc* stbi_load(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                      ^
+Game/vendor/stb_image/stb_image.h:1306:81: style:inconclusive: Function 'stbi_load' argument 5 names different: declaration 'desired_channels' definition 'req_comp'. [funcArgNamesDifferent]
+STBIDEF stbi_uc* stbi_load(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                                ^
+Game/vendor/stb_image/stb_image.h:396:97: note: Function 'stbi_load' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+    STBIDEF stbi_uc* stbi_load(char const* filename, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                                                ^
+Game/vendor/stb_image/stb_image.h:1306:81: note: Function 'stbi_load' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+STBIDEF stbi_uc* stbi_load(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                                ^
+Game/vendor/stb_image/stb_image.h:1316:68: style:inconclusive: Function 'stbi_load_from_file' argument 4 names different: declaration 'channels_in_file' definition 'comp'. [funcArgNamesDifferent]
+STBIDEF stbi_uc* stbi_load_from_file(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                   ^
+Game/vendor/stb_image/stb_image.h:397:72: note: Function 'stbi_load_from_file' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+    STBIDEF stbi_uc* stbi_load_from_file(FILE* f, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                       ^
+Game/vendor/stb_image/stb_image.h:1316:68: note: Function 'stbi_load_from_file' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+STBIDEF stbi_uc* stbi_load_from_file(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                   ^
+Game/vendor/stb_image/stb_image.h:1316:78: style:inconclusive: Function 'stbi_load_from_file' argument 5 names different: declaration 'desired_channels' definition 'req_comp'. [funcArgNamesDifferent]
+STBIDEF stbi_uc* stbi_load_from_file(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                             ^
+Game/vendor/stb_image/stb_image.h:397:94: note: Function 'stbi_load_from_file' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+    STBIDEF stbi_uc* stbi_load_from_file(FILE* f, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                                             ^
+Game/vendor/stb_image/stb_image.h:1316:78: note: Function 'stbi_load_from_file' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+STBIDEF stbi_uc* stbi_load_from_file(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                             ^
+Game/vendor/stb_image/stb_image.h:1329:76: style:inconclusive: Function 'stbi_load_from_file_16' argument 4 names different: declaration 'channels_in_file' definition 'comp'. [funcArgNamesDifferent]
+STBIDEF stbi__uint16* stbi_load_from_file_16(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                           ^
+Game/vendor/stb_image/stb_image.h:419:75: note: Function 'stbi_load_from_file_16' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+    STBIDEF stbi_us* stbi_load_from_file_16(FILE* f, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                          ^
+Game/vendor/stb_image/stb_image.h:1329:76: note: Function 'stbi_load_from_file_16' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+STBIDEF stbi__uint16* stbi_load_from_file_16(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                           ^
+Game/vendor/stb_image/stb_image.h:1329:86: style:inconclusive: Function 'stbi_load_from_file_16' argument 5 names different: declaration 'desired_channels' definition 'req_comp'. [funcArgNamesDifferent]
+STBIDEF stbi__uint16* stbi_load_from_file_16(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                                     ^
+Game/vendor/stb_image/stb_image.h:419:97: note: Function 'stbi_load_from_file_16' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+    STBIDEF stbi_us* stbi_load_from_file_16(FILE* f, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                                                ^
+Game/vendor/stb_image/stb_image.h:1329:86: note: Function 'stbi_load_from_file_16' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+STBIDEF stbi__uint16* stbi_load_from_file_16(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                                     ^
+Game/vendor/stb_image/stb_image.h:1342:74: style:inconclusive: Function 'stbi_load_16' argument 4 names different: declaration 'channels_in_file' definition 'comp'. [funcArgNamesDifferent]
+STBIDEF stbi_us* stbi_load_16(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                         ^
+Game/vendor/stb_image/stb_image.h:418:78: note: Function 'stbi_load_16' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+    STBIDEF stbi_us* stbi_load_16(char const* filename, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                             ^
+Game/vendor/stb_image/stb_image.h:1342:74: note: Function 'stbi_load_16' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+STBIDEF stbi_us* stbi_load_16(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                         ^
+Game/vendor/stb_image/stb_image.h:1342:84: style:inconclusive: Function 'stbi_load_16' argument 5 names different: declaration 'desired_channels' definition 'req_comp'. [funcArgNamesDifferent]
+STBIDEF stbi_us* stbi_load_16(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                                   ^
+Game/vendor/stb_image/stb_image.h:418:100: note: Function 'stbi_load_16' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+    STBIDEF stbi_us* stbi_load_16(char const* filename, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                                                   ^
+Game/vendor/stb_image/stb_image.h:1342:84: note: Function 'stbi_load_16' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+STBIDEF stbi_us* stbi_load_16(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                                   ^
+Game/vendor/stb_image/stb_image.h:1433:70: style:inconclusive: Function 'stbi_loadf' argument 4 names different: declaration 'channels_in_file' definition 'comp'. [funcArgNamesDifferent]
+STBIDEF float* stbi_loadf(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                     ^
+Game/vendor/stb_image/stb_image.h:431:74: note: Function 'stbi_loadf' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+    STBIDEF float* stbi_loadf(char const* filename, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                         ^
+Game/vendor/stb_image/stb_image.h:1433:70: note: Function 'stbi_loadf' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+STBIDEF float* stbi_loadf(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                     ^
+Game/vendor/stb_image/stb_image.h:1433:80: style:inconclusive: Function 'stbi_loadf' argument 5 names different: declaration 'desired_channels' definition 'req_comp'. [funcArgNamesDifferent]
+STBIDEF float* stbi_loadf(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                               ^
+Game/vendor/stb_image/stb_image.h:431:96: note: Function 'stbi_loadf' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+    STBIDEF float* stbi_loadf(char const* filename, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                                               ^
+Game/vendor/stb_image/stb_image.h:1433:80: note: Function 'stbi_loadf' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+STBIDEF float* stbi_loadf(char const* filename, int* x, int* y, int* comp, int req_comp)
+                                                                               ^
+Game/vendor/stb_image/stb_image.h:1443:67: style:inconclusive: Function 'stbi_loadf_from_file' argument 4 names different: declaration 'channels_in_file' definition 'comp'. [funcArgNamesDifferent]
+STBIDEF float* stbi_loadf_from_file(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                  ^
+Game/vendor/stb_image/stb_image.h:432:71: note: Function 'stbi_loadf_from_file' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+    STBIDEF float* stbi_loadf_from_file(FILE* f, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                      ^
+Game/vendor/stb_image/stb_image.h:1443:67: note: Function 'stbi_loadf_from_file' argument 4 names different: declaration 'channels_in_file' definition 'comp'.
+STBIDEF float* stbi_loadf_from_file(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                  ^
+Game/vendor/stb_image/stb_image.h:1443:77: style:inconclusive: Function 'stbi_loadf_from_file' argument 5 names different: declaration 'desired_channels' definition 'req_comp'. [funcArgNamesDifferent]
+STBIDEF float* stbi_loadf_from_file(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                            ^
+Game/vendor/stb_image/stb_image.h:432:93: note: Function 'stbi_loadf_from_file' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+    STBIDEF float* stbi_loadf_from_file(FILE* f, int* x, int* y, int* channels_in_file, int desired_channels);
+                                                                                            ^
+Game/vendor/stb_image/stb_image.h:1443:77: note: Function 'stbi_loadf_from_file' argument 5 names different: declaration 'desired_channels' definition 'req_comp'.
+STBIDEF float* stbi_loadf_from_file(FILE* f, int* x, int* y, int* comp, int req_comp)
+                                                                            ^
+Game/vendor/stb_image/stb_image.h:6409:52: style:inconclusive: Function 'stbi__pic_load' argument 2 names different: declaration 'x' definition 'px'. [funcArgNamesDifferent]
+static void* stbi__pic_load(stbi__context* s, int* px, int* py, int* comp, int req_comp, stbi__result_info* ri)
+                                                   ^
+Game/vendor/stb_image/stb_image.h:912:52: note: Function 'stbi__pic_load' argument 2 names different: declaration 'x' definition 'px'.
+static void* stbi__pic_load(stbi__context* s, int* x, int* y, int* comp, int req_comp, stbi__result_info* ri);
+                                                   ^
+Game/vendor/stb_image/stb_image.h:6409:52: note: Function 'stbi__pic_load' argument 2 names different: declaration 'x' definition 'px'.
+static void* stbi__pic_load(stbi__context* s, int* px, int* py, int* comp, int req_comp, stbi__result_info* ri)
+                                                   ^
+Game/vendor/stb_image/stb_image.h:6409:61: style:inconclusive: Function 'stbi__pic_load' argument 3 names different: declaration 'y' definition 'py'. [funcArgNamesDifferent]
+static void* stbi__pic_load(stbi__context* s, int* px, int* py, int* comp, int req_comp, stbi__result_info* ri)
+                                                            ^
+Game/vendor/stb_image/stb_image.h:912:60: note: Function 'stbi__pic_load' argument 3 names different: declaration 'y' definition 'py'.
+static void* stbi__pic_load(stbi__context* s, int* x, int* y, int* comp, int req_comp, stbi__result_info* ri);
+                                                           ^
+Game/vendor/stb_image/stb_image.h:6409:61: note: Function 'stbi__pic_load' argument 3 names different: declaration 'y' definition 'py'.
+static void* stbi__pic_load(stbi__context* s, int* px, int* py, int* comp, int req_comp, stbi__result_info* ri)
+                                                            ^
+Game/vendor/stb_image/stb_image.h:2095:39: portability: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    sgn = (stbi__int32)j->code_buffer >> 31; // sign bit is always in MSB
+                                      ^
+Game/vendor/stb_image/stb_image.h:6881:22: style: Variable 'out_size' is assigned a value that is never used. [unreadVariable]
+        int out_size = 0;
+                     ^
+Game/vendor/stb_image/stb_image.h:6882:25: style: Variable 'delays_size' is assigned a value that is never used. [unreadVariable]
+        int delays_size = 0;
+                        ^
+Game/vendor/stb_image/stb_image.h:6908:34: style: Variable 'out_size' is assigned a value that is never used. [unreadVariable]
+                        out_size = layers * stride;
+                                 ^
+Game/vendor/stb_image/stb_image.h:6913:37: style: Variable 'delays_size' is assigned a value that is never used. [unreadVariable]
+                        delays_size = layers * sizeof(int);
+                                    ^
+Game/vendor/stb_image/stb_image.h:6918:30: style: Variable 'out_size' is assigned a value that is never used. [unreadVariable]
+                    out_size = layers * stride;
+                             ^
+Game/vendor/stb_image/stb_image.h:6921:37: style: Variable 'delays_size' is assigned a value that is never used. [unreadVariable]
+                        delays_size = layers * sizeof(int);
+                                    ^
+Game/vendor/stb_image/stb_image.h:1049:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(retval_from_stbi_load);
+^
+Game/vendor/stb_image/stb_image.h:1142:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(orig);
+^
+Game/vendor/stb_image/stb_image.h:1158:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(orig);
+^
+Game/vendor/stb_image/stb_image.h:1706:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        STBI_FREE(data);
+^
+Game/vendor/stb_image/stb_image.h:1731:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        default: STBI_ASSERT(0); STBI_FREE(data); STBI_FREE(good); return stbi__errpuc("unsupported", "Unsupported format conversion");
+^
+Game/vendor/stb_image/stb_image.h:1736:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(data);
+^
+Game/vendor/stb_image/stb_image.h:1763:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        STBI_FREE(data);
+^
+Game/vendor/stb_image/stb_image.h:1788:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        default: STBI_ASSERT(0); STBI_FREE(data); STBI_FREE(good); return (stbi__uint16*)stbi__errpuc("unsupported", "Unsupported format conversion");
+^
+Game/vendor/stb_image/stb_image.h:1793:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(data);
+^
+Game/vendor/stb_image/stb_image.h:1805:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    if (output == NULL) { STBI_FREE(data); return stbi__errpf("outofmem", "Out of memory"); }
+^
+Game/vendor/stb_image/stb_image.h:1818:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(data);
+^
+Game/vendor/stb_image/stb_image.h:1831:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    if (output == NULL) { STBI_FREE(data); return stbi__errpuc("outofmem", "Out of memory"); }
+^
+Game/vendor/stb_image/stb_image.h:1848:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(data);
+^
+Game/vendor/stb_image/stb_image.h:3192:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            STBI_FREE(z->img_comp[i].raw_data);
+^
+Game/vendor/stb_image/stb_image.h:3197:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            STBI_FREE(z->img_comp[i].raw_coeff);
+^
+Game/vendor/stb_image/stb_image.h:3202:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            STBI_FREE(z->img_comp[i].linebuf);
+^
+Game/vendor/stb_image/stb_image.h:3962:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(j);
+^
+Game/vendor/stb_image/stb_image.h:3974:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(j);
+^
+Game/vendor/stb_image/stb_image.h:3996:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(j);
+^
+Game/vendor/stb_image/stb_image.h:4438:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        STBI_FREE(a.zout_start);
+^
+Game/vendor/stb_image/stb_image.h:4460:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        STBI_FREE(a.zout_start);
+^
+Game/vendor/stb_image/stb_image.h:4488:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        STBI_FREE(a.zout_start);
+^
+Game/vendor/stb_image/stb_image.h:4823:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                STBI_FREE(final);
+^
+Game/vendor/stb_image/stb_image.h:4834:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            STBI_FREE(a->out);
+^
+Game/vendor/stb_image/stb_image.h:4926:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(a->out);
+^
+Game/vendor/stb_image/stb_image.h:5120:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            STBI_FREE(z->idata); z->idata = NULL;
+^
+Game/vendor/stb_image/stb_image.h:5148:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            STBI_FREE(z->expanded); z->expanded = NULL;
+^
+Game/vendor/stb_image/stb_image.h:5201:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(p->out);      p->out = NULL;
+^
+Game/vendor/stb_image/stb_image.h:5202:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(p->expanded); p->expanded = NULL;
+^
+Game/vendor/stb_image/stb_image.h:5203:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(p->idata);    p->idata = NULL;
+^
+Game/vendor/stb_image/stb_image.h:5486:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        if (psize == 0 || psize > 256) { STBI_FREE(out); return stbi__errpuc("invalid", "Corrupt BMP"); }
+^
+Game/vendor/stb_image/stb_image.h:5498:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        else { STBI_FREE(out); return stbi__errpuc("bad bpp", "Corrupt BMP"); }
+^
+Game/vendor/stb_image/stb_image.h:5558:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            if (!mr || !mg || !mb) { STBI_FREE(out); return stbi__errpuc("bad masks", "Corrupt BMP"); }
+^
+Game/vendor/stb_image/stb_image.h:5564:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            if (rcount > 8 || gcount > 8 || bcount > 8 || acount > 8) { STBI_FREE(out); return stbi__errpuc("bad masks", "Corrupt BMP"); }
+^
+Game/vendor/stb_image/stb_image.h:5837:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                STBI_FREE(tga_data);
+^
+Game/vendor/stb_image/stb_image.h:5846:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                STBI_FREE(tga_data);
+^
+Game/vendor/stb_image/stb_image.h:5858:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                STBI_FREE(tga_data);
+^
+Game/vendor/stb_image/stb_image.h:5859:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                STBI_FREE(tga_palette);
+^
+Game/vendor/stb_image/stb_image.h:5944:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            STBI_FREE(tga_palette);
+^
+Game/vendor/stb_image/stb_image.h:6140:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                    STBI_FREE(out);
+^
+Game/vendor/stb_image/stb_image.h:6438:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        STBI_FREE(result);
+^
+Game/vendor/stb_image/stb_image.h:6551:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        STBI_FREE(g);
+^
+Game/vendor/stb_image/stb_image.h:6557:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(g);
+^
+Game/vendor/stb_image/stb_image.h:6901:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                        STBI_FREE(g.out);
+^
+Game/vendor/stb_image/stb_image.h:6902:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                        STBI_FREE(g.history);
+^
+Game/vendor/stb_image/stb_image.h:6903:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                        STBI_FREE(g.background);
+^
+Game/vendor/stb_image/stb_image.h:6936:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        STBI_FREE(g.out);
+^
+Game/vendor/stb_image/stb_image.h:6937:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        STBI_FREE(g.history);
+^
+Game/vendor/stb_image/stb_image.h:6938:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        STBI_FREE(g.background);
+^
+Game/vendor/stb_image/stb_image.h:6972:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        STBI_FREE(g.out);
+^
+Game/vendor/stb_image/stb_image.h:6976:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(g.history);
+^
+Game/vendor/stb_image/stb_image.h:6977:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    STBI_FREE(g.background);
+^
+Game/vendor/stb_image/stb_image.h:7152:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                STBI_FREE(scanline);
+^
+Game/vendor/stb_image/stb_image.h:7157:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            if (len != width) { STBI_FREE(hdr_data); STBI_FREE(scanline); return stbi__errpf("invalid decoded scanline length", "corrupt HDR"); }
+^
+Game/vendor/stb_image/stb_image.h:7161:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                    STBI_FREE(hdr_data);
+^
+Game/vendor/stb_image/stb_image.h:7175:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                        if (count > nleft) { STBI_FREE(hdr_data); STBI_FREE(scanline); return stbi__errpf("corrupt", "bad RLE data in HDR"); }
+^
+Game/vendor/stb_image/stb_image.h:7181:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                        if (count > nleft) { STBI_FREE(hdr_data); STBI_FREE(scanline); return stbi__errpf("corrupt", "bad RLE data in HDR"); }
+^
+Game/vendor/stb_image/stb_image.h:7191:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_FREE' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            STBI_FREE(scanline);
+^
+Game/vendor/stb_image/stb_image.h:950:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_MALLOC' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    return STBI_MALLOC(size);
+^
+Game/vendor/stb_image/stb_image.h:4193:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_REALLOC_SIZED' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    q = (char*)STBI_REALLOC_SIZED(z->zout_start, old_limit, limit);
+^
+Game/vendor/stb_image/stb_image.h:5102:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_REALLOC_SIZED' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                p = (stbi_uc*)STBI_REALLOC_SIZED(z->idata, idata_limit_old, idata_limit); if (p == NULL) return stbi__err("outofmem", "Out of memory");
+^
+Game/vendor/stb_image/stb_image.h:6899:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_REALLOC_SIZED' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                    void* tmp = (stbi_uc*)STBI_REALLOC_SIZED(out, out_size, layers * stride);
+^
+Game/vendor/stb_image/stb_image.h:6912:0: information: Skipping configuration 'STBI_FREE;STBI_MALLOC;STBI_REALLOC;STBI_REALLOC_SIZED' since the value of 'STBI_REALLOC_SIZED' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+                        *delays = (int*)STBI_REALLOC_SIZED(*delays, delays_size, sizeof(int) * layers);
+^
+Game/vendor/stb_image/stb_image.h:3757:26: style: Variable 'j->idct_block_kernel' is reassigned a value before the old one has been used. [redundantAssignment]
+    j->idct_block_kernel = stbi__idct_simd;
+                         ^
+Game/vendor/stb_image/stb_image.h:3744:26: note: j->idct_block_kernel is assigned
+    j->idct_block_kernel = stbi__idct_block;
+                         ^
+Game/vendor/stb_image/stb_image.h:3757:26: note: j->idct_block_kernel is overwritten
+    j->idct_block_kernel = stbi__idct_simd;
+                         ^
+Game/vendor/stb_image/stb_image.h:3758:28: style: Variable 'j->YCbCr_to_RGB_kernel' is reassigned a value before the old one has been used. [redundantAssignment]
+    j->YCbCr_to_RGB_kernel = stbi__YCbCr_to_RGB_simd;
+                           ^
+Game/vendor/stb_image/stb_image.h:3745:28: note: j->YCbCr_to_RGB_kernel is assigned
+    j->YCbCr_to_RGB_kernel = stbi__YCbCr_to_RGB_row;
+                           ^
+Game/vendor/stb_image/stb_image.h:3758:28: note: j->YCbCr_to_RGB_kernel is overwritten
+    j->YCbCr_to_RGB_kernel = stbi__YCbCr_to_RGB_simd;
+                           ^
+Game/vendor/stb_image/stb_image.h:3759:33: style: Variable 'j->resample_row_hv_2_kernel' is reassigned a value before the old one has been used. [redundantAssignment]
+    j->resample_row_hv_2_kernel = stbi__resample_row_hv_2_simd;
+                                ^
+Game/vendor/stb_image/stb_image.h:3746:33: note: j->resample_row_hv_2_kernel is assigned
+    j->resample_row_hv_2_kernel = stbi__resample_row_hv_2;
+                                ^
+Game/vendor/stb_image/stb_image.h:3759:33: note: j->resample_row_hv_2_kernel is overwritten
+    j->resample_row_hv_2_kernel = stbi__resample_row_hv_2_simd;
+                                ^
+Game/vendor/glm/test/core/core_func_integer.cpp:246:2: error: The one definition rule is violated, different classes/structs have the same name 'type < glm :: uint >' [ctuOneDefinitionRuleViolation]
+ struct type
+ ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:12:2: note: The one definition rule is violated, different classes/structs have the same name 'type < glm :: uint >'
+ struct type
+ ^
+Game/vendor/glm/test/core/core_func_integer.cpp:246:2: note: The one definition rule is violated, different classes/structs have the same name 'type < glm :: uint >'
+ struct type
+ ^
+Game/vendor/glm/test/core/core_func_integer.cpp:1364:2: error: The one definition rule is violated, different classes/structs have the same name 'type < int >' [ctuOneDefinitionRuleViolation]
+ struct type
+ ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:12:2: note: The one definition rule is violated, different classes/structs have the same name 'type < int >'
+ struct type
+ ^
+Game/vendor/glm/test/core/core_func_integer.cpp:1364:2: note: The one definition rule is violated, different classes/structs have the same name 'type < int >'
+ struct type
+ ^
+Game/vendor/glm/test/core/core_func_common.cpp:950:2: error: The one definition rule is violated, different classes/structs have the same name 'type < glm :: ivec4 >' [ctuOneDefinitionRuleViolation]
+ struct type
+ ^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:12:2: note: The one definition rule is violated, different classes/structs have the same name 'type < glm :: ivec4 >'
+ struct type
+ ^
+Game/vendor/glm/test/core/core_func_common.cpp:950:2: note: The one definition rule is violated, different classes/structs have the same name 'type < glm :: ivec4 >'
+ struct type
+ ^
+Game/vendor/glm/test/core/core_func_integer.cpp:1364:2: error: The one definition rule is violated, different classes/structs have the same name 'type < int >' [ctuOneDefinitionRuleViolation]
+ struct type
+ ^
+Game/vendor/glm/test/gtc/gtc_round.cpp:376:2: note: The one definition rule is violated, different classes/structs have the same name 'type < int >'
+ struct type
+ ^
+Game/vendor/glm/test/core/core_func_integer.cpp:1364:2: note: The one definition rule is violated, different classes/structs have the same name 'type < int >'
+ struct type
+ ^
+Game/vendor/glm/test/core/core_func_common.cpp:950:2: error: The one definition rule is violated, different classes/structs have the same name 'type < glm :: int32 >' [ctuOneDefinitionRuleViolation]
+ struct type
+ ^
+Game/vendor/glm/test/gtc/gtc_round.cpp:169:2: note: The one definition rule is violated, different classes/structs have the same name 'type < glm :: int32 >'
+ struct type
+ ^
+Game/vendor/glm/test/core/core_func_common.cpp:950:2: note: The one definition rule is violated, different classes/structs have the same name 'type < glm :: int32 >'
+ struct type
+ ^
+Game/vendor/glm/test/core/core_func_integer.cpp:246:2: error: The one definition rule is violated, different classes/structs have the same name 'type < glm :: uint >' [ctuOneDefinitionRuleViolation]
+ struct type
+ ^
+Game/vendor/glm/test/gtc/gtc_round.cpp:12:2: note: The one definition rule is violated, different classes/structs have the same name 'type < glm :: uint >'
+ struct type
+ ^
+Game/vendor/glm/test/core/core_func_integer.cpp:246:2: note: The one definition rule is violated, different classes/structs have the same name 'type < glm :: uint >'
+ struct type
+ ^
+Game/src/Render/GL/VertexAttribute.cpp:20:0: style: The function 'AddLayoutUint' is never used. [unusedFunction]
+
+^
+Game/src/Render/GL/FramebufferRender.cpp:115:0: style: The function 'AddShader' is never used. [unusedFunction]
+
+^
+Game/src/Entry/Application.cpp:114:0: style: The function 'AddVoidPointer' is never used. [unusedFunction]
+
+^
+Game/src/Render/GL/Framebuffer.cpp:234:0: style: The function 'CreateFramebuffer' is never used. [unusedFunction]
+
+^
+Game/src/Message/Message.cpp:14:0: style: The function 'EntityIsValid' is never used. [unusedFunction]
+
+^
+Game/src/Scene/Scene.cpp:367:0: style: The function 'FramebufferGetScalor' is never used. [unusedFunction]
+
+^
+Game/src/Render/Render2D.cpp:36:0: style: The function 'Free' is never used. [unusedFunction]
+
+^
+Game/src/Render/GL/GL_Commands.cpp:13:0: style: The function 'GL_DrawArrayCall' is never used. [unusedFunction]
+
+^
+Game/src/Scene/Scene.cpp:412:0: style: The function 'GetEnableBody' is never used. [unusedFunction]
+
+^
+Game/src/Entry/ParseArgs.cpp:87:0: style: The function 'GetFlag' is never used. [unusedFunction]
+
+^
+Game/src/Render/GL/GLContext.cpp:72:0: style: The function 'GetFragmetShaderMaxTextureUnits' is never used. [unusedFunction]
+
+^
+Game/src/Entry/ParseArgs.cpp:82:0: style: The function 'GetOption' is never used. [unusedFunction]
+
+^
+Game/src/Entry/ParseArgs.cpp:48:0: style: The function 'GetOptionAsFloat' is never used. [unusedFunction]
+
+^
+Game/src/Entry/ParseArgs.cpp:58:0: style: The function 'GetOptionAsInt' is never used. [unusedFunction]
+
+^
+Game/src/Utils/Files.cpp:59:0: style: The function 'GetPairText' is never used. [unusedFunction]
+
+^
+Game/src/Render/Render2D.cpp:354:0: style: The function 'GetRenderInfo' is never used. [unusedFunction]
+
+^
+Game/src/Window/WindowGlfw.cpp:40:0: style: The function 'GetVSync' is never used. [unusedFunction]
+
+^
+Game/src/Entry/Application.cpp:127:0: style: The function 'GetVoidPointer' is never used. [unusedFunction]
+
+^
+Game/src/Window/WindowGlfw.cpp:82:0: style: The function 'IsFullscreen' is never used. [unusedFunction]
+
+^
+Game/src/Render/GL/Shader.cpp:293:0: style: The function 'Load' is never used. [unusedFunction]
+
+^
+Game/src/Colision/Colide.cpp:19:0: style: The function 'PointVsRect' is never used. [unusedFunction]
+
+^
+Game/src/Entry/LayerStack.cpp:40:0: style: The function 'PopLayer' is never used. [unusedFunction]
+
+^
+Game/src/Entry/LayerStack.cpp:51:0: style: The function 'PopOverlay' is never used. [unusedFunction]
+
+^
+Game/src/Colision/Colide.cpp:7:0: style: The function 'RectVsRect' is never used. [unusedFunction]
+
+^
+Game/src/Entry/ParseArgs.cpp:35:0: style: The function 'RegistryFlag' is never used. [unusedFunction]
+
+^
+Game/src/Entry/ParseArgs.cpp:41:0: style: The function 'RegistryOption' is never used. [unusedFunction]
+
+^
+Game/src/Scene/Scene.cpp:71:0: style: The function 'SceneBegin' is never used. [unusedFunction]
+
+^
+Game/src/Scene/Scene.cpp:87:0: style: The function 'SceneEnd' is never used. [unusedFunction]
+
+^
+Game/src/Scene/Scene.cpp:402:0: style: The function 'SetEnableBody' is never used. [unusedFunction]
+
+^
+Game/src/Window/WindowGlfw.cpp:54:0: style: The function 'SetFullscreen' is never used. [unusedFunction]
+
+^
+Game/src/Render/GameCamera.cpp:24:0: style: The function 'SetOrthographic' is never used. [unusedFunction]
+
+^
+Game/src/Render/GameCamera.cpp:33:0: style: The function 'SetOrthographicPX' is never used. [unusedFunction]
+
+^
+Game/src/Render/GameCamera.cpp:15:0: style: The function 'SetPerspective' is never used. [unusedFunction]
+
+^
+Game/src/Render/GL/Shader.cpp:254:0: style: The function 'SetUniform2f' is never used. [unusedFunction]
+
+^
+Game/src/Render/GL/Shader.cpp:260:0: style: The function 'SetUniform3f' is never used. [unusedFunction]
+
+^
+Game/src/Render/GL/Shader.cpp:266:0: style: The function 'SetUniform4f' is never used. [unusedFunction]
+
+^
+Game/src/Entry/ParseArgs.cpp:6:0: style: The function 'ToUpper' is never used. [unusedFunction]
+
+^
+Game/src/Render/GL/FramebufferRender.cpp:121:0: style: The function 'UseShader' is never used. [unusedFunction]
+
+^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:700:0: style: The function 'bitfieldDeinterleave_u16vec2' is never used. [unusedFunction]
+
+^
+Game/vendor/glm/test/gtc/gtc_bitfield.cpp:676:0: style: The function 'bitfieldDeinterleave_u8vec4' is never used. [unusedFunction]
+
+^
+Game/src/Input/Mouse.cpp:94:0: style: The function 'clamp_cursor' is never used. [unusedFunction]
+
+^
+Game/vendor/glm/test/core/core_type_vec3.cpp:128:0: style: The function 'foo' is never used. [unusedFunction]
+
+^
+Game/vendor/glad/src/glad.c:148:0: style: The function 'gladLoadGL' is never used. [unusedFunction]
+
+^
+Game/src/Input/Keyboard.cpp:38:0: style: The function 'isAnyKey' is never used. [unusedFunction]
+
+^
+Game/src/Input/Keyboard.cpp:23:0: style: The function 'isPress' is never used. [unusedFunction]
+
+^
+Game/vendor/glm/test/core/core_func_integer_find_lsb.cpp:245:0: style: The function 'ntz11' is never used. [unusedFunction]
+
+^
+Game/vendor/glm/test/gtx/gtx_fast_trigonometry.cpp:237:0: style: The function 'perf_fastCosNew' is never used. [unusedFunction]
+
+^
+Game/src/Utils/Generic.cpp:46:0: style: The function 'pos_trans' is never used. [unusedFunction]
+
+^
+Game/vendor/glm/test/gtc/gtc_packing.cpp:27:0: style: The function 'print_10bits' is never used. [unusedFunction]
+
+^
+Game/vendor/glm/test/gtc/gtc_packing.cpp:38:0: style: The function 'print_11bits' is never used. [unusedFunction]
+
+^
+Game/vendor/glm/test/gtc/gtc_packing.cpp:49:0: style: The function 'print_value' is never used. [unusedFunction]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingInclude]
+
