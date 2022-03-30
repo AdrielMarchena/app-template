@@ -91,6 +91,8 @@ namespace Game
 		glm::vec4 Color;
 		glm::vec2 TextureCoords;
 		float TextureIndex;
+
+		GAME_DECLARE_ENTITY_ID;
 	};
 
 	struct DrawGeometryData
@@ -175,6 +177,8 @@ namespace Game
 		layout.AddLayoutFloat(2, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, TextureCoords));
 
 		layout.AddLayoutFloat(1, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, TextureIndex));
+
+		GAME_DO_IF_ENTITYID(layout.AddLayoutInt(1, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, GAME_ENTITY_ID)));
 
 		uint32_t* indices = new uint32_t[QuadMaxIndexCount]{0};
 		uint32_t offset = 0;
@@ -273,7 +277,7 @@ namespace Game
 		Texture::DeleteWhiteTexture();
 	}
 
-	void Render2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	void Render2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID))
 	{
 		if (s_Data.Quads->IndexCount >= QuadMaxIndexCount)
 		{
@@ -300,7 +304,7 @@ namespace Game
 		s_Data.Quads->Stats.GeometryCounterLifeSpam++;
 	}
 
-	void Render2D::DrawQuad(const glm::mat4& transform, Ref<Texture> texture, const glm::vec4& color)
+	void Render2D::DrawQuad(const glm::mat4& transform, Ref<Texture> texture, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID))
 	{
 		if (s_Data.Quads->IndexCount >= QuadMaxIndexCount || s_Data.Quads->TextureSlotIndex >= 16-1)
 		{
@@ -336,6 +340,7 @@ namespace Game
 			qbuff->Color = color;
 			qbuff->TextureCoords = DefaultTextureCoords[i];
 			qbuff->TextureIndex = textureIndex;
+			GAME_DO_IF_ENTITYID(qbuff->GAME_ENTITY_ID = GAME_ENTITY_ID);
 			qbuff++;
 		}
 

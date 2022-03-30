@@ -306,6 +306,8 @@ namespace Game
 			m_FramebufferRender->BindFrameBuffer();
 			Render2D::Clear();
 
+			GAME_DO_IF_ENTITYID(m_FramebufferRender->ClearAttachment(1, -1));
+
 			if (main_camera)
 			{
 				m_FramebufferRender->SetGLViewport(true);
@@ -321,15 +323,18 @@ namespace Game
 					{
 						auto& tra = m_Registry->Get<TransformComponent>(ent);
 						if (sprite.Texture)
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture);
+							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture, sprite.Color GAME_COMMA_ENTITYID((int)ecs::GetEntityIndex(ent)));
 						else
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Color);
+							Render2D::DrawQuad(tra.GetTransform(), sprite.Color GAME_COMMA_ENTITYID((int)ecs::GetEntityIndex(ent)));
 					}
 				}
 
 				Render2D::EndBatch();
 				Render2D::Flush();
 			}
+
+			for (auto& f : m_FunctionsBeforeUnbindFramebuffer)
+				f(this);
 
 			m_FramebufferRender->UnbindFrameBuffer();
 
@@ -374,6 +379,16 @@ namespace Game
 		m_FramebufferRender->UsePostEffect(effect_name);
 	}
 
+	int Scene::ReadPixel(uint32_t index, int x, int y)
+	{
+		return m_FramebufferRender->ReadPixel(index, x, y);
+	}
+
+	void Scene::ClearAttachment(uint32_t index, int value)
+	{
+		m_FramebufferRender->ClearAttachment(index, value);
+	}
+
 	void Scene::MakeCurrentSceneRef(const Ref<Scene>& scene)
 	{
 		Scene::m_CurrentScene = scene;
@@ -403,5 +418,13 @@ namespace Game
 			return body->IsEnabled();
 		}
 		return false;
+	}
+
+	void Scene::AddDoBeforeUnbindFramebuffer(DoBeforeUnbindFramebuffer func)
+	{
+		if (func)
+			m_FunctionsBeforeUnbindFramebuffer.push_back(func);
+
+		// GAME_LOG_WARN("The function '{0}' is invalid", func);
 	}
 }
