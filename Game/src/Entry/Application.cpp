@@ -2,6 +2,7 @@
 #include "Application.h"
 
 #include "Render/Render2D.h"
+#include "Scene/ECSFace.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -28,6 +29,7 @@ namespace Game {
 
 		glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 		Render2D::Init();
+		ECSFace::CreateRegistry();
 	}
 
 	Application::~Application()

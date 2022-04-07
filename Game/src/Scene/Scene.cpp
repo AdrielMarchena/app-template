@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Scene.h"
+#include "ECSFace.h"
 #include "Entity.h"
 #include "Components.h"
 #include "Render/Render2D.h"
@@ -70,7 +71,8 @@ namespace Game
 
 	void Scene::SceneBegin()
 	{
-		auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+		//auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+		auto view = ECSFace::View<NativeScriptComponent>();
 		for(auto e : view)
 		{
 			Entity ent = { e, this };
@@ -86,7 +88,8 @@ namespace Game
 
 	void Scene::SceneEnd()
 	{
-		auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+		//auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+		auto view = ECSFace::View<NativeScriptComponent>();
 		for(auto e : view)
 		{
 			Entity ent = { e, this };
@@ -118,7 +121,8 @@ namespace Game
 	{
 		if(m_PhysicWorld) return;
 		m_PhysicWorld = new b2World({0.0f,-9.8f});
-		auto view = ecs::SceneView<RigidBody2DComponent>(*m_Registry);
+		//auto view = ecs::SceneView<RigidBody2DComponent>(*m_Registry);
+		auto view = ECSFace::View<RigidBody2DComponent>();
 		for(auto e : view)
 		{
 			Entity ent = { e, this };
@@ -165,7 +169,7 @@ namespace Game
 	Entity Scene::CreateEntity(const std::string& tag, bool addMessangerComponent)
 	{
 		
-		Entity ent{ m_Registry->CreateEntity(), this };
+		Entity ent{ ECSFace::CreateEntity(), this };
 
 		ent.Add<IdComponent>();
 		ent.Add<TagComponent>(tag.empty() ? "Unnamed Entity" : tag);
@@ -179,7 +183,8 @@ namespace Game
 	{
 
 		{// Scripts
-			auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+			// auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+			auto view = ECSFace::View<NativeScriptComponent>();
 			for (auto e : view)
 			{
 				Entity ent{e, this};
@@ -196,7 +201,8 @@ namespace Game
 
 			m_PhysicWorld->Step(dt,velocityIterations,positionIterations);
 
-			auto view = ecs::SceneView<RigidBody2DComponent>(*m_Registry);
+			// auto view = ecs::SceneView<RigidBody2DComponent>(*m_Registry);
+			auto view = ECSFace::View<RigidBody2DComponent>();
 			for (auto e : view)
 			{
 				Entity ent{e, this};
@@ -218,7 +224,8 @@ namespace Game
 		SceneCamera* main_camera = nullptr;
 		TransformComponent* main_camera_trasform = nullptr;
 		{
-			auto view = ecs::SceneView<CameraComponent>(*m_Registry);
+			// auto view = ecs::SceneView<CameraComponent>(*m_Registry);
+			auto view = ECSFace::View<CameraComponent>();
 			for (auto ent : view)
 			{
 				Entity camera = { ent, this };
@@ -236,8 +243,8 @@ namespace Game
 
 		{//Physics
 			//TODO: Test this idk if works
-			auto view = ecs::SceneView<BoxColiderComponent>(*m_Registry);
-			
+			// auto view = ecs::SceneView<BoxColiderComponent>(*m_Registry);
+			auto view = ECSFace::View<BoxColiderComponent>();
 			static glm::vec2 gravity = { 0.0f, 9.8f };
 			for (auto ent : view)
 			{
@@ -315,13 +322,14 @@ namespace Game
 				Render2D::BeginScene(*main_camera, *main_camera_trasform);
 				Render2D::BeginBatch();
 				
-				auto view = ecs::SceneView<SpriteComponent>(*m_Registry);
+				//auto view = ecs::SceneView<SpriteComponent>(*m_Registry);
+				auto view = ECSFace::View<SpriteComponent>();
 				for (auto ent : view)
 				{
-					auto& sprite = m_Registry->Get<SpriteComponent>(ent);
+					auto& sprite = ECSFace::GetComponent<SpriteComponent>(ent);
 					if (sprite.Visible)
 					{
-						auto& tra = m_Registry->Get<TransformComponent>(ent);
+						auto& tra = ECSFace::GetComponent<TransformComponent>(ent);
 						if (sprite.Texture)
 							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture, sprite.Color GAME_COMMA_ENTITYID((int)ecs::GetEntityIndex(ent)));
 						else
