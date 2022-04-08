@@ -331,9 +331,9 @@ namespace Game
 					{
 						auto& tra = ECSFace::GetComponent<TransformComponent>(ent);
 						if (sprite.Texture)
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture, sprite.Color GAME_COMMA_ENTITYID((int)ecs::GetEntityIndex(ent)));
+							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture, sprite.Color GAME_COMMA_ENTITYID(ECSFace::GetEntityNumber(ent)));
 						else
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Color GAME_COMMA_ENTITYID((int)ecs::GetEntityIndex(ent)));
+							Render2D::DrawQuad(tra.GetTransform(), sprite.Color GAME_COMMA_ENTITYID(ECSFace::GetEntityNumber(ent)));
 					}
 				}
 

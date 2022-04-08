@@ -21,13 +21,16 @@ private:
     static void* m_Registry;
     static ECSImplementation s_ECSImplementation;
 public:
-    static void SetImplementation(ECSImplementation implementation);
+    static void SetImplementation(ECSImplementation implementation)
+    {
+        s_ECSImplementation = implementation;
+    }
 
     static void CreateRegistry()
     {
         if(s_ECSImplementation == ECSImplementation::Entt)
         {
-            // TODO: Implement
+            m_Registry = new entt::registry();
         }
         if(s_ECSImplementation == ECSImplementation::InternalEcs)
         {
@@ -46,6 +49,15 @@ public:
         if(s_ECSImplementation == ECSImplementation::InternalEcs) return "InternalEcs";
     }
 
+    static uint32_t GetEntityNumber(uint64_t entity)
+    {
+        switch(s_ECSImplementation)
+        {
+            case ECSImplementation::InternalEcs: return ecs::GetEntityIndex(entity);
+            case ECSImplementation::Entt: return entity;
+        }
+    }
+
     template<typename T>
     inline static T& GetComponent(uint64_t entity)
     {
@@ -62,7 +74,7 @@ public:
         switch(s_ECSImplementation)
         {
             case ECSImplementation::InternalEcs: return ECSAddComponent<T>((ecs::entity)entity, std::forward<_Args>(args)...);
-            case ECSImplementation::Entt: uint32_t en = entity; return EnttAddComponent<T>(entt::entity{en});
+            case ECSImplementation::Entt: uint32_t en = entity; return EnttAddComponent<T>(entt::entity{en}, std::forward<_Args>(args)...);
         }
     }
 
@@ -121,7 +133,8 @@ private:
     template<typename T>
     inline static T& EnttGetComponent(entt::entity entity)
     {
-        // TODO: Implement
+        entt::registry* scene = ECSFace::CastTo<entt::registry>();
+        return scene->get<T>(entity);
     }
 
     // ADD
@@ -131,10 +144,11 @@ private:
         ecs::Scene* scene = ECSFace::CastTo<ecs::Scene>();
         return scene->Add<T>(entity, std::forward<_Args>(args)...);
     }
-    template<typename T>
-    inline static T& EnttAddComponent(entt::entity entity)
+    template<typename T, class... _Args>
+    inline static T& EnttAddComponent(entt::entity entity, _Args&&... args)
     {
-        // TODO: Implement
+        entt::registry* scene = ECSFace::CastTo<entt::registry>();
+        return scene->emplace<T>(entity, std::forward<_Args>(args)...);
     }
 
     // CONTAIN
@@ -147,7 +161,8 @@ private:
     template<typename T>
     inline static bool EnttContainComponent(entt::entity entity)
     {
-        // TODO: Implement
+        entt::registry* scene = ECSFace::CastTo<entt::registry>();
+        return scene->any_of<T>(entity);
     }
 
     // REMOVE
@@ -160,7 +175,8 @@ private:
     template<typename T>
     inline static void EnttRemoveComponent(entt::entity entity)
     {
-        // TODO: Implement
+        entt::registry* scene = ECSFace::CastTo<entt::registry>();
+        return scene->remove<T>(entity);
     }
 
     template<typename _T>
