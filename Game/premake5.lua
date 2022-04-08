@@ -27,6 +27,7 @@ project "Game"
 		"%{IncludeDirectories.debugbreak}",
 		"%{IncludeDirectories.lodepng}",
 		"%{IncludeDirectories.Box2D}",
+		"%{IncludeDirectories.entt}",
 	}
 
 	links

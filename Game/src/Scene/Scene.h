@@ -2,6 +2,7 @@
 
 #include "Core/Core.h"
 #include "Render/GL/FramebufferRender.h"
+#include "ECSFace.h"
 #include "Ecs/ECSScene.h"
 #include "Render/GameCamera.h"
 #include <functional>

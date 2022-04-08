@@ -16,3 +16,6 @@
 [submodule "Game/vendor/Box2D"]
 	path = Game/vendor/Box2D
 	url = https://github.com/erincatto/box2d.git
+[submodule "Game/vendor/entt"]
+	path = Game/vendor/entt
+	url = https://github.com/skypjack/entt.git

@@ -78,7 +78,7 @@ void MyGame::OnAttach()
 		m_Quad = m_Scene->CreateEntity("Quad");
 		auto texture = Game::Texture::CreateTexture("assets/img/shrekOnion.jpg");
 		m_Quad.Add<Game::SpriteComponent>(texture);
-		auto& tr = m_Quad.Get<Game::TransformComponent>();
+		auto& tr = m_Quad.GetTransformComponent();
 
 		float texture_ar = texture->GetSize().x / texture->GetSize().y;
 		tr.SetScaleWithAr(texture_ar);
