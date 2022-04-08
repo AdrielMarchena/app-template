@@ -16,7 +16,8 @@ namespace Game
                 return scene->CreateEntity();
             }
             case ECSImplementation::Entt: 
-                // Todo: Implement
+                entt::registry* scene = ECSFace::CastTo<entt::registry>();
+                return (uint32_t)scene->create();
             break;
         }
     }
@@ -31,7 +32,8 @@ namespace Game
                 scene->DestroyEntity(ent);
             }
             case ECSImplementation::Entt: 
-                // Todo: Implement
+                entt::registry* scene = ECSFace::CastTo<entt::registry>();
+                scene->destroy(entt::entity{ent});
             break;
         }
     }
