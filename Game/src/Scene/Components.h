@@ -9,6 +9,8 @@
 //#include "Message/BusNode.h"
 namespace Game
 {
+	void InitMetaReflectionComponents();
+
 	struct TestComponent
 	{
 		int a = 256;
