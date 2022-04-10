@@ -28,7 +28,22 @@ project "Game"
 		"%{IncludeDirectories.lodepng}",
 		"%{IncludeDirectories.Box2D}",
 		"%{IncludeDirectories.entt}",
+		"%{IncludeDirectories.fmod}",
 	}
+
+	filter "architecture:x86"
+		libdirs
+		{
+			"%{wks.location}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86"
+		}
+
+	filter "architecture:x64"
+		libdirs
+		{
+			"%{wks.location}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64"
+		}
+		
+	filter {}
 
 	links
 	{
@@ -37,7 +52,8 @@ project "Game"
 		"Glad",
 		"ImGui",
 		"lodepng",
-		"Box2D"
+		"Box2D",
+		"fmod"
 		--"opengl32.lib"
 		--"glfw3.lib ",
 	}
@@ -51,6 +67,8 @@ project "Game"
 	{
 		--("{COPYDIR} \"./src/**.h\" \"./include/Game\""),
 	}
+
+	
 
 	filter "system:Windows"
 		cppdialect "C++17"

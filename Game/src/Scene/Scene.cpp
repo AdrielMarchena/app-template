@@ -10,11 +10,14 @@
 #include "Colision/Colide.h"
 #include "Message/BusNode.h"
 #include "ScriptableClass.h"
+#include "Utils/Files.h"
 
 #include "box2d/b2_world.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_fixture.h"
 #include "box2d/b2_polygon_shape.h"
+
+#include "fmod.hpp" // TODO: Temp
 
 namespace Game
 {
@@ -59,6 +62,13 @@ namespace Game
 		m_FramebufferRender->SetQuadRotation({ 0.0f,0.0f,0.0f });
 
 		m_MessageBus = new MessageBus();
+
+		// TODO: Remove this test here
+
+		auto dirs = utils::Files::GetPairText("assets/sounds", ".ogg#.wav#.WAV");
+
+		static auto snd = m_SoundSystem.CreateStreamRef(dirs[0].second, FMOD_DEFAULT);
+		snd->HotPlay();
 	}
 
 	Scene::~Scene()
@@ -220,6 +230,10 @@ namespace Game
 
 		//Notify all messages
 		m_MessageBus->Notify();
+
+		{ // Sound
+			m_SoundSystem.Update(dt);
+		}
 
 		SceneCamera* main_camera = nullptr;
 		TransformComponent* main_camera_trasform = nullptr;

@@ -14,6 +14,15 @@ namespace Game
 	}
 
 	template<typename T>
+	using Weak = std::weak_ptr<T>;
+
+	template<typename T>
+	Weak<T> MakeWeak(const Ref<T>& ref)
+	{
+		return ref;
+	}
+
+	template<typename T>
 	using Scope = std::unique_ptr<T>;
 
 	template<typename T, class ... _Args>

@@ -78,6 +78,9 @@ bin-int
 !*/assets/img/*
 !*/assets/fonts/*
 
+#add fmod
+!*/vendor/fmodstudioapi20206linux/*
+
 #misc
 *.workspace
 *.mk
