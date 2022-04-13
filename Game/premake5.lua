@@ -114,11 +114,11 @@ project "Game"
 			}
 
 	filter "configurations:Debug"
-		defines "GAME_DEBUG"
+		defines { "GAME_DEBUG", "GAME_PROFILING" }
 		symbols "On"
 
 	filter "configurations:Release"
-		defines "GAME_RELEASE"
+		defines { "GAME_RELEASE", "GAME_PROFILING" }
 		optimize "On"
 
 	filter "configurations:Dist"
