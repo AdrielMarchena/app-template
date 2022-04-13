@@ -81,6 +81,8 @@ bin-int
 #add fmod
 !*/vendor/fmodstudioapi20206linux/api/core/inc/**
 !*/vendor/fmodstudioapi20206linux/api/core/lib/**
+!premake5.exe
+
 #misc
 *.workspace
 *.mk
