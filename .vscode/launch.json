@@ -13,7 +13,12 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/Game",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "${workspaceFolder}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64"
+                }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
@@ -39,7 +44,12 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/Game",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "${workspaceFolder}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64"
+                }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
@@ -64,7 +74,12 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/Game",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "${workspaceFolder}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64"
+                }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [

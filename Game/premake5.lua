@@ -28,7 +28,10 @@ project "Game"
 		"%{IncludeDirectories.lodepng}",
 		"%{IncludeDirectories.Box2D}",
 		"%{IncludeDirectories.entt}",
+		"%{IncludeDirectories.fmod}",
 	}
+		
+	filter {}
 
 	links
 	{
@@ -63,6 +66,23 @@ project "Game"
 			"GAME_STATIC_BUILD"
 		}
 
+		links
+		{
+			"fmod_vc"
+		}
+
+		filter "architecture:x86"
+			libdirs
+			{
+				"%{wks.location}/Game/vendor/fmodstudioapi20206windows/api/core/lib/x86"
+			}
+
+		filter "architecture:x64"
+			libdirs
+			{
+				"%{wks.location}/Game/vendor/fmodstudioapi20206windows/api/core/lib/x64"
+			}
+
 	filter "system:linux"
 		cppdialect "C++17"
 		staticruntime "On"
@@ -73,12 +93,25 @@ project "Game"
 			"GAME_LINUX_BUILD",
 			"GAME_STATIC_BUILD"
 		}
-
+		
 		links
 		{
 			"pthread",
-			"dl"
+			"dl",
+			"fmod"
 		}
+
+		filter "architecture:x86"
+			libdirs
+			{
+				"%{wks.location}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86"
+			}
+
+		filter "architecture:x64"
+			libdirs
+			{
+				"%{wks.location}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64"
+			}
 
 	filter "configurations:Debug"
 		defines "GAME_DEBUG"

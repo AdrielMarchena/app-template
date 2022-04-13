@@ -5,6 +5,7 @@
 #include "ECSFace.h"
 #include "Ecs/ECSScene.h"
 #include "Render/GameCamera.h"
+#include "Sound/SoundsSystemFMOD.h"
 #include <functional>
 //#include "Message/MessageBus.h"
 class b2World;
@@ -66,6 +67,7 @@ namespace Game
 		SceneCamera m_FramebufferCamera;
 		MessageBus* m_MessageBus = nullptr;
 		b2World* m_PhysicWorld = nullptr;
+		SoundsSystemFMOD m_SoundSystem;
 		friend class Entity;
 		static Ref<Scene> m_CurrentScene;
 	};

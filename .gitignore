@@ -78,6 +78,13 @@ bin-int
 !*/assets/img/*
 !*/assets/fonts/*
 
+#add fmod
+!*/vendor/fmodstudioapi20206linux/api/core/inc/**
+!*/vendor/fmodstudioapi20206linux/api/core/lib/**
+!*/vendor/fmodstudioapi20206windows/api/core/inc/**
+!*/vendor/fmodstudioapi20206windows/api/core/lib/**
+!premake5.exe
+
 #misc
 *.workspace
 *.mk

@@ -7,9 +7,12 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  buildLinux:
+    name: build-linux
     runs-on: ubuntu-latest
+    
+    env:
+      LD_LIBRARY_PATH: ${{ github.workspace }}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64
 
     steps:
     - uses: actions/checkout@v2
@@ -19,7 +22,7 @@ jobs:
         sudo apt update -qq
         sudo apt install -y git build-essential g++ make zip unzip
         sudo apt-get install -y --no-install-recommends libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libxext-dev libxfixes-dev libgl1-mesa-dev
-    
+
     - name: Fetch git submodules
       run: git submodule update --init --recursive
     
@@ -28,7 +31,7 @@ jobs:
 
     - name: make Debug x64
       run: make config=debug_x64
-      
+
     - name: make Dist x64
       run: make config=dist_x64
       
@@ -44,4 +47,31 @@ jobs:
         draft: false
         files: |
           *.zip
-            
+
+  buildWindows:
+    name: build-windows
+    runs-on: windows-latest
+
+    env:
+      LD_LIBRARY_PATH: ${{ github.workspace }}/Game/vendor/fmodstudioapi20206windows/api/core/lib/x64
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+          submodules: recursive
+
+    - name: Fetch git submodules
+      run: git submodule update --init --recursive
+
+    - name: Running premake5
+      run: .\premake5.exe vs2019
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Build app for Debug x64
+      run: msbuild Game.sln -t:rebuild -verbosity:normal -property:Configuration=Debug /p:Platform=x64
+
+    - name: Build app for Distribution x64
+      run: msbuild Game.sln -t:rebuild -verbosity:normal -property:Configuration=Dist /p:Platform=x64

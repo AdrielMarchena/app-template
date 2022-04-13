@@ -3,10 +3,19 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${default}",
                 "${workspaceFolder}/Game/src/**",
-                "${workspaceFolder}/Game/vendor/**",
-                "${workspaceFolder}/Game/vendor/entt/single_include/"
+                "${workspaceFolder}/Game/vendor/debugbreak",
+                "${workspaceFolder}/Game/vendor/glad/include",
+                "${workspaceFolder}/Game/vendor/glfw/include",
+                "${workspaceFolder}/Game/vendor/glm",
+                "${workspaceFolder}/Game/vendor/imgui",
+                "${workspaceFolder}/Game/vendor/spdlog/include",
+                "${workspaceFolder}/Game/vendor/stb_image",
+                "${workspaceFolder}/Game/vendor/lodepng",
+                "${workspaceFolder}/Game/vendor/Box2D/include",
+                "${workspaceFolder}/Game/vendor/entt/single_include",
+                "${workspaceFolder}/Game/vendor/fmodstudioapi20206linux/api/core/inc"
             ],
             "forcedInclude": [
                 "${default}"
@@ -19,10 +28,19 @@
             "configurationProvider": "ms-vscode.makefile-tools",
             "browse": {
                 "path": [
-                    "${workspaceFolder}/",
+                    "${default}",
                     "${workspaceFolder}/Game/src/",
-                    "${workspaceFolder}/Game/vendor/",
-                    "${workspaceFolder}/Game/vendor/entt/single_include/"
+                    "${workspaceFolder}/Game/vendor/debugbreak",
+                    "${workspaceFolder}/Game/vendor/glad/include",
+                    "${workspaceFolder}/Game/vendor/glfw/include",
+                    "${workspaceFolder}/Game/vendor/glm",
+                    "${workspaceFolder}/Game/vendor/imgui",
+                    "${workspaceFolder}/Game/vendor/spdlog/include",
+                    "${workspaceFolder}/Game/vendor/stb_image",
+                    "${workspaceFolder}/Game/vendor/lodepng",
+                    "${workspaceFolder}/Game/vendor/Box2D/include",
+                    "${workspaceFolder}/Game/vendor/entt/single_include",
+                    "${workspaceFolder}/Game/vendor/fmodstudioapi20206linux/api/core/inc"
                 ]
             }
         }

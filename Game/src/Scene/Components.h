@@ -5,9 +5,12 @@
 #include "Render/GameCamera.h"
 #include "glm/glm.hpp"
 #include "glm/gtx/quaternion.hpp"
+#include "Sound/SoundsSystemFMOD.h"
 //#include "Message/BusNode.h"
 namespace Game
 {
+	void InitMetaReflectionComponents();
+
 	struct TestComponent
 	{
 		int a = 256;
