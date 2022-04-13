@@ -16,7 +16,6 @@
                 "${workspaceFolder}/Game/vendor/Box2D/include",
                 "${workspaceFolder}/Game/vendor/entt/single_include",
                 "${workspaceFolder}/Game/vendor/fmodstudioapi20206linux/api/core/inc"
-                
             ],
             "forcedInclude": [
                 "${default}"
