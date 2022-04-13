@@ -50,7 +50,7 @@ jobs:
 
   buildWindows:
     name: build-windows
-    runs-on: [self-hosted, windows]
+    runs-on: windows-latest
 
     steps:
     - name: Checkout
