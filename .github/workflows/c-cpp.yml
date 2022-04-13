@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ master ]
 
-env:
-  LD_LIBRARY_PATH: Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64
-
 jobs:
   build:
 
@@ -28,6 +25,9 @@ jobs:
     
     - name: premake5
       run: ./premake5 gmake2
+
+    - env:
+        LD_LIBRARY_PATH: ./Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64
 
     - name: make Debug x64
       run: make config=debug_x64
