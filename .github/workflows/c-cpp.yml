@@ -64,5 +64,11 @@ jobs:
     - name: Running premake5
       run: .\premake5.exe vs2019
 
-    - name: Build Solution (windows)
-      run: MSBuild.exe CMakeHelloWorld.sln
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Build app for Debug x64
+      run: msbuild src\Game.csproj -t:rebuild -verbosity:diag -property:Configuration=Debug /p:Platform=x64
+
+    - name: Build app for Distribution x64
+      run: msbuild src\Game.csproj -t:rebuild -verbosity:diag -property:Configuration=Dist /p:Platform=x64
