@@ -7,15 +7,19 @@
 [submodule "Game/vendor/glfw"]
 	path = Game/vendor/glfw
 	url = https://github.com/glfw/glfw.git
+	ignore = dirty
 [submodule "Game/vendor/imgui"]
 	path = Game/vendor/imgui
 	url = https://github.com/ocornut/imgui.git
+	ignore = dirty
 [submodule "Game/vendor/lodepng"]
 	path = Game/vendor/lodepng
 	url = https://github.com/lvandeve/lodepng.git
+	ignore = dirty
 [submodule "Game/vendor/Box2D"]
 	path = Game/vendor/Box2D
 	url = https://github.com/erincatto/box2d.git
+	ignore = dirty
 [submodule "Game/vendor/entt"]
 	path = Game/vendor/entt
 	url = https://github.com/skypjack/entt.git
