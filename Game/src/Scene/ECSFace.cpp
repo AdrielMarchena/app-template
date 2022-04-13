@@ -33,7 +33,7 @@ namespace Game
             }
             case ECSImplementation::Entt: 
                 entt::registry* scene = ECSFace::CastTo<entt::registry>();
-                scene->destroy(entt::entity{ent});
+                scene->destroy((entt::entity)ent);
             break;
         }
     }

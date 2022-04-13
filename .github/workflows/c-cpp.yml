@@ -68,7 +68,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1
 
     - name: Build app for Debug x64
-      run: msbuild Game.sln -t:rebuild -verbosity:diag -property:Configuration=Debug /p:Platform=x64
+      run: msbuild Game.sln -t:rebuild -verbosity:normal -property:Configuration=Debug /p:Platform=x64
 
     - name: Build app for Distribution x64
-      run: msbuild Game.sln -t:rebuild -verbosity:diag -property:Configuration=Dist /p:Platform=x64
+      run: msbuild Game.sln -t:rebuild -verbosity:normal -property:Configuration=Dist /p:Platform=x64
