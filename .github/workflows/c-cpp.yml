@@ -71,4 +71,4 @@ jobs:
       run: msbuild src\Game.csproj -t:rebuild -verbosity:diag -property:Configuration=Debug /p:Platform=x64
 
     - name: Build app for Distribution x64
-      run: msbuild src\Game.csproj -t:rebuild -verbosity:diag -property:Configuration=Dist /p:Platform=x64
+      run: msbuild Game.sln -t:rebuild -verbosity:diag -property:Configuration=Dist /p:Platform=x64
