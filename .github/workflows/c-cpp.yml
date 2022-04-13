@@ -10,8 +10,8 @@ env:
   LD_LIBRARY_PATH: ${{ github.workspace }}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64
 
 jobs:
-  build:
-
+  buildLinux:
+    name: build-linux
     runs-on: ubuntu-latest
     
     steps:
@@ -47,4 +47,22 @@ jobs:
         draft: false
         files: |
           *.zip
-            
+
+  buildWindows:
+    name: build-windows
+    runs-on: [self-hosted, windows]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+          submodules: recursive
+
+    - name: Fetch git submodules
+      run: git submodule update --init --recursive
+
+    - name: Running premake5
+      run: premake5.exe vs2019
+
+    - name: Build Solution (windows)
+      run: MSBuild.exe CMakeHelloWorld.sln
