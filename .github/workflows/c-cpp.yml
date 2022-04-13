@@ -11,6 +11,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      LD_LIBRARY_PATH: ./Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64
+    
     steps:
     - uses: actions/checkout@v2
       
@@ -26,12 +29,9 @@ jobs:
     - name: premake5
       run: ./premake5 gmake2
 
-    - env:
-        LD_LIBRARY_PATH: ./Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64
-
     - name: make Debug x64
       run: make config=debug_x64
-      
+
     - name: make Dist x64
       run: make config=dist_x64
       
