@@ -62,7 +62,7 @@ jobs:
       run: git submodule update --init --recursive
 
     - name: Running premake5
-      run: premake5.exe vs2019
+      run: .\premake5.exe vs2019
 
     - name: Build Solution (windows)
       run: MSBuild.exe CMakeHelloWorld.sln
