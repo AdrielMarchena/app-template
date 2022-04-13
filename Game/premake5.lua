@@ -30,18 +30,6 @@ project "Game"
 		"%{IncludeDirectories.entt}",
 		"%{IncludeDirectories.fmod}",
 	}
-
-	filter "architecture:x86"
-		libdirs
-		{
-			"%{wks.location}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86"
-		}
-
-	filter "architecture:x64"
-		libdirs
-		{
-			"%{wks.location}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64"
-		}
 		
 	filter {}
 
@@ -52,8 +40,7 @@ project "Game"
 		"Glad",
 		"ImGui",
 		"lodepng",
-		"Box2D",
-		"fmod"
+		"Box2D"
 		--"opengl32.lib"
 		--"glfw3.lib ",
 	}
@@ -81,6 +68,23 @@ project "Game"
 			"GAME_STATIC_BUILD"
 		}
 
+		filter "architecture:x86"
+			libdirs
+			{
+				"%{wks.location}/Game/vendor/fmodstudioapi20206windows/api/core/lib/x86"
+			}
+
+		filter "architecture:x64"
+			libdirs
+			{
+				"%{wks.location}/Game/vendor/fmodstudioapi20206windows/api/core/lib/x64"
+			}
+
+		links
+		{
+			"fmod"
+		}
+
 	filter "system:linux"
 		cppdialect "C++17"
 		staticruntime "On"
@@ -92,10 +96,23 @@ project "Game"
 			"GAME_STATIC_BUILD"
 		}
 
+		filter "architecture:x86"
+			libdirs
+			{
+				"%{wks.location}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86"
+			}
+
+		filter "architecture:x64"
+			libdirs
+			{
+				"%{wks.location}/Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64"
+			}
+
 		links
 		{
 			"pthread",
-			"dl"
+			"dl",
+			"fmod"
 		}
 
 	filter "configurations:Debug"
