@@ -22,9 +22,6 @@ jobs:
         sudo apt update -qq
         sudo apt install -y git build-essential g++ make zip unzip
         sudo apt-get install -y --no-install-recommends libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libxext-dev libxfixes-dev libgl1-mesa-dev
-    
-    - name: print env
-      run: echo $LD_LIBRARY_PATH
 
     - name: Fetch git submodules
       run: git submodule update --init --recursive
