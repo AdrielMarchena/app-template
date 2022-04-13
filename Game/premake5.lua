@@ -55,8 +55,6 @@ project "Game"
 		--("{COPYDIR} \"./src/**.h\" \"./include/Game\""),
 	}
 
-	
-
 	filter "system:Windows"
 		cppdialect "C++17"
 		staticruntime "On"
