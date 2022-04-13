@@ -68,7 +68,7 @@ project "Game"
 
 		links
 		{
-			"fmod"
+			"fmod_vc"
 		}
 
 		filter "architecture:x86"
