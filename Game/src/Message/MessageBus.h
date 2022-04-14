@@ -1,5 +1,6 @@
 #pragma once
 #include "Message.h"
+#include "Debug/Intrumentator.h"
 
 #include <queue>
 #include <vector>
@@ -15,6 +16,7 @@ namespace Game
 
 		int AddReceiver(MessageReceiverFunction messageReceiver, size_t p_index = -1)
 		{
+			GAME_PROFILE_FUNCTION();
 			//TODO: Change this in the future, but for now,
 			// Nothing will be removed from this vector, just set to nullptr on that index
 
@@ -51,6 +53,7 @@ namespace Game
 
 		void Notify()
 		{
+			GAME_PROFILE_FUNCTION();
 			while (!m_MessagesQueue.empty())
 			{
 				for (auto iter = m_Receivers.begin(); iter != m_Receivers.end(); iter++)

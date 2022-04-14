@@ -2,6 +2,7 @@
 
 #include <string>
 #include <functional>
+#include "Debug/Intrumentator.h"
 
 #define BIT(x) (1<<x)
 
@@ -62,6 +63,7 @@
 		template<typename T>
 		bool Dispatch(EventFn<T> func)
 		{
+			GAME_PROFILE_FUNCTION();
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
 				m_Event.Handled = func(*(T*)&m_Event);

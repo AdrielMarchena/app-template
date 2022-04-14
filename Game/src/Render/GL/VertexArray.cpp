@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "VertexArray.h"
 
+#include "Debug/Intrumentator.h"
 #include "glad/glad.h"
 #include "gl_error_macro_db.h"
 namespace Game
@@ -32,6 +33,7 @@ namespace Game
 
 	Ref<VertexArray> VertexArray::CreateVertexArray()
 	{
+		GAME_PROFILE_FUNCTION();
 		Ref<VertexArray> new_va = MakeRef<VertexArray>();
 		GLCall(glGenVertexArrays(1, &new_va->m_Id));
 		GAME_CORE_ASSERT(new_va->m_Id > 0,"Vertex Array id can not be 0");

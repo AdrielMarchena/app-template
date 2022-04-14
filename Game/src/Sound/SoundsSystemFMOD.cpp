@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SoundsSystemFMOD.h"
 
+#include "Debug/Intrumentator.h"
 #include "fmod.hpp"
 #include "fmod_errors.h"
 
@@ -20,6 +21,7 @@ namespace Game
 
     void FMODSound::HotPlay()
     {
+        GAME_PROFILE_FUNCTION();
         auto wp = SystemPtr.lock();
         GAME_CORE_ASSERT(wp, "Tried to play {0}, but the sound system already expired");
         auto error = wp->SystemPtr->playSound(SoundPtr, 0, false, 0);
@@ -38,6 +40,7 @@ namespace Game
 
     SoundsSystemFMOD::SoundsSystemFMOD()
     {
+        GAME_PROFILE_FUNCTION();
         m_System = MakeRef<FMODSystem>();
         auto error = FMOD::System_Create(&m_System->SystemPtr);
         GAME_CORE_ASSERT(error == FMOD_OK, "FMOD ERROR | Something went wrong when creating sound system\n\tError: {0}", FMOD_ErrorString(error));
@@ -61,6 +64,7 @@ namespace Game
 
     Ref<FMODSound> SoundsSystemFMOD::CreateSoundRef(const std::string& filepath, int32_t mode)
     {
+        GAME_PROFILE_FUNCTION();
         auto wrapSound = CreateFMODSound(filepath, FMODSound::SoundMode::Sound);
         
         auto error = m_System->SystemPtr->createSound(filepath.c_str(), mode, 0, &wrapSound->SoundPtr);
@@ -70,6 +74,7 @@ namespace Game
 
     Ref<FMODSound> SoundsSystemFMOD::CreateStreamRef(const std::string& filepath, int32_t mode)
     {
+        GAME_PROFILE_FUNCTION();
         auto wrapSound = CreateFMODSound(filepath, FMODSound::SoundMode::Stream);
 
         auto error = m_System->SystemPtr->createStream(filepath.c_str(), mode, 0, &wrapSound->SoundPtr);

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "VertexBuffer.h"
 
+#include "Debug/Intrumentator.h"
 #include "glad/glad.h"
 #include "gl_error_macro_db.h"
 namespace Game
@@ -39,6 +40,7 @@ namespace Game
 
 	Ref<VertexBuffer> VertexBuffer::CreateVertexBuffer(size_t size, GL_Usage usage)
 	{
+		GAME_PROFILE_FUNCTION();
 		Ref<VertexBuffer> new_vb = MakeRef<VertexBuffer>();
 		new_vb->m_Usage = usage;
 		GLCall(glGenBuffers(1, &new_vb->m_Id));

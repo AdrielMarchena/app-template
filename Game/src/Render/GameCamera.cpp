@@ -2,6 +2,7 @@
 #include "GameCamera.h"
 
 #include "Core/Assert.h"
+#include "Debug/Intrumentator.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -49,6 +50,7 @@ namespace Game {
 
 	void SceneCamera::RecalculateProjection()
 	{
+		GAME_PROFILE_FUNCTION();
 		if (m_ProjectionType == ProjectionType::Perspective)
 		{
 			m_Projection = glm::perspective(m_PerspectiveFOV, m_AspectRatio, m_PerspectiveNear, m_PerspectiveFar);
@@ -75,7 +77,5 @@ namespace Game {
 
 			//m_Projection = glm::ortho(0.0f, m_OrthographicPX.x * m_AspectRatio, 0.0f, m_OrthographicPX.y, m_OrthographicNear, m_OrthographicFar);
 		}
-
 	}
-
 }

@@ -2,6 +2,7 @@
 #include "GLContext.h"
 #include "Log/Log.h"
 #include "Core/Core.h"
+#include "Debug/Intrumentator.h"
 #include "glad/glad.h"
 #include "gl_error_macro_db.h"
 #include "GLFW/glfw3.h"
@@ -23,6 +24,7 @@ namespace Game
 	}
 	void GLContext::Init()
 	{
+		GAME_PROFILE_FUNCTION();
 		if (!s_GLADInitialized)
 		{
 			glfwMakeContextCurrent(m_Window);
@@ -44,7 +46,7 @@ namespace Game
 
 			GAME_LOG_INFO("  Shading Version: {0}", glGetString(GL_SHADING_LANGUAGE_VERSION));
 			
-#ifdef BASE_PRINT_OPENGL_EXTENSIONS
+#ifdef GAME_PRINT_OPENGL_EXTENSIONS
 			int count = 0;
 			GLCall(glGetIntegerv(GL_NUM_EXTENSIONS, &count));
 			BASE_INFO("  Extensions:");
