@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Render2D.h"
 
+#include "Debug/Intrumentator.h"
 #include "GL/GL_Include.h"
 #include "GL/gl_error_macro_db.h"
 #include "glad/glad.h"
@@ -44,6 +45,7 @@ namespace Game
 
 		inline static void SampleTextureOnShader(Ref<Shader>& shader, int32_t max_textures, std::vector<uint32_t>& slots)
 		{
+			GAME_PROFILE_FUNCTION();
 			int32_t* samplers = new int32_t[max_textures];
 			for (int i = 0; i < max_textures; i++)
 				samplers[i] = i;
@@ -124,6 +126,7 @@ namespace Game
 		GLsizeiptr SizePtr() const { return (uint8_t*)BufferPtr - (uint8_t*)Buffer; }
 		void Dispose() 
 		{ 
+			GAME_PROFILE_FUNCTION();
 			//Temp
 			vertexArray->Dispose();
 			vertexBuffer->Dispose();
@@ -144,6 +147,7 @@ namespace Game
 
 	bool Render2D::Init()
 	{
+		GAME_PROFILE_FUNCTION();
 		if (s_RenderInit)
 			return s_RenderInit;
 
@@ -215,6 +219,7 @@ namespace Game
 
 	void Render2D::BeginScene(const Camera& camera, const glm::mat4& transform)
 	{
+		GAME_PROFILE_FUNCTION();
 		glm::mat4 viewProj = camera.GetProjection() * glm::inverse(transform);
 
 		m_ShaderLib->Get("Quad")->Bind();
@@ -225,11 +230,13 @@ namespace Game
 
 	void Render2D::Clear()
 	{
+		GAME_PROFILE_FUNCTION();
 		GLCommands::GL_Clear(GL_ClearCommand::ClearDepthColor);
 	}
 
 	void Render2D::BeginBatch()
 	{
+		GAME_PROFILE_FUNCTION();
 		s_Data.Quads->BufferPtr = s_Data.Quads->Buffer;
 		s_Data.Quads->IndexCount = 0;
 		s_Data.Quads->TextureSlotIndex = s_Data.Quads->WhiteTextureID;
@@ -237,6 +244,7 @@ namespace Game
 
 	void Render2D::EndBatch()
 	{
+		GAME_PROFILE_FUNCTION();
 		if (s_Data.Quads->IndexCount)
 		{
 			s_Data.Quads->vertexBuffer->Bind();
@@ -247,6 +255,7 @@ namespace Game
 
 	void Render2D::Flush()
 	{
+		GAME_PROFILE_FUNCTION();
 		if (s_Data.Quads->IndexCount)
 		{
 			s_Data.Quads->shader->Bind();
@@ -268,6 +277,7 @@ namespace Game
 
 	void Render2D::Dispose()
 	{
+		GAME_PROFILE_FUNCTION();
 		using namespace utils;
 		Delete(s_Data.Quads);
 		Delete(m_ShaderLib.release());
@@ -279,6 +289,7 @@ namespace Game
 
 	void Render2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID))
 	{
+		GAME_PROFILE_FUNCTION();
 		if (s_Data.Quads->IndexCount >= QuadMaxIndexCount)
 		{
 			EndBatch();
@@ -306,6 +317,7 @@ namespace Game
 
 	void Render2D::DrawQuad(const glm::mat4& transform, Ref<Texture> texture, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID))
 	{
+		GAME_PROFILE_FUNCTION();
 		if (s_Data.Quads->IndexCount >= QuadMaxIndexCount || s_Data.Quads->TextureSlotIndex >= 16-1)
 		{
 			EndBatch();

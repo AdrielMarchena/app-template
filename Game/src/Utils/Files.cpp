@@ -16,6 +16,7 @@
 #include "pch.h"
 #include "Files.h"
 
+#include "Debug/Intrumentator.h"
 #include <sstream>
 #include <iostream>
 #ifdef GAME_WINDOWS_BUILD
@@ -33,6 +34,7 @@ namespace utils
 	*/
 	static inline std::vector<std::string> ParseThing(const std::string& thing, char split_char = '#')
 	{
+		GAME_PROFILE_FUNCTION();
 		std::vector<std::string> parse_ext;
 		//Split extentions
 		std::stringstream ext_stream(thing);
@@ -58,6 +60,7 @@ namespace utils
 	*/
 	std::vector<std::pair<std::string, std::string>> Files::GetPairText(const std::string& dir, const std::string& ext)
 	{
+		GAME_PROFILE_FUNCTION();
 		auto parse_ext = ParseThing(ext);
 
 		if (!std::filesystem::exists(dir))

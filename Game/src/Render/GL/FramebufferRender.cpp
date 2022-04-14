@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "FramebufferRender.h"
 
+#include "Debug/Intrumentator.h"
 #include "glad/glad.h"
 #include "gl_error_macro_db.h"
 
@@ -22,6 +23,7 @@ namespace Game
 	FramebufferRender::FramebufferRender(const FrameBufferRenderSpecification& spec)
 		:m_Specs(spec)
 	{
+		GAME_PROFILE_FUNCTION();
 		//Create ShaderLib
 		m_Shaders = MakeScope<ShaderLib>();
 		m_Shaders->Add(Shader::CreateShader("assets/shaders/Framebuffer.glsl"));
@@ -70,6 +72,7 @@ namespace Game
 
 	void FramebufferRender::InvalidateFrameBuffer()
 	{
+		GAME_PROFILE_FUNCTION();
 		//Create FrameBuffer
 		m_Framebuffer->m_Specs.width = m_Specs.width * m_Specs.scale_factor;
 		m_Framebuffer->m_Specs.height = m_Specs.height * m_Specs.scale_factor;
@@ -97,6 +100,7 @@ namespace Game
 
 	void FramebufferRender::DrawFrameBuffer(const Camera& camera, const glm::mat4& camera_transform)
 	{
+		GAME_PROFILE_FUNCTION();
 		GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 		GLCall(glDisable(GL_DEPTH_TEST));
 		glm::mat4 viewProj = camera.GetProjection() * glm::inverse(camera_transform);
@@ -127,6 +131,7 @@ namespace Game
 	/*Empty string will set to identity*/
 	void FramebufferRender::UsePostEffect(const std::string& name)
 	{
+		GAME_PROFILE_FUNCTION();
 		if (m_CurrentPostEffect)
 			m_CurrentPostEffect->active = false;
 		if (name.empty() || utils::ToLower(name) == "none")
@@ -143,6 +148,7 @@ namespace Game
 
 	void FramebufferRender::SetUpPostEffects()
 	{
+		GAME_PROFILE_FUNCTION();
 		//I was getting a small value for the width and height here, 
 		//it was a bug that make a nice effect actually (only with the sharpen kernel tho)
 		float offset_x = 1.0f / m_Framebuffer->GetSpec().width;
@@ -286,6 +292,7 @@ namespace Game
 
 	void FramebufferRender::SetUpFramebuffer()
 	{
+		GAME_PROFILE_FUNCTION();
 		//Create FrameBuffer
 		FramebufferSpecification frame_spec;
 		frame_spec.Attachments = { FrambufferTextureFormat::RGBA8,FrambufferTextureFormat::RED_INTEGER,FrambufferTextureFormat::DEPTH };
@@ -296,6 +303,7 @@ namespace Game
 
 	void FramebufferRender::UpdatePostEffects()
 	{
+		GAME_PROFILE_FUNCTION();
 		if (m_CurrentPostEffect)
 		{
 			float offset_x = 1.0f / m_Framebuffer->GetSpec().width;
@@ -312,6 +320,7 @@ namespace Game
 
 	void FramebufferRender::SetUpShader()
 	{
+		GAME_PROFILE_FUNCTION();
 		float u_Width = m_Framebuffer->GetSpec().width;
 		float u_Height = m_Framebuffer->GetSpec().height;
 		
@@ -335,6 +344,7 @@ namespace Game
 
 	void FramebufferRender::SetGLViewport(bool use_scalor)
 	{
+		GAME_PROFILE_FUNCTION();
 		int wid = use_scalor ? m_Specs.width * m_Specs.scale_factor : m_Specs.width;
 		int hei = use_scalor ? m_Specs.height * m_Specs.scale_factor : m_Specs.height;
 		
@@ -343,6 +353,7 @@ namespace Game
 
 	void FramebufferRender::CalculateQuadTransform()
 	{
+		GAME_PROFILE_FUNCTION();
 		glm::mat4 rotation = glm::toMat4(glm::quat(m_Rotation));
 		m_Transform = glm::translate(glm::mat4(1.0f), m_Position)
 					  * rotation

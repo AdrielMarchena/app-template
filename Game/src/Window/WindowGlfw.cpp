@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "WindowGlfw.h"
 
+#include "Debug/Intrumentator.h"
 #include "Event/Events.h"
 #include "Event/ApplicationEvent.h"
 #include "Event/MouseEvent.h"
@@ -53,6 +54,7 @@ namespace Game
 
 	void WindowGlfw::SetFullscreen(bool enabled)
 	{
+		GAME_PROFILE_FUNCTION();
 		if (enabled && !glfwIsFullScreen())
 		{
 			glfwGetWindowPos(m_Window, &m_Data.XPos, &m_Data.YPos);
@@ -114,6 +116,7 @@ namespace Game
 
 	void WindowGlfw::Init(const WindowSpecification& specs)
 	{
+		GAME_PROFILE_FUNCTION();
 		m_Data.Title = specs.Title;
 		m_Data.Width = specs.Width;
 		m_Data.Height = specs.Height;
@@ -276,6 +279,7 @@ namespace Game
 
 	void WindowGlfw::Shutdown()
 	{
+		GAME_PROFILE_FUNCTION();
 		m_OpenGLContext->Shutdown();
 		glfwDestroyWindow(m_Window);
 		glfwTerminate();

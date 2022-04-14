@@ -11,6 +11,7 @@
 #include "Message/BusNode.h"
 #include "ScriptableClass.h"
 #include "Utils/Files.h"
+#include "Debug/Intrumentator.h"
 
 #include "box2d/b2_world.h"
 #include "box2d/b2_body.h"
@@ -38,6 +39,7 @@ namespace Game
 
 	Scene::Scene()
 	{
+		GAME_PROFILE_FUNCTION();
 		m_Registry = MakeScope<ecs::Scene>();
 
 		FrameBufferRenderSpecification specs;
@@ -81,6 +83,7 @@ namespace Game
 
 	void Scene::SceneBegin()
 	{
+		GAME_PROFILE_FUNCTION();
 		//auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
 		auto view = ECSFace::View<NativeScriptComponent>();
 		for(auto e : view)
@@ -98,6 +101,7 @@ namespace Game
 
 	void Scene::SceneEnd()
 	{
+		GAME_PROFILE_FUNCTION();
 		//auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
 		auto view = ECSFace::View<NativeScriptComponent>();
 		for(auto e : view)
@@ -129,6 +133,7 @@ namespace Game
 
 	void Scene::CreatePhysicWorld()
 	{
+		GAME_PROFILE_FUNCTION();
 		if(m_PhysicWorld) return;
 		m_PhysicWorld = new b2World({0.0f,-9.8f});
 		//auto view = ecs::SceneView<RigidBody2DComponent>(*m_Registry);
@@ -169,6 +174,7 @@ namespace Game
 
 	void Scene::DisposePhysicWorld()
 	{
+		GAME_PROFILE_FUNCTION();
 		if(m_PhysicWorld)
 		{
 			delete m_PhysicWorld;
@@ -178,7 +184,7 @@ namespace Game
 
 	Entity Scene::CreateEntity(const std::string& tag, bool addMessangerComponent)
 	{
-		
+		GAME_PROFILE_FUNCTION();
 		Entity ent{ ECSFace::CreateEntity(), this };
 
 		ent.Add<IdComponent>();
@@ -191,8 +197,9 @@ namespace Game
 
 	void Scene::OnUpdate(float dt)
 	{
-
+		GAME_PROFILE_FUNCTION();
 		{// Scripts
+			GAME_PROFILE_SCOPE("updating_scripts");
 			// auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
 			auto view = ECSFace::View<NativeScriptComponent>();
 			for (auto e : view)
@@ -206,6 +213,7 @@ namespace Game
 
 		if(m_PhysicWorld)
 		{// Physics
+			GAME_PROFILE_SCOPE("updating_physics");
 			constexpr int32_t velocityIterations = 6;
 			constexpr int32_t positionIterations = 2;
 
@@ -232,12 +240,14 @@ namespace Game
 		m_MessageBus->Notify();
 
 		{ // Sound
+			GAME_PROFILE_SCOPE("updating_sounds");
 			m_SoundSystem.Update(dt);
 		}
 
 		SceneCamera* main_camera = nullptr;
 		TransformComponent* main_camera_trasform = nullptr;
-		{
+		{ // Find Camera
+			GAME_PROFILE_SCOPE("find_camera");
 			// auto view = ecs::SceneView<CameraComponent>(*m_Registry);
 			auto view = ECSFace::View<CameraComponent>();
 			for (auto ent : view)
@@ -256,6 +266,7 @@ namespace Game
 		}
 
 		{//Physics
+			GAME_PROFILE_SCOPE("opt_physics(unused)");
 			//TODO: Test this idk if works
 			// auto view = ecs::SceneView<BoxColiderComponent>(*m_Registry);
 			auto view = ECSFace::View<BoxColiderComponent>();
@@ -324,6 +335,7 @@ namespace Game
 		}//Physics
 
 		{//Render Scope
+			GAME_PROFILE_SCOPE("rendering");
 			m_FramebufferRender->BindFrameBuffer();
 			Render2D::Clear();
 
@@ -369,6 +381,7 @@ namespace Game
 
 	void Scene::OnResize(int w, int h)
 	{
+		GAME_PROFILE_FUNCTION();
 		auto& specs = m_FramebufferRender->GetSpec();
 		specs.width = w;
 		specs.height = h;

@@ -8,6 +8,7 @@
 #include "Keyboard.h"
 #include <iostream>
 #include "Log/Log.h"
+#include "Debug/Intrumentator.h"
 
 namespace Game
 {
@@ -42,6 +43,7 @@ namespace Game
 
 	void Keyboard::on_keyboard_button(int32_t key, int32_t scancode, int32_t action, int32_t mods)
 	{
+		GAME_PROFILE_FUNCTION();
 		key -= 32;
 		switch (action)
 		{
