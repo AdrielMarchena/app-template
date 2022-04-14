@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ImageLoader.h"
 
+#include "Debug/Intrumentator.h"
 #include "Core/Assert.h"
 #include "stb_image.h"
 #include "lodepng.h"
@@ -26,6 +27,7 @@ namespace Game
         
         ImageInformation GetImageInfoStbImage(const std::string& path)
         {
+			GAME_PROFILE_FUNCTION();
             //TODO: Fix this stbi 'no SOI' error
 		    ImageInformation info;
 		    stbi_set_flip_vertically_on_load(1);
@@ -49,6 +51,7 @@ namespace Game
         
         ImageInformation GetImageInfoLoadPng(const std::string& path)
         {
+			GAME_PROFILE_FUNCTION();
             ImageInformation info;
 
 		    //TODO: Flip vertically

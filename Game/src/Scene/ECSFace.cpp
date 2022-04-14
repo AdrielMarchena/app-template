@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ECSFace.h"
-
+#include "Debug/Intrumentator.h"
 namespace Game
 {
     ECSImplementation ECSFace::s_ECSImplementation = ECSImplementation::InternalEcs;
@@ -8,6 +8,7 @@ namespace Game
 
     uint64_t ECSFace::CreateEntity()
     {
+        GAME_PROFILE_FUNCTION();
         switch(s_ECSImplementation)
         {
             case ECSImplementation::InternalEcs: 
@@ -24,6 +25,7 @@ namespace Game
 
     void ECSFace::DestroyEntity(uint64_t ent)
     {
+        GAME_PROFILE_FUNCTION();
         switch(s_ECSImplementation)
         {
             case ECSImplementation::InternalEcs: 

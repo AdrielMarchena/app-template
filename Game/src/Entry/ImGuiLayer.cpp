@@ -2,6 +2,7 @@
 #include "ImGuiLayer.h"
 
 #include "Application.h"
+#include "Debug/Intrumentator.h"
 
 #include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
@@ -18,6 +19,7 @@ namespace Game
 
 	void ImGuiLayer::OnAttach()
 	{
+		GAME_PROFILE_FUNCTION();
 		if (!s_ImGuiInitialized)
 		{
 			GLFWwindow* window = (GLFWwindow*)Application::Get().GetWindow().GetNative();
@@ -33,7 +35,7 @@ namespace Game
 			// Setup Dear ImGui style
 			ImGui::StyleColorsDark();
 
-			std::string const HOME = std::getenv("HOME") ? std::getenv("HOME") : ".";
+			// std::string const HOME = std::getenv("HOME") ? std::getenv("HOME") : ".";
 			io.FontDefault = io.Fonts->AddFontFromFileTTF(std::string("assets/fonts/Consolas.ttf").c_str(), m_FontSize);
 
 			s_ImGuiInitialized = true;
@@ -46,6 +48,7 @@ namespace Game
 
 	void ImGuiLayer::OnDetach()
 	{
+		GAME_PROFILE_FUNCTION();
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
@@ -53,6 +56,7 @@ namespace Game
 
 	void ImGuiLayer::OnEvent(Event& e)
 	{
+		GAME_PROFILE_FUNCTION();
 		if (m_Blockevents)
 		{
 			ImGuiIO& io = ImGui::GetIO();
@@ -63,6 +67,7 @@ namespace Game
 
 	void ImGuiLayer::ImGuiInitFrame()
 	{
+		GAME_PROFILE_FUNCTION();
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -70,6 +75,7 @@ namespace Game
 
 	void ImGuiLayer::ImGuiEndFrame()
 	{
+		GAME_PROFILE_FUNCTION();
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
 		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());

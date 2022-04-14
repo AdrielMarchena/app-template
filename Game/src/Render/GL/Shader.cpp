@@ -9,6 +9,7 @@
 #include "Shader.h"
 
 #include "Core/Core.h"
+#include "Debug/Intrumentator.h"
 
 #include <iostream>
 #include <string>
@@ -35,6 +36,7 @@ namespace Game
 	Shader::Shader(const std::string& path)
 		:m_Path(path)
 	{
+		GAME_PROFILE_FUNCTION();
 		std::string source = ReadFile(path);
 		m_GL_SourceCode = PreProcess(source);
 
@@ -57,6 +59,7 @@ namespace Game
 
 	std::string Shader::ReadFile(const std::string& path)
 	{
+		GAME_PROFILE_FUNCTION();
 		std::string res;
 		std::ifstream in(path, std::ios::in | std::ios::binary);
 
@@ -84,7 +87,7 @@ namespace Game
 
 	std::unordered_map<GLenum, std::string> Shader::PreProcess(const std::string& source)
 	{
-
+		GAME_PROFILE_FUNCTION();
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -109,6 +112,7 @@ namespace Game
 
 	void Shader::CreateProgram()
 	{
+		GAME_PROFILE_FUNCTION();
 		static const char* er_msg = "Shader Error: ";
 
 		GLCall(GLuint program = glCreateProgram());
@@ -165,6 +169,7 @@ namespace Game
 	/* Return ' std::string() ' if no errors */
 	std::string Shader::VerifyShaderError(uint32_t shader_id)
 	{
+		GAME_PROFILE_FUNCTION();
 		GLint isCompiled = 0;
 		glGetShaderiv(shader_id, GL_COMPILE_STATUS, &isCompiled);
 		if (isCompiled == GL_FALSE)
@@ -187,6 +192,7 @@ namespace Game
 	/* Return ' std::string() ' if no errors */
 	std::string Shader::VerifyProgramError(uint32_t program_id)
 	{
+		GAME_PROFILE_FUNCTION();
 		GLint isCompiled = 0;
 		GLCall(glGetProgramiv(program_id, GL_LINK_STATUS, &isCompiled));
 		if (isCompiled == GL_FALSE)

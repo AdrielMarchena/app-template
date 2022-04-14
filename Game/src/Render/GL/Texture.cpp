@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Texture.h"
 
+#include "Debug/Intrumentator.h"
 #include "gl_error_macro_db.h"
 #include "glad/glad.h"
 #include "Core/Core.h"
@@ -17,6 +18,7 @@ namespace Game
 	Texture::Texture(const TextureSpecifications& info, const std::string& path)
 		:m_ImageInfo(info),m_Path(path),m_Name(info.Name)
 	{
+		GAME_PROFILE_FUNCTION();
 		GAME_CORE_ASSERT(info.Width > 0 &&
 			info.Height > 0 &&
 			info.Channels > 0 &&
@@ -135,6 +137,7 @@ namespace Game
 
 	Texture::~Texture()
 	{
+		GAME_PROFILE_FUNCTION();
 		if (m_Id)
 		{
 			glDeleteTextures(1, &m_Id);
@@ -165,6 +168,7 @@ namespace Game
 	{
 		static bool once = [&]()
 		{
+			GAME_PROFILE_SCOPE("lamb_create_white_texture");
 			TextureSpecifications info;
 			info.Width = 1;
 			info.Height = 1;
@@ -217,6 +221,7 @@ namespace Game
 
 	TextureSpecifications Texture::GetImageInfo(const std::string& path)
 	{
+		GAME_PROFILE_FUNCTION();
 		TextureSpecifications textureInfo;
 		auto imageInfo = utils::GetImageInfo(path);
 

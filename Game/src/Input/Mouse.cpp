@@ -10,6 +10,8 @@
 #include "Mouse.h"
 #include <iostream>
 #include "Log/Log.h"
+#include "Debug/Intrumentator.h"
+
 namespace Game
 {
 
@@ -52,6 +54,7 @@ namespace Game
 
 	void Mouse::on_mouse_scroll(double_t xOffSet, double_t yOffSet)
 	{
+		GAME_PROFILE_FUNCTION();
 		auto n = glm::vec2(xOffSet, yOffSet);
 		if (OffValue == n)
 			return;
@@ -61,6 +64,7 @@ namespace Game
 	}
 	void Mouse::on_mouse_button(int32_t key, int32_t action, int32_t mods)
 	{
+		GAME_PROFILE_FUNCTION();
 		if (key > 16)
 			return;
 		switch (action)
@@ -84,6 +88,7 @@ namespace Game
 	}
 	void Mouse::on_mouse_cursor(double_t xPos, double_t yPos)
 	{
+		GAME_PROFILE_FUNCTION();
 		auto n = glm::vec2(xPos, yPos);
 		if (pos == n)
 			return;

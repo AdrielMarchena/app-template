@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GlContext.h"
+#include "Debug/Intrumentator.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
@@ -16,6 +17,7 @@ GlContext::~GlContext()
 }
 void GlContext::Init()
 {
+	GAME_PROFILE_FUNCTION();
 	if (!s_GLADInitialized)
 	{
 		glfwMakeContextCurrent(m_Window);

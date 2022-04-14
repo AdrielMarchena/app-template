@@ -32,6 +32,12 @@
 #include <unordered_set>
 #include <unordered_map>
 
+#include <algorithm>
+#include <chrono>
+#include <iomanip>
+#include <thread>
+#include <mutex>
+
 //Add checks to see if we are in cpp-17
 #include <filesystem>
 

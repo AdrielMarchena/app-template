@@ -4,6 +4,7 @@
 #include "Render/Render2D.h"
 #include "Scene/ECSFace.h"
 #include "Scene/Components.h"
+#include "Debug/Intrumentator.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -15,6 +16,7 @@ namespace Game {
 	Application::Application(int argc, char** argv)
 		:m_ConsoleArgs(argc, argv)
 	{
+		GAME_PROFILE_FUNCTION();
 		WindowSpecification specs;
 
 		specs.Title = specs.Title != "" ? specs.Title : "GUI";
@@ -37,18 +39,21 @@ namespace Game {
 
 	Application::~Application()
 	{
+		GAME_PROFILE_FUNCTION();
 		m_LayerStack.DeleteAll();
 		Render2D::Dispose();
 	}
 
 	void Application::Run()
 	{
+		GAME_PROFILE_FUNCTION();
 		double deltaTime = 0.0;
 		double lastFrame = 0.0;
 
 		m_Running = true;
 		while (m_Running)
 		{
+			GAME_PROFILE_SCOPE("game_loop");
 			//Check Events
 			m_Window->OnUpdate();
 
@@ -73,6 +78,7 @@ namespace Game {
 
 	void Application::OnEvent(Event& e)
 	{
+		GAME_PROFILE_FUNCTION();
 		EventDispatcher disp(e);
 
 		disp.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));

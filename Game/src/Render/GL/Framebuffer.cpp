@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Framebuffer.h"
 
+#include "Debug/Intrumentator.h"
 #include "glad/glad.h"
 #include "gl_error_macro_db.h"
 #include "Core/Assert.h"
@@ -37,6 +38,7 @@ namespace Game
 
 		static inline void AttachColorTexture(const ColectionTextureSpecification& tex_spec, uint32_t tex_id, int samples, GLenum format, uint32_t width, uint32_t height, int index,GLenum dataformat)
 		{
+			GAME_PROFILE_FUNCTION();
 			bool multisampled = samples > 1;
 			if (multisampled)
 			{
@@ -81,7 +83,7 @@ namespace Game
 	Framebuffer::Framebuffer(const FramebufferSpecification& specs)
 		:m_Id(NULL),m_DepthBuffer(NULL),m_Specs(specs)
 	{
-		
+		GAME_PROFILE_FUNCTION();
 		for (auto format : m_Specs.Attachments.Attachment)
 		{
 			if (!utils::IsDepthFormat(format.TextureFormat))
@@ -94,6 +96,7 @@ namespace Game
 
 	Framebuffer::~Framebuffer()
 	{
+		GAME_PROFILE_FUNCTION();
 		if (m_Id)
 		{
 			GLCall(glDeleteFramebuffers(1, &m_Id));
@@ -113,6 +116,7 @@ namespace Game
 
 	void Framebuffer::Invalidate()
 	{
+		GAME_PROFILE_FUNCTION();
 		if (m_Id)
 		{
 			GLCall(glDeleteFramebuffers(1, &m_Id));
@@ -214,6 +218,7 @@ namespace Game
 
 	int Framebuffer::ReadPixel(uint32_t index, int x, int y)
 	{
+		GAME_PROFILE_FUNCTION();
 		GAME_CORE_ASSERT(index < m_ColorTextures.size(),"index is greater than color textures available");
 		GLCall(glEnable(GL_MULTISAMPLE));
 		int pixel;
@@ -224,6 +229,7 @@ namespace Game
 
 	void Framebuffer::ClearAttachment(uint32_t index, int value)
 	{
+		GAME_PROFILE_FUNCTION();
 		GAME_CORE_ASSERT(index < m_ColorTextures.size(),"There is no color textures on this framebuffer");
 
 		auto& spec = m_ColorAttachmentSpecs[index];
