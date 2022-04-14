@@ -102,3 +102,8 @@ Game/Makefile
 #specific
 #Base include subdirs
 Game/include
+
+# Profiling data
+game_initialization_profile.json
+game_running_profile.json
+game_shutdown_profile.json

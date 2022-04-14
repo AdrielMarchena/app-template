@@ -16,6 +16,15 @@
 //
 #pragma once
 
+#ifdef GAME_LINUX_BUILD
+
+	#define GAME_FUNC __FUNCTION__
+#elif GAME_WINDOWS_BUILD
+	#define GAME_FUNC __FUNCSIG__
+#else
+	#define GAME_FUNC
+#endif
+
 #ifdef GAME_PROFILING
 
 #include "Core/Core.h"
@@ -226,7 +235,7 @@ namespace Game
 #define GAME_PROFILE_BEGIN_SESSION(name,filepath) ::Game::Instrumentor::Get().BeginSession(name,filepath)
 #define GAME_PROFILE_END_SESSION() ::Game::Instrumentor::Get().EndSession()
 #define GAME_PROFILE_SCOPE(name) ::Game::InstrumentationTimer timer##__LINE__(name)
-#define GAME_PROFILE_FUNCTION()  GAME_PROFILE_SCOPE(__FUNCSIG__)
+#define GAME_PROFILE_FUNCTION()  GAME_PROFILE_SCOPE(GAME_FUNC)
 #else
 #define GAME_PROFILE_BEGIN_SESSION(name,filepath)
 #define GAME_PROFILE_END_SESSION()

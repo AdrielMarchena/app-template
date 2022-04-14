@@ -13,16 +13,16 @@ int main(int argc, char** argv)
 		Game::Log::Init();
 		GAME_PROFILE_BEGIN_SESSION("initialization", "game_initialization_profile.json");
 		Game::Application* game = Game::CreateApplication(argc, argv);
-		GAME_PROFILE_END_SESSION();
-		
-		GAME_PROFILE_BEGIN_SESSION("running", "game_running_profile.json");
 		Game::Application::m_AppInstance = game;
 		GAME_PROFILE_END_SESSION();
 
-		GAME_PROFILE_BEGIN_SESSION("shutdown", "game_shutdown_profile.json");
+		GAME_PROFILE_BEGIN_SESSION("running", "game_running_profile.json");
 		game->Run();
 		GAME_PROFILE_END_SESSION();
+
+		GAME_PROFILE_BEGIN_SESSION("shutdown", "game_shutdown_profile.json");
 		delete game;
+		GAME_PROFILE_END_SESSION();
 	}
 	catch (const std::exception& ex)
 	{
