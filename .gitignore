@@ -107,3 +107,6 @@ Game/include
 game_initialization_profile.json
 game_running_profile.json
 game_shutdown_profile.json
+
+benchmarking/Debug/
+benchmarking/Release/
