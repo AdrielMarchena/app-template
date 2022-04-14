@@ -23,7 +23,7 @@ namespace Game
     {
         GAME_PROFILE_FUNCTION();
         auto wp = SystemPtr.lock();
-        GAME_CORE_ASSERT(wp, "Tried to play {0}, but the sound system already expired");
+        GAME_DEBUG_WARN_IF_NOT(wp, "Tried to play {0}, but the sound system already expired");
         auto error = wp->SystemPtr->playSound(SoundPtr, 0, false, 0);
         GAME_CORE_ASSERT(error == FMOD_OK, "FMOD ERROR | Something went wrong when playing {0}\n\tError: {1}", SoundPath , FMOD_ErrorString(error));
     }
