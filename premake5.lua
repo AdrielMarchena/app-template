@@ -57,4 +57,5 @@ group ""
 
 --Projects
 include "Game"
+include "Editor"
 --include "Sandbox"
