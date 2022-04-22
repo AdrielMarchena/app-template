@@ -1,5 +1,5 @@
-project "Game"
-	kind "StaticLib"
+project "Editor"
+	kind "ConsoleApp"
 	language "C++"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -18,31 +18,26 @@ project "Game"
 	includedirs
 	{
 		"src/",
-		"%{IncludeDirectories.Glfw}",
-		"%{IncludeDirectories.Glad}",
 		"%{IncludeDirectories.ImGui}",
 		"%{IncludeDirectories.stb_image}",
 		"%{IncludeDirectories.spdlog}",
 		"%{IncludeDirectories.glm}",
 		"%{IncludeDirectories.debugbreak}",
-		"%{IncludeDirectories.lodepng}",
-		"%{IncludeDirectories.Box2D}",
 		"%{IncludeDirectories.entt}",
-		"%{IncludeDirectories.fmod}",
+		"%{IncludeDirectories.Game}"
 	}
 		
 	filter {}
 
 	links
 	{
+		"Game",
 		"GLFW",
 		"stb_image",
 		"Glad",
 		"ImGui",
 		"lodepng",
 		"Box2D"
-		--"opengl32.lib"
-		--"glfw3.lib ",
 	}
 
 	defines
@@ -62,8 +57,9 @@ project "Game"
 
 		defines
 		{
-			"GAME_WINDOWS_BUILD",
-			"GAME_STATIC_BUILD"
+			"EDITOR_WINDOWS_BUILD",
+			"EDITOR_STATIC_BUILD",
+			"GAME_WINDOWS_BUILD"
 		}
 
 		links
@@ -90,8 +86,9 @@ project "Game"
 
 		defines
 		{
-			"GAME_LINUX_BUILD",
-			"GAME_STATIC_BUILD"
+			"EDITOR_LINUX_BUILD",
+			"EDITOR_STATIC_BUILD",
+			"GAME_LINUX_BUILD"
 		}
 		
 		links
@@ -114,15 +111,15 @@ project "Game"
 			}
 
 	filter "configurations:Debug"
-		defines { "GAME_DEBUG", "GAME_PROFILING" }
+		defines { "EDITOR_DEBUG", "EDITOR_PROFILING" }
 		symbols "On"
 
 	filter "configurations:Release"
-		defines { "GAME_RELEASE", "GAME_PROFILING" }
+		defines { "EDITOR_RELEASE", "EDITOR_PROFILING" }
 		optimize "On"
 
 	filter "configurations:Dist"
-		defines "GAME_DIST"
+		defines "EDITOR_DIST"
 		optimize "On"
 
 	--filter { "system:windows", "configurations:Debug" }
