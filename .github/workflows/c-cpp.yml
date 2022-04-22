@@ -36,7 +36,7 @@ jobs:
       run: make config=dist_x64
       
     - name: zip release
-      run: cp Editor/bin/Dist-linux-x86_64/Editor/Editor Game/EditorRun && zip -r Editor.zip Editor/assets Editor/EditorRun && rm Editor/GameRun
+      run: cp Editor/bin/Dist-linux-x86_64/Editor/Editor Game/EditorRun && zip -r Editor.zip Editor/assets Editor/EditorRun && rm Editor/EditorRun
       
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
