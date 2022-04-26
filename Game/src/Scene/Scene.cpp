@@ -67,10 +67,10 @@ namespace Game
 
 		// TODO: Remove this test here
 
-		//auto dirs = utils::Files::GetPairText("assets/sounds", ".ogg#.wav#.WAV");
-		//
-		//static auto snd = m_SoundSystem.CreateStreamRef(dirs[0].second, FMOD_DEFAULT);
-		//snd->HotPlay();
+		auto dirs = utils::Files::GetPairText("assets/sounds", ".ogg#.wav#.WAV");
+		
+		static auto snd = m_SoundSystem.CreateStreamRef(dirs[0].second, FMOD_DEFAULT)->GetChannel();
+		snd->Play();
 	}
 
 	Scene::~Scene()

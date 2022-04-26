@@ -6,6 +6,7 @@ namespace FMOD
 {
     class System;
     class Sound;
+    class Channel;
 }
 
 namespace Game
@@ -17,6 +18,29 @@ namespace Game
     private:
         FMOD::System* SystemPtr = nullptr;
         friend class FMODSound;
+        friend class SoundsSystemFMOD;
+    };
+
+    struct FMODChannel
+    {
+    public:
+        FMODChannel() = default;
+        ~FMODChannel();
+        void Play();
+        /* It is not the same as pausing the sound, this release the channel for other sounds to use */
+        void Stop();
+        void SetPause(bool pause);
+        void SetPosition(unsigned int ms);
+        void Restart();
+    private:
+        FMODChannel(FMOD::Channel* channel)
+            :ChannelPtr(channel) 
+        {
+            GAME_CORE_ASSERT(channel, "Channel parameter can't be nullptr");
+        }
+        FMOD::Channel* ChannelPtr = nullptr;
+        friend class FMODSound;
+        friend class FMODSystem;
         friend class SoundsSystemFMOD;
     };
 
@@ -32,9 +56,8 @@ namespace Game
             Sound,
             Stream
         } Mode;
-        void Play();
+        Ref<FMODChannel> GetChannel();
         void HotPlay();
-        void Stop();
 
         ~FMODSound();
     private:

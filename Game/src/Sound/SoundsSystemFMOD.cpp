@@ -4,7 +4,7 @@
 #include "Debug/Intrumentator.h"
 #include "fmod.hpp"
 #include "fmod_errors.h"
-
+#include "FMODErrors.h"
 namespace Game
 {
     FMODSystem::~FMODSystem()
@@ -13,24 +13,25 @@ namespace Game
             SystemPtr->release();
     }
 
-    void FMODSound::Play()
+    Ref<FMODChannel> FMODSound::GetChannel()
     {
-        // TODO: Implement
-        //SystemPtr->playSound()        
+        GAME_PROFILE_FUNCTION();
+        auto wp = SystemPtr.lock();
+        GAME_WARN_IF_NOT(wp, "Tried to get channel for sound {0}, but the sound system already expired", SoundPath);
+        FMOD::Channel* channel{nullptr};
+        auto error = wp->SystemPtr->playSound(SoundPtr, 0, true, &channel);
+        FMODErrorCheckPath(error, SoundPath);
+        GAME_CORE_ASSERT(error == FMOD_OK, "FMOD ERROR | Something went wrong when playing {0}\n\tError: {1}", SoundPath, FMOD_ErrorString(error));
+        return MakeRef<FMODChannel>(channel);
     }
 
     void FMODSound::HotPlay()
     {
         GAME_PROFILE_FUNCTION();
         auto wp = SystemPtr.lock();
-        GAME_DEBUG_WARN_IF_NOT(wp, "Tried to play {0}, but the sound system already expired");
+        GAME_WARN_IF_NOT(wp, "Tried to play {0}, but the sound system already expired", SoundPath);
         auto error = wp->SystemPtr->playSound(SoundPtr, 0, false, 0);
-        GAME_CORE_ASSERT(error == FMOD_OK, "FMOD ERROR | Something went wrong when playing {0}\n\tError: {1}", SoundPath , FMOD_ErrorString(error));
-    }
-
-    void FMODSound::Stop()
-    {
-        // TODO: Implement
+        FMODErrorCheckPath(error, SoundPath);
     }
 
     FMODSound::~FMODSound()
@@ -43,7 +44,7 @@ namespace Game
         GAME_PROFILE_FUNCTION();
         m_System = MakeRef<FMODSystem>();
         auto error = FMOD::System_Create(&m_System->SystemPtr);
-        GAME_CORE_ASSERT(error == FMOD_OK, "FMOD ERROR | Something went wrong when creating sound system\n\tError: {0}", FMOD_ErrorString(error));
+        FMODErrorCheck(error);
 
         m_System->SystemPtr->init(100, FMOD_INIT_NORMAL, 0);
     }
@@ -68,7 +69,7 @@ namespace Game
         auto wrapSound = CreateFMODSound(filepath, FMODSound::SoundMode::Sound);
         
         auto error = m_System->SystemPtr->createSound(filepath.c_str(), mode, 0, &wrapSound->SoundPtr);
-        GAME_CORE_ASSERT(error == FMOD_OK, "FMOD ERROR | Something went wrong when creating sound\n\tError: {0}", FMOD_ErrorString(error));
+        FMODErrorCheckPath(error,filepath);
         return wrapSound;
     }
 
@@ -78,7 +79,44 @@ namespace Game
         auto wrapSound = CreateFMODSound(filepath, FMODSound::SoundMode::Stream);
 
         auto error = m_System->SystemPtr->createStream(filepath.c_str(), mode, 0, &wrapSound->SoundPtr);
-        GAME_CORE_ASSERT(error == FMOD_OK, "FMOD ERROR | Something went wrong when creating sound stream\n\tError: {0}", FMOD_ErrorString(error));
+        FMODErrorCheckPath(error, filepath);
         return wrapSound;
+    }
+
+    FMODChannel::~FMODChannel()
+    {
+    }
+
+    void FMODChannel::Play()
+    {
+        bool playing = false;
+        auto error = ChannelPtr->isPlaying(&playing);
+        FMODErrorCheck(error);
+        GAME_WARN_IF(playing, "The sound on this channel is already playing");
+        SetPause(true);
+    }
+
+    void FMODChannel::Stop()
+    {
+        auto error = ChannelPtr->stop();
+        FMODErrorCheck(error);
+    }
+
+    void FMODChannel::SetPause(bool pause)
+    {
+        auto error = ChannelPtr->setPaused(pause);
+        FMODErrorCheck(error);
+    }
+
+    void FMODChannel::SetPosition(unsigned int ms)
+    {
+        auto error = ChannelPtr->setPosition(ms, FMOD_TIMEUNIT_MS);
+        FMODErrorCheck(error);
+    }
+
+    void FMODChannel::Restart()
+    {
+        auto error = ChannelPtr->setPosition(0, FMOD_TIMEUNIT_MS);
+        FMODErrorCheck(error);
     }
 }
