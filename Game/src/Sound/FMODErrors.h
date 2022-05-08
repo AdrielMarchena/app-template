@@ -14,7 +14,7 @@ static void InternalFMODErrorCheck(FMOD_RESULT res, bool only_warn, const char* 
     }
     else
     {
-        GAME_CORE_ASSERT(res != FMOD_OK, "[FMOD error]: {0}, {1}): {2} {3}: {4}: {0}", res, FMOD_ErrorString(res), function, file, line);
+        GAME_CORE_ASSERT(res == FMOD_OK, "[FMOD error]: {0}, {1}): {2} {3}: {4}: {0}", res, FMOD_ErrorString(res), function, file, line);
     }
 }
 

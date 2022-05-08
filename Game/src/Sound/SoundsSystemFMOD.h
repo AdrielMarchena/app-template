@@ -23,22 +23,40 @@ namespace Game
 
     struct FMODChannel
     {
+    private:
+        float m_Frequency = 0.0f;
     public:
         FMODChannel() = default;
+        FMODChannel(FMOD::Channel* channel)
+            :ChannelPtr(channel)
+        {
+            GAME_CORE_ASSERT(channel, "Channel parameter can't be nullptr");
+        }
         ~FMODChannel();
         void Play();
         /* It is not the same as pausing the sound, this release the channel for other sounds to use */
         void Stop();
         void SetPause(bool pause);
         void SetPosition(unsigned int ms);
+        void LoopEndless();
+        /* 0 is one time, 1 is two */
+        void SetLoopCount(int loopCount);
         void Restart();
+        void SetVolume(float volume);
+        void Mute();
+        void UnMute();
+        void SetMute(bool mute);
+        void SetFrequency(float frequency);
+        float GetFrequency() const;
+
+        void UpOctave(float octaves = 1.0f);
+        void DownOctave(float octaves = 1.0f);
+
+        void UpSemitone(float semitones = 1.0f);
+        void DownSemitone(float semitones = 1.0f);
     private:
-        FMODChannel(FMOD::Channel* channel)
-            :ChannelPtr(channel) 
-        {
-            GAME_CORE_ASSERT(channel, "Channel parameter can't be nullptr");
-        }
         FMOD::Channel* ChannelPtr = nullptr;
+        Ref<FMODSound> m_Sound;
         friend class FMODSound;
         friend class FMODSystem;
         friend class SoundsSystemFMOD;
@@ -77,10 +95,10 @@ namespace Game
         void Update(float dt);
 
         // Wrap things in Ref
-        Ref<FMODSound> CreateSoundRef(const std::string& filepath, int32_t mode);
-        Ref<FMODSound> CreateStreamRef(const std::string& filepath, int32_t mode);
+        Ref<FMODSound> CreateSoundRef(const std::string& filepath, int32_t mode) const;
+        Ref<FMODSound> CreateStreamRef(const std::string& filepath, int32_t mode) const;
 
     private:
-        Ref<FMODSound> CreateFMODSound(const std::string& filepath, FMODSound::SoundMode mode);
+        Ref<FMODSound> CreateFMODSound(const std::string& filepath, FMODSound::SoundMode mode) const;
     };
 }

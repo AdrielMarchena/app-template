@@ -7,6 +7,22 @@
 #include "FMODErrors.h"
 namespace Game
 {
+
+    namespace utils
+    {
+        static inline float ChangeOctave(float frequency, float variation)
+        {
+            static const float octave_ratio = 2.0f;
+            return frequency * std::pow(octave_ratio, variation);
+        }
+
+        static inline float ChangeSemiton(float frequency, float variation)
+        {
+            static const float semitone_ratio = std::pow(2.0f, 1.0f / 12.0f);
+            return frequency * std::pow(semitone_ratio, variation);
+        }
+    }
+
     FMODSystem::~FMODSystem()
     {
         if(SystemPtr)
@@ -36,7 +52,8 @@ namespace Game
 
     FMODSound::~FMODSound()
     {
-        SoundPtr->release();
+        if(!SystemPtr.expired())
+            SoundPtr->release();
     }
 
     SoundsSystemFMOD::SoundsSystemFMOD()
@@ -54,7 +71,7 @@ namespace Game
         m_System->SystemPtr->update();
     }
 
-    Ref<FMODSound> SoundsSystemFMOD::CreateFMODSound(const std::string& filepath, FMODSound::SoundMode mode)
+    Ref<FMODSound> SoundsSystemFMOD::CreateFMODSound(const std::string& filepath, FMODSound::SoundMode mode) const
     {
         Ref<FMODSound> wrapSound = MakeRef<FMODSound>();
         wrapSound->Mode = mode;
@@ -63,22 +80,22 @@ namespace Game
         return wrapSound;
     }
 
-    Ref<FMODSound> SoundsSystemFMOD::CreateSoundRef(const std::string& filepath, int32_t mode)
+    Ref<FMODSound> SoundsSystemFMOD::CreateSoundRef(const std::string& filepath, int32_t mode) const
     {
         GAME_PROFILE_FUNCTION();
         auto wrapSound = CreateFMODSound(filepath, FMODSound::SoundMode::Sound);
         
-        auto error = m_System->SystemPtr->createSound(filepath.c_str(), mode, 0, &wrapSound->SoundPtr);
+        auto error = m_System->SystemPtr->createSound(filepath.c_str(), mode | FMOD_LOOP_NORMAL, 0, &wrapSound->SoundPtr);
         FMODErrorCheckPath(error,filepath);
         return wrapSound;
     }
 
-    Ref<FMODSound> SoundsSystemFMOD::CreateStreamRef(const std::string& filepath, int32_t mode)
+    Ref<FMODSound> SoundsSystemFMOD::CreateStreamRef(const std::string& filepath, int32_t mode) const
     {
         GAME_PROFILE_FUNCTION();
         auto wrapSound = CreateFMODSound(filepath, FMODSound::SoundMode::Stream);
 
-        auto error = m_System->SystemPtr->createStream(filepath.c_str(), mode, 0, &wrapSound->SoundPtr);
+        auto error = m_System->SystemPtr->createStream(filepath.c_str(), mode | FMOD_LOOP_NORMAL, 0, &wrapSound->SoundPtr);
         FMODErrorCheckPath(error, filepath);
         return wrapSound;
     }
@@ -93,7 +110,7 @@ namespace Game
         auto error = ChannelPtr->isPlaying(&playing);
         FMODErrorCheck(error);
         GAME_WARN_IF(playing, "The sound on this channel is already playing");
-        SetPause(true);
+        SetPause(false);
     }
 
     void FMODChannel::Stop()
@@ -114,9 +131,87 @@ namespace Game
         FMODErrorCheck(error);
     }
 
+    void FMODChannel::LoopEndless()
+    {
+        auto error = ChannelPtr->setLoopCount(-1);
+        FMODErrorCheck(error);
+    }
+
+    void FMODChannel::SetLoopCount(int loopCount)
+    {
+        auto error = ChannelPtr->setLoopCount(loopCount);
+        FMODErrorCheck(error);
+    }
+
     void FMODChannel::Restart()
     {
         auto error = ChannelPtr->setPosition(0, FMOD_TIMEUNIT_MS);
         FMODErrorCheck(error);
+    }
+
+    void FMODChannel::SetVolume(float volume)
+    {
+        auto error = ChannelPtr->setVolume(volume);
+        FMODErrorCheck(error);
+    }
+
+    void FMODChannel::Mute()
+    {
+        auto error = ChannelPtr->setMute(true);
+        FMODErrorCheck(error);
+    }
+
+    void FMODChannel::UnMute()
+    {
+        auto error = ChannelPtr->setMute(false);
+        FMODErrorCheck(error);
+    }
+
+    void FMODChannel::SetMute(bool mute)
+    {
+        auto error = ChannelPtr->setMute(mute);
+        FMODErrorCheck(error);
+    }
+
+    void FMODChannel::SetFrequency(float frequency)
+    {
+        auto error = ChannelPtr->setFrequency(frequency);
+        FMODErrorCheck(error);
+    }
+
+    float FMODChannel::GetFrequency() const
+    {
+        float f = 0.0f;
+        auto error = ChannelPtr->getFrequency(&f);
+        FMODErrorCheck(error);
+        return f;
+    }
+
+    void FMODChannel::UpOctave(float octaves)
+    {
+        m_Frequency = GetFrequency();
+        m_Frequency = utils::ChangeOctave(m_Frequency, octaves);
+        SetFrequency(m_Frequency);
+    }
+
+    void FMODChannel::DownOctave(float octaves)
+    {
+        m_Frequency = GetFrequency();
+        m_Frequency = utils::ChangeOctave(m_Frequency, -octaves);
+        SetFrequency(m_Frequency);
+    }
+
+    void FMODChannel::UpSemitone(float semitones)
+    {
+        m_Frequency = GetFrequency();
+        m_Frequency = utils::ChangeSemiton(m_Frequency, semitones);
+        SetFrequency(m_Frequency);
+    }
+
+    void FMODChannel::DownSemitone(float semitones)
+    {
+        m_Frequency = GetFrequency();
+        m_Frequency = utils::ChangeSemiton(m_Frequency, -semitones);
+        SetFrequency(m_Frequency);
     }
 }

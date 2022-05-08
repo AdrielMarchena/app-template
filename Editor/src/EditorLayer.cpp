@@ -8,29 +8,37 @@
 #include "Render/GameCamera.h"
 #include "Render/GL/Texture.h"
 #include "Entry/Application.h"
+#include "Utils/Files.h"
 
 #include <glm/gtx/quaternion.hpp>
 #include "imgui.h"
 #include "Message/BusNode.h"
 
+static Game::Ref<Game::FMODSound> g_TestSound;
+static Game::Ref<Game::FMODChannel> g_TestSoundChannel;
+static std::vector<std::pair<std::string, std::string>> g_SoundDirs;
+
 struct MyGameKeyBindings
 {
 	static void KeyW(EditorLayer& g)
 	{
-		if (!g.m_Scene->IsRuntimeInit())
-		{
-			auto& tr = g.m_Quad.Get<Game::TransformComponent>();
-			tr.Translation = { 0.0f,4.0f,0.0f };
-		}
+		if(g_TestSoundChannel)
+			g_TestSoundChannel->UpOctave();
 	}
 	static void KeyA(EditorLayer& g)
 	{
+		if (g_TestSoundChannel)
+			g_TestSoundChannel->DownSemitone();
 	}
 	static void KeyS(EditorLayer& g)
 	{
+		if (g_TestSoundChannel)
+			g_TestSoundChannel->DownOctave();
 	}
 	static void KeyD(EditorLayer& g)
 	{
+		if (g_TestSoundChannel)
+			g_TestSoundChannel->UpSemitone();
 	}
 	static void KeyESC(EditorLayer& g)
 	{
@@ -115,6 +123,18 @@ void EditorLayer::OnAttach()
 			}
 		});
 
+	// TODO: Remove this test here
+	g_SoundDirs = Game::utils::Files::GetPairText("assets/sounds", ".ogg#.wav#.WAV");
+	if (!g_SoundDirs.empty())
+	{
+		auto& soundSystem = m_Scene->GetSoundSystem();
+		g_TestSound = soundSystem.CreateSoundRef(g_SoundDirs[0].second, 0);
+		g_TestSoundChannel = g_TestSound->GetChannel();
+		g_TestSoundChannel->SetPosition(0);
+		g_TestSoundChannel->SetLoopCount(-1);
+		g_TestSoundChannel->SetVolume(0.75f);
+		g_TestSoundChannel->Play();
+	}
 }
 
 void EditorLayer::OnUpdate(Game::Timestamp dt)
