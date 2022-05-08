@@ -3,7 +3,7 @@
 
 #include "Render/Render2D.h"
 #include "Scene/ECSFace.h"
-#include "Scene/Components.h"
+// #include "Scene/Components.h"
 #include "Debug/Intrumentator.h"
 
 #include "glad/glad.h"
@@ -34,7 +34,7 @@ namespace Game {
 		Render2D::Init();
 		ECSFace::SetImplementation(ECSImplementation::Entt);
 		ECSFace::CreateRegistry();
-		InitMetaReflectionComponents();
+		// InitMetaReflectionComponents();
 	}
 
 	Application::~Application()

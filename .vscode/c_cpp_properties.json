@@ -15,7 +15,8 @@
                 "${workspaceFolder}/Game/vendor/lodepng",
                 "${workspaceFolder}/Game/vendor/Box2D/include",
                 "${workspaceFolder}/Game/vendor/entt/single_include",
-                "${workspaceFolder}/Game/vendor/fmodstudioapi20206linux/api/core/inc"
+                "${workspaceFolder}/Game/vendor/fmodstudioapi20206linux/api/core/inc",
+                "${workspaceFolder}/Editor/src/**"
             ],
             "forcedInclude": [
                 "${default}"
@@ -40,7 +41,8 @@
                     "${workspaceFolder}/Game/vendor/lodepng",
                     "${workspaceFolder}/Game/vendor/Box2D/include",
                     "${workspaceFolder}/Game/vendor/entt/single_include",
-                    "${workspaceFolder}/Game/vendor/fmodstudioapi20206linux/api/core/inc"
+                    "${workspaceFolder}/Game/vendor/fmodstudioapi20206linux/api/core/inc",
+                    "${workspaceFolder}/Editor/src/"
                 ]
             }
         }

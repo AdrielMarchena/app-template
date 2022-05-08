@@ -11,6 +11,10 @@ namespace FMOD
 
 namespace Game
 {
+    // Forward declarations
+    struct FMODSound;
+    struct FMODChannel;
+
     struct FMODSystem
     {
     public:
@@ -18,6 +22,26 @@ namespace Game
     private:
         FMOD::System* SystemPtr = nullptr;
         friend class FMODSound;
+        friend class SoundsSystemFMOD;
+    };
+
+    struct FMODSound
+    {
+    private:
+        std::string SoundPath = "";
+        FMOD::Sound* SoundPtr{nullptr};
+        Weak<FMODSystem> SystemPtr; // Reference to system 
+    public:
+        enum class SoundMode
+        {
+            Sound,
+            Stream
+        } Mode;
+        Ref<FMODChannel> GetChannel();
+        void HotPlay();
+
+        ~FMODSound();
+    private:
         friend class SoundsSystemFMOD;
     };
 
@@ -59,26 +83,6 @@ namespace Game
         Ref<FMODSound> m_Sound;
         friend class FMODSound;
         friend class FMODSystem;
-        friend class SoundsSystemFMOD;
-    };
-
-    struct FMODSound
-    {
-    private:
-        std::string SoundPath = "";
-        FMOD::Sound* SoundPtr{nullptr};
-        Weak<FMODSystem> SystemPtr; // Reference to system 
-    public:
-        enum class SoundMode
-        {
-            Sound,
-            Stream
-        } Mode;
-        Ref<FMODChannel> GetChannel();
-        void HotPlay();
-
-        ~FMODSound();
-    private:
         friend class SoundsSystemFMOD;
     };
 
