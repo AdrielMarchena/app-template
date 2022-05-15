@@ -18,40 +18,50 @@ enum class ECSImplementation
 class ECSFace
 {
 private:
-    static void* m_Registry;
-    static ECSImplementation s_ECSImplementation;
+    void* m_Registry = nullptr;
+    ECSImplementation m_ECSImplementation = ECSImplementation::Entt;
 public:
-    static void SetImplementation(ECSImplementation implementation)
+    void SetImplementation(ECSImplementation implementation)
     {
-        s_ECSImplementation = implementation;
+        m_ECSImplementation = implementation;
     }
 
-    static void CreateRegistry()
+    void CreateRegistry()
     {
-        if(s_ECSImplementation == ECSImplementation::Entt)
+        if(m_ECSImplementation == ECSImplementation::Entt)
         {
+            if (m_Registry)
+                delete m_Registry;
             m_Registry = new entt::registry();
         }
-        if(s_ECSImplementation == ECSImplementation::InternalEcs)
+        if(m_ECSImplementation == ECSImplementation::InternalEcs)
         {
+            if (m_Registry)
+                delete m_Registry;
             m_Registry = new ecs::Scene();
         }
     }
 
-    //Ecs stuff
-    static uint64_t CreateEntity(); // In Cpp file
-    static void DestroyEntity(uint64_t ent); // In Cpp file
-
-    static ECSImplementation GetECSImplementation() { return s_ECSImplementation; }
-    static std::string GetECSImplementationAsString()
+    ~ECSFace()
     {
-        if(s_ECSImplementation == ECSImplementation::Entt) return "Entt";
-        if(s_ECSImplementation == ECSImplementation::InternalEcs) return "InternalEcs";
+        if (m_Registry)
+            delete m_Registry;
     }
 
-    static uint32_t GetEntityNumber(uint64_t entity)
+    //Ecs stuff
+    uint64_t CreateEntity() const; // In Cpp file
+    void DestroyEntity(uint64_t ent) const; // In Cpp file
+
+    ECSImplementation GetECSImplementation() const { return m_ECSImplementation; }
+    std::string GetECSImplementationAsString() const
     {
-        switch(s_ECSImplementation)
+        if(m_ECSImplementation == ECSImplementation::Entt) return "Entt";
+        if(m_ECSImplementation == ECSImplementation::InternalEcs) return "InternalEcs";
+    }
+
+    uint32_t GetEntityNumber(uint64_t entity) const
+    {
+        switch(m_ECSImplementation)
         {
             case ECSImplementation::InternalEcs: return ecs::GetEntityIndex(entity);
             case ECSImplementation::Entt: return entity;
@@ -59,9 +69,9 @@ public:
     }
 
     template<typename T>
-    inline static T& GetComponent(uint64_t entity)
+    inline T& GetComponent(uint64_t entity) const
     {
-        switch(s_ECSImplementation)
+        switch(m_ECSImplementation)
         {
             case ECSImplementation::InternalEcs: return ECSGetComponent<T>((ecs::entity)entity);
             case ECSImplementation::Entt: uint32_t en = entity; return EnttGetComponent<T>(entt::entity{en});
@@ -69,9 +79,9 @@ public:
     }
 
     template<typename T, class... _Args>
-    inline static T& AddComponent(ecs::entity entity, _Args&&... args)
+    inline T& AddComponent(ecs::entity entity, _Args&&... args) const
     {
-        switch(s_ECSImplementation)
+        switch(m_ECSImplementation)
         {
             case ECSImplementation::InternalEcs: return ECSAddComponent<T>((ecs::entity)entity, std::forward<_Args>(args)...);
             case ECSImplementation::Entt: uint32_t en = entity; return EnttAddComponent<T>(entt::entity{en}, std::forward<_Args>(args)...);
@@ -79,9 +89,9 @@ public:
     }
 
     template<typename T>
-    inline static bool ContainComponent(ecs::entity entity)
+    inline bool ContainComponent(ecs::entity entity) const
     {
-        switch(s_ECSImplementation)
+        switch(m_ECSImplementation)
         {
             case ECSImplementation::InternalEcs: return ECSContainComponent<T>((ecs::entity)entity);
             case ECSImplementation::Entt: uint32_t en = entity; return EnttContainComponent<T>(entt::entity{en});
@@ -89,9 +99,9 @@ public:
     }
 
     template<typename T>
-    inline static bool RemoveComponent(ecs::entity entity)
+    inline bool RemoveComponent(ecs::entity entity) const
     {
-        switch(s_ECSImplementation)
+        switch(m_ECSImplementation)
         {
             case ECSImplementation::InternalEcs: return ECSRemoveComponent<T>((ecs::entity)entity);
             case ECSImplementation::Entt: uint32_t en = entity; return EnttRemoveComponent<T>(entt::entity{en});
@@ -99,20 +109,20 @@ public:
     }
 
     template<typename T>
-    static std::vector<uint64_t> View()
+    std::vector<uint64_t> View() const
     {
         std::vector<uint64_t> retView;
-        switch(s_ECSImplementation)
+        switch(m_ECSImplementation)
         {
             case ECSImplementation::InternalEcs:
             {
-                auto ecsV = ecs::SceneView<T>(*static_cast<ecs::Scene*>(ECSFace::CastTo<ecs::Scene>()));
+                auto ecsV = ecs::SceneView<T>(*static_cast<ecs::Scene*>(CastTo<ecs::Scene>()));
                 for(auto vv : ecsV) retView.emplace_back(vv);
                 break;
             }
             case ECSImplementation::Entt:
             {
-                auto enttV = ECSFace::CastTo<entt::registry>()->view<T>();
+                auto enttV = CastTo<entt::registry>()->view<T>();
                 for(auto vv : enttV) retView.emplace_back((uint32_t)vv);
                 break;
             }
@@ -125,62 +135,62 @@ private:
 
     // GET
     template<typename T>
-    inline static T& ECSGetComponent(ecs::entity entity)
+    inline T& ECSGetComponent(ecs::entity entity) const
     {
-        ecs::Scene* scene = ECSFace::CastTo<ecs::Scene>();
+        ecs::Scene* scene =CastTo<ecs::Scene>();
         return scene->Get<T>(entity);
     }
     template<typename T>
-    inline static T& EnttGetComponent(entt::entity entity)
+    inline T& EnttGetComponent(entt::entity entity) const
     {
-        entt::registry* scene = ECSFace::CastTo<entt::registry>();
+        entt::registry* scene = CastTo<entt::registry>();
         return scene->get<T>(entity);
     }
 
     // ADD
     template<typename T, class... _Args>
-    inline static T& ECSAddComponent(ecs::entity entity, _Args&&... args)
+    inline T& ECSAddComponent(ecs::entity entity, _Args&&... args) const
     {
-        ecs::Scene* scene = ECSFace::CastTo<ecs::Scene>();
+        ecs::Scene* scene = CastTo<ecs::Scene>();
         return scene->Add<T>(entity, std::forward<_Args>(args)...);
     }
     template<typename T, class... _Args>
-    inline static T& EnttAddComponent(entt::entity entity, _Args&&... args)
+    inline T& EnttAddComponent(entt::entity entity, _Args&&... args) const
     {
-        entt::registry* scene = ECSFace::CastTo<entt::registry>();
+        entt::registry* scene = CastTo<entt::registry>();
         return scene->emplace<T>(entity, std::forward<_Args>(args)...);
     }
 
     // CONTAIN
     template<typename T>
-    inline static bool ECSContainComponent(ecs::entity entity)
+    inline bool ECSContainComponent(ecs::entity entity) const
     {
-        ecs::Scene* scene = ECSFace::CastTo<ecs::Scene>();
+        ecs::Scene* scene = CastTo<ecs::Scene>();
         return scene->Contain<T>(entity);
     }
     template<typename T>
-    inline static bool EnttContainComponent(entt::entity entity)
+    inline bool EnttContainComponent(entt::entity entity) const
     {
-        entt::registry* scene = ECSFace::CastTo<entt::registry>();
+        entt::registry* scene = CastTo<entt::registry>();
         return scene->any_of<T>(entity);
     }
 
     // REMOVE
     template<typename T>
-    inline static void ECSRemoveComponent(ecs::entity entity)
+    inline void ECSRemoveComponent(ecs::entity entity) const
     {
-        ecs::Scene* scene = ECSFace::CastTo<ecs::Scene>();
+        ecs::Scene* scene = CastTo<ecs::Scene>();
         return scene->Remove<T>(entity);
     }
     template<typename T>
-    inline static void EnttRemoveComponent(entt::entity entity)
+    inline void EnttRemoveComponent(entt::entity entity) const
     {
-        entt::registry* scene = ECSFace::CastTo<entt::registry>();
+        entt::registry* scene = CastTo<entt::registry>();
         return scene->remove<T>(entity);
     }
 
     template<typename _T>
-    static _T* CastTo()
+    _T* CastTo() const
     {
         GAME_CORE_ASSERT(m_Registry, "Scene registry is invalid");
         return reinterpret_cast<_T*>(m_Registry);

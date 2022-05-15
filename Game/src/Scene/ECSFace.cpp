@@ -3,13 +3,10 @@
 #include "Debug/Intrumentator.h"
 namespace Game
 {
-    ECSImplementation ECSFace::s_ECSImplementation = ECSImplementation::InternalEcs;
-    void* ECSFace::m_Registry = nullptr;
-
-    uint64_t ECSFace::CreateEntity()
+    uint64_t ECSFace::CreateEntity() const
     {
         GAME_PROFILE_FUNCTION();
-        switch(s_ECSImplementation)
+        switch(m_ECSImplementation)
         {
             case ECSImplementation::InternalEcs: 
             {
@@ -23,10 +20,10 @@ namespace Game
         }
     }
 
-    void ECSFace::DestroyEntity(uint64_t ent)
+    void ECSFace::DestroyEntity(uint64_t ent) const
     {
         GAME_PROFILE_FUNCTION();
-        switch(s_ECSImplementation)
+        switch(m_ECSImplementation)
         {
             case ECSImplementation::InternalEcs: 
             {

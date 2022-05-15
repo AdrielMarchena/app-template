@@ -57,6 +57,7 @@ namespace Game
 		// void RemoveDoBeforeunbindFramebuffer();
 
 		const SoundsSystemFMOD& GetSoundSystem() const { return m_SoundSystem; }
+		const ECSFace& GetECSFace() const { return m_ECSFace; }
 	private:
 		void CreatePhysicWorld();
 		void DisposePhysicWorld();
@@ -69,6 +70,7 @@ namespace Game
 		MessageBus* m_MessageBus = nullptr;
 		b2World* m_PhysicWorld = nullptr;
 		SoundsSystemFMOD m_SoundSystem;
+		ECSFace m_ECSFace;
 		friend class Entity;
 		static Ref<Scene> m_CurrentScene;
 	};
