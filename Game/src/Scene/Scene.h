@@ -56,6 +56,7 @@ namespace Game
 		void AddDoBeforeUnbindFramebuffer(DoBeforeUnbindFramebuffer func);
 		// void RemoveDoBeforeunbindFramebuffer();
 
+		const SoundsSystemFMOD& GetSoundSystem() const { return m_SoundSystem; }
 	private:
 		void CreatePhysicWorld();
 		void DisposePhysicWorld();
