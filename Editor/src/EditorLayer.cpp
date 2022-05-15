@@ -18,6 +18,19 @@ static Game::Ref<Game::FMODSound> g_TestSound;
 static Game::Ref<Game::FMODChannel> g_TestSoundChannel;
 static std::vector<std::pair<std::string, std::string>> g_SoundDirs;
 
+static inline void PlaySound(const std::string& name, bool loop, const Game::SoundsSystemFMOD& soundSystem)
+{
+	if (!g_SoundDirs.empty())
+	{
+		g_TestSound = soundSystem.CreateSoundRef(g_SoundDirs[0].second, 0);
+		g_TestSoundChannel = g_TestSound->GetChannel();
+		g_TestSoundChannel->SetPosition(0);
+		g_TestSoundChannel->SetLoopCount((!loop) - 1);
+		g_TestSoundChannel->SetVolume(0.75f);
+		g_TestSoundChannel->Play();
+	}
+}
+
 struct MyGameKeyBindings
 {
 	static void KeyW(EditorLayer& g)
@@ -123,18 +136,7 @@ void EditorLayer::OnAttach()
 			}
 		});
 
-	// TODO: Remove this test here
 	g_SoundDirs = Game::utils::Files::GetPairText("assets/sounds", ".ogg#.wav#.WAV");
-	if (!g_SoundDirs.empty())
-	{
-		auto& soundSystem = m_Scene->GetSoundSystem();
-		g_TestSound = soundSystem.CreateSoundRef(g_SoundDirs[0].second, 0);
-		g_TestSoundChannel = g_TestSound->GetChannel();
-		g_TestSoundChannel->SetPosition(0);
-		g_TestSoundChannel->SetLoopCount(-1);
-		g_TestSoundChannel->SetVolume(0.75f);
-		g_TestSoundChannel->Play();
-	}
 }
 
 void EditorLayer::OnUpdate(Game::Timestamp dt)
@@ -170,6 +172,24 @@ void EditorLayer::OnImGuiRender()
 			{
 				if (ImGui::Button(effect.first.c_str()))
 					m_Scene->FramebufferSetPostEffect(effect.first);
+			}
+
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Load and play sounds"))
+		{
+			static bool loop = true;
+
+			if (ImGui::Checkbox("Loop sound", &loop))
+			{
+				
+			}
+
+			for (const auto& sound : g_SoundDirs)
+			{
+				if (ImGui::Button(sound.first.c_str()))
+					PlaySound(sound.second, loop, m_Scene->GetSoundSystem());
 			}
 
 			ImGui::EndMenu();
