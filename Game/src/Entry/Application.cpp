@@ -32,8 +32,6 @@ namespace Game {
 
 		glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 		Render2D::Init();
-		ECSFace::SetImplementation(ECSImplementation::Entt);
-		ECSFace::CreateRegistry();
 		// InitMetaReflectionComponents();
 	}
 

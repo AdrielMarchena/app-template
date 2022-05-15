@@ -64,6 +64,7 @@ namespace Game
 		m_FramebufferRender->SetQuadRotation({ 0.0f,0.0f,0.0f });
 
 		m_MessageBus = new MessageBus();
+		m_ECSFace.CreateRegistry();
 
 	}
 
@@ -79,7 +80,7 @@ namespace Game
 	{
 		GAME_PROFILE_FUNCTION();
 		//auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
-		auto view = ECSFace::View<NativeScriptComponent>();
+		auto view = m_ECSFace.View<NativeScriptComponent>();
 		for(auto e : view)
 		{
 			Entity ent = { e, this };
@@ -97,7 +98,7 @@ namespace Game
 	{
 		GAME_PROFILE_FUNCTION();
 		//auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
-		auto view = ECSFace::View<NativeScriptComponent>();
+		auto view = m_ECSFace.View<NativeScriptComponent>();
 		for(auto e : view)
 		{
 			Entity ent = { e, this };
@@ -131,7 +132,7 @@ namespace Game
 		if(m_PhysicWorld) return;
 		m_PhysicWorld = new b2World({0.0f,-9.8f});
 		//auto view = ecs::SceneView<RigidBody2DComponent>(*m_Registry);
-		auto view = ECSFace::View<RigidBody2DComponent>();
+		auto view = m_ECSFace.View<RigidBody2DComponent>();
 		for(auto e : view)
 		{
 			Entity ent = { e, this };
@@ -179,7 +180,7 @@ namespace Game
 	Entity Scene::CreateEntity(const std::string& tag, bool addMessangerComponent)
 	{
 		GAME_PROFILE_FUNCTION();
-		Entity ent{ ECSFace::CreateEntity(), this };
+		Entity ent{ m_ECSFace.CreateEntity(), this };
 
 		ent.Add<IdComponent>();
 		ent.Add<TagComponent>(tag.empty() ? "Unnamed Entity" : tag);
@@ -195,7 +196,7 @@ namespace Game
 		{// Scripts
 			GAME_PROFILE_SCOPE("updating_scripts");
 			// auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
-			auto view = ECSFace::View<NativeScriptComponent>();
+			auto view = m_ECSFace.View<NativeScriptComponent>();
 			for (auto e : view)
 			{
 				Entity ent{e, this};
@@ -214,7 +215,7 @@ namespace Game
 			m_PhysicWorld->Step(dt,velocityIterations,positionIterations);
 
 			// auto view = ecs::SceneView<RigidBody2DComponent>(*m_Registry);
-			auto view = ECSFace::View<RigidBody2DComponent>();
+			auto view = m_ECSFace.View<RigidBody2DComponent>();
 			for (auto e : view)
 			{
 				Entity ent{e, this};
@@ -243,7 +244,7 @@ namespace Game
 		{ // Find Camera
 			GAME_PROFILE_SCOPE("find_camera");
 			// auto view = ecs::SceneView<CameraComponent>(*m_Registry);
-			auto view = ECSFace::View<CameraComponent>();
+			auto view = m_ECSFace.View<CameraComponent>();
 			for (auto ent : view)
 			{
 				Entity camera = { ent, this };
@@ -263,7 +264,7 @@ namespace Game
 			GAME_PROFILE_SCOPE("opt_physics(unused)");
 			//TODO: Test this idk if works
 			// auto view = ecs::SceneView<BoxColiderComponent>(*m_Registry);
-			auto view = ECSFace::View<BoxColiderComponent>();
+			auto view = m_ECSFace.View<BoxColiderComponent>();
 			static glm::vec2 gravity = { 0.0f, 9.8f };
 			for (auto ent : view)
 			{
@@ -343,17 +344,17 @@ namespace Game
 				Render2D::BeginBatch();
 				
 				//auto view = ecs::SceneView<SpriteComponent>(*m_Registry);
-				auto view = ECSFace::View<SpriteComponent>();
+				auto view = m_ECSFace.View<SpriteComponent>();
 				for (auto ent : view)
 				{
-					auto& sprite = ECSFace::GetComponent<SpriteComponent>(ent);
+					auto& sprite = m_ECSFace.GetComponent<SpriteComponent>(ent);
 					if (sprite.Visible)
 					{
-						auto& tra = ECSFace::GetComponent<TransformComponent>(ent);
+						auto& tra = m_ECSFace.GetComponent<TransformComponent>(ent);
 						if (sprite.Texture)
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture, sprite.Color GAME_COMMA_ENTITYID(ECSFace::GetEntityNumber(ent)));
+							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture, sprite.Color GAME_COMMA_ENTITYID(m_ECSFace.GetEntityNumber(ent)));
 						else
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Color GAME_COMMA_ENTITYID(ECSFace::GetEntityNumber(ent)));
+							Render2D::DrawQuad(tra.GetTransform(), sprite.Color GAME_COMMA_ENTITYID(m_ECSFace.GetEntityNumber(ent)));
 					}
 				}
 

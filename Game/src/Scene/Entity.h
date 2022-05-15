@@ -21,28 +21,28 @@ namespace Game
 		{
 			GAME_CORE_ASSERT(!Contain<T>(), "Entity already contain this component");
 			//return m_Registry->Add<T>(m_Handler, std::forward<_Args>(args)...);
-			return ECSFace::AddComponent<T>(m_Handler, std::forward<_Args>(args)...);
+			return m_SceneP->GetECSFace().AddComponent<T>(m_Handler, std::forward<_Args>(args)...);
 		}
 
 		TransformComponent& GetTransformComponent()
 		{
 			GAME_CORE_ASSERT(Contain<TransformComponent>(), "Entity does not contain transform component");
 			//return m_Registry->Get<TransformComponent>(m_Handler);
-			return ECSFace::GetComponent<TransformComponent>(m_Handler);
+			return m_SceneP->GetECSFace().GetComponent<TransformComponent>(m_Handler);
 		}
 
 		IdComponent& GetIdComponent()
 		{
 			GAME_CORE_ASSERT(Contain<IdComponent>(), "Entity does not contain Id component");
 			//return m_Registry->Get<IdComponent>(m_Handler);
-			return ECSFace::GetComponent<IdComponent>(m_Handler);
+			return m_SceneP->GetECSFace().GetComponent<IdComponent>(m_Handler);
 		}
 
 		TagComponent& GetTagComponent()
 		{
 			GAME_CORE_ASSERT(Contain<TagComponent>(), "Entity does not contain tag component");
 			//return m_Registry->Get<TagComponent>(m_Handler);
-			return ECSFace::GetComponent<TagComponent>(m_Handler);
+			return  m_SceneP->GetECSFace().GetComponent<TagComponent>(m_Handler);
 		}
 
 		template<typename T>
@@ -50,7 +50,7 @@ namespace Game
 		{
 			GAME_CORE_ASSERT(Contain<T>(), "Entity does not contain this component");
 			//return m_Registry->Get<T>(m_Handler);
-			return ECSFace::GetComponent<T>(m_Handler);
+			return  m_SceneP->GetECSFace().GetComponent<T>(m_Handler);
 		}
 
 		template<typename T>
@@ -58,7 +58,7 @@ namespace Game
 		{
 			GAME_CORE_ASSERT(Contain<T>(), "Entity does nor contain this component");
 			//m_Registry->Remove<T>(m_Handler);
-			ECSFace::RemoveComponent<T>(m_Handler);
+			m_SceneP->GetECSFace().RemoveComponent<T>(m_Handler);
 		}
 
 		template<typename T>
@@ -66,7 +66,7 @@ namespace Game
 		{
 			GAME_CORE_ASSERT(m_SceneP && m_Registry, "Scene or Registry pointer are invalid");
 			//return m_Registry->Contain<T>(m_Handler);
-			return ECSFace::ContainComponent<T>(m_Handler);
+			return  m_SceneP->GetECSFace().ContainComponent<T>(m_Handler);
 		}
 
 		uint64_t GetHandler() { return m_Handler; }
