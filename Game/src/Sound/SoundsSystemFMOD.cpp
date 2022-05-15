@@ -37,7 +37,6 @@ namespace Game
         FMOD::Channel* channel{nullptr};
         auto error = wp->SystemPtr->playSound(SoundPtr, 0, true, &channel);
         FMODErrorCheckPath(error, SoundPath);
-        GAME_CORE_ASSERT(error == FMOD_OK, "FMOD ERROR | Something went wrong when playing {0}\n\tError: {1}", SoundPath, FMOD_ErrorString(error));
         return MakeRef<FMODChannel>(channel);
     }
 
