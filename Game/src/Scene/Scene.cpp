@@ -17,6 +17,7 @@
 #include "box2d/b2_body.h"
 #include "box2d/b2_fixture.h"
 #include "box2d/b2_polygon_shape.h"
+#include "box2d/b2_circle_shape.h"
 
 #include "fmod.hpp" // TODO: Temp
 
@@ -40,6 +41,7 @@ namespace Game
 	Scene::Scene()
 	{
 		GAME_PROFILE_FUNCTION();
+
 		m_Registry = MakeScope<ecs::Scene>();
 
 		FrameBufferRenderSpecification specs;
@@ -65,7 +67,6 @@ namespace Game
 
 		m_MessageBus = new MessageBus();
 		m_ECSFace.CreateRegistry();
-
 	}
 
 	Scene::~Scene()
@@ -79,7 +80,7 @@ namespace Game
 	void Scene::SceneBegin()
 	{
 		GAME_PROFILE_FUNCTION();
-		//auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+
 		auto view = m_ECSFace.View<NativeScriptComponent>();
 		for(auto e : view)
 		{
@@ -97,7 +98,7 @@ namespace Game
 	void Scene::SceneEnd()
 	{
 		GAME_PROFILE_FUNCTION();
-		//auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+
 		auto view = m_ECSFace.View<NativeScriptComponent>();
 		for(auto e : view)
 		{
@@ -114,11 +115,13 @@ namespace Game
 	void Scene::RuntimeInit()
 	{
 		CreatePhysicWorld();
+		m_IsRuntime = true;
 	}
 
 	void Scene::RuntimeStop()
 	{
 		DisposePhysicWorld();
+		m_IsRuntime = false;
 	}
 
 	bool Scene::IsRuntimeInit() const
@@ -130,8 +133,9 @@ namespace Game
 	{
 		GAME_PROFILE_FUNCTION();
 		if(m_PhysicWorld) return;
+
 		m_PhysicWorld = new b2World({0.0f,-9.8f});
-		//auto view = ecs::SceneView<RigidBody2DComponent>(*m_Registry);
+
 		auto view = m_ECSFace.View<RigidBody2DComponent>();
 		for(auto e : view)
 		{
@@ -164,6 +168,24 @@ namespace Game
 				fixtureDef.restitutionThreshold = bc2d.RestitutionThreshold;
 				body->CreateFixture(&fixtureDef);
 			}
+
+			if (ent.Contain<CircleColider2DComponent>())
+			{
+				auto& cc2d = ent.Get<CircleColider2DComponent>();
+
+				b2CircleShape circleShape;
+				circleShape.m_p.SetZero();
+				circleShape.m_radius = cc2d.Radius;
+
+				b2FixtureDef fixtureDef;
+				fixtureDef.shape = &circleShape;
+				fixtureDef.density = cc2d.Density;
+				fixtureDef.friction = cc2d.Friction;
+				fixtureDef.restitution = cc2d.Restitution;
+				fixtureDef.restitutionThreshold = cc2d.RestitutionThreshold;
+				body->CreateFixture(&fixtureDef);
+			}
+
 		}
 	}
 
@@ -193,9 +215,10 @@ namespace Game
 	void Scene::OnUpdate(float dt)
 	{
 		GAME_PROFILE_FUNCTION();
+
 		{// Scripts
 			GAME_PROFILE_SCOPE("updating_scripts");
-			// auto view = ecs::SceneView<NativeScriptComponent>(*m_Registry);
+
 			auto view = m_ECSFace.View<NativeScriptComponent>();
 			for (auto e : view)
 			{
@@ -209,12 +232,12 @@ namespace Game
 		if(m_PhysicWorld)
 		{// Physics
 			GAME_PROFILE_SCOPE("updating_physics");
+
 			constexpr int32_t velocityIterations = 6;
 			constexpr int32_t positionIterations = 2;
 
 			m_PhysicWorld->Step(dt,velocityIterations,positionIterations);
 
-			// auto view = ecs::SceneView<RigidBody2DComponent>(*m_Registry);
 			auto view = m_ECSFace.View<RigidBody2DComponent>();
 			for (auto e : view)
 			{
@@ -331,6 +354,7 @@ namespace Game
 
 		{//Render Scope
 			GAME_PROFILE_SCOPE("rendering");
+
 			m_FramebufferRender->BindFrameBuffer();
 			Render2D::Clear();
 
@@ -343,7 +367,6 @@ namespace Game
 				Render2D::BeginScene(*main_camera, *main_camera_trasform);
 				Render2D::BeginBatch();
 				
-				//auto view = ecs::SceneView<SpriteComponent>(*m_Registry);
 				auto view = m_ECSFace.View<SpriteComponent>();
 				for (auto ent : view)
 				{
@@ -351,10 +374,22 @@ namespace Game
 					if (sprite.Visible)
 					{
 						auto& tra = m_ECSFace.GetComponent<TransformComponent>(ent);
-						if (sprite.Texture)
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Texture, sprite.Color GAME_COMMA_ENTITYID(m_ECSFace.GetEntityNumber(ent)));
-						else
-							Render2D::DrawQuad(tra.GetTransform(), sprite.Color GAME_COMMA_ENTITYID(m_ECSFace.GetEntityNumber(ent)));
+
+						if (m_ECSFace.ContainComponent<CircleComponent>(ent)) // Draw as Circle Shape
+						{
+							auto& circleComponent = m_ECSFace.GetComponent<CircleComponent>(ent);
+							if (sprite.Texture)
+								Render2D::DrawCircle(tra.GetTransform(), circleComponent.Thick, circleComponent.Fade, sprite.Texture, sprite.Color GAME_COMMA_ENTITYID(m_ECSFace.GetEntityNumber(ent)));
+							else
+								Render2D::DrawCircle(tra.GetTransform(), circleComponent.Thick, circleComponent.Fade, sprite.Color GAME_COMMA_ENTITYID(m_ECSFace.GetEntityNumber(ent)));
+						}
+						else // Quad shapes
+						{
+							if (sprite.Texture)
+								Render2D::DrawQuad(tra.GetTransform(), sprite.Texture, sprite.Color GAME_COMMA_ENTITYID(m_ECSFace.GetEntityNumber(ent)));
+							else
+								Render2D::DrawQuad(tra.GetTransform(), sprite.Color GAME_COMMA_ENTITYID(m_ECSFace.GetEntityNumber(ent)));
+						}
 					}
 				}
 

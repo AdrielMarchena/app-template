@@ -58,6 +58,7 @@ namespace Game
 
 		const SoundsSystemFMOD& GetSoundSystem() const { return m_SoundSystem; }
 		const ECSFace& GetECSFace() const { return m_ECSFace; }
+		bool IsRuntimeRunning() const { return m_IsRuntime; }
 	private:
 		void CreatePhysicWorld();
 		void DisposePhysicWorld();
@@ -70,6 +71,7 @@ namespace Game
 		MessageBus* m_MessageBus = nullptr;
 		b2World* m_PhysicWorld = nullptr;
 		SoundsSystemFMOD m_SoundSystem;
+		bool m_IsRuntime = false;
 		ECSFace m_ECSFace;
 		friend class Entity;
 		static Ref<Scene> m_CurrentScene;
