@@ -21,17 +21,17 @@ namespace Game
 	#define GAME_DO_IF_ENTITYID(x)
 #endif
 
-	/**
-	* Render2D class.
-	*/
 	enum class DrawInfo
 	{
-		Quad
+		Quad,
+		Circle
 	};
 	struct RenderStats;
 	struct DrawGeometryData;
 	struct DrawDataCollection;
-
+	/**
+	* Render2D class.
+	*/
 	class Render2D
 	{
 	private:
@@ -53,6 +53,9 @@ namespace Game
 
 		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID));
 		static void DrawQuad(const glm::mat4& transform, Ref<Texture> texture, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID));
+
+		static void DrawCircle(const glm::mat4& transform, float thick, float fade,const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID));
+		static void DrawCircle(const glm::mat4& transform, float thick, float fade, Ref<Texture> texture, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID));
 
 		static RenderStats GetRenderInfo(const DrawInfo& geometry = DrawInfo::Quad);
 

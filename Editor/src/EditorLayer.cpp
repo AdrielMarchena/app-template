@@ -38,21 +38,36 @@ struct MyGameKeyBindings
 		if(g_TestSoundChannel)
 			g_TestSoundChannel->UpOctave();
 	}
+
 	static void KeyA(EditorLayer& g)
 	{
 		if (g_TestSoundChannel)
 			g_TestSoundChannel->DownSemitone();
 	}
+
 	static void KeyS(EditorLayer& g)
 	{
 		if (g_TestSoundChannel)
 			g_TestSoundChannel->DownOctave();
 	}
+
 	static void KeyD(EditorLayer& g)
 	{
 		if (g_TestSoundChannel)
 			g_TestSoundChannel->UpSemitone();
 	}
+
+	static void KeyR(EditorLayer& g)
+	{
+		if (!g.m_Scene->IsRuntimeInit())
+		{
+			auto& quadTr = g.m_Quad.GetTransformComponent();
+			quadTr.Translation = { 0.0f,4.0f,0.0f };
+			auto& circleTr = g.m_Circle.Get<Game::TransformComponent>();
+			circleTr.Translation = { 2.0f,4.0f,0.0f };
+		}
+	}
+
 	static void KeyESC(EditorLayer& g)
 	{
 		Game::Application::Get().Close();
@@ -70,6 +85,7 @@ void EditorLayer::OnAttach()
 	m_KeysBindings.emplace(GAME_KEY_A, &MyGameKeyBindings::KeyA);
 	m_KeysBindings.emplace(GAME_KEY_S, &MyGameKeyBindings::KeyS);
 	m_KeysBindings.emplace(GAME_KEY_D, &MyGameKeyBindings::KeyD);
+	m_KeysBindings.emplace(GAME_KEY_R, &MyGameKeyBindings::KeyR);
 	m_KeysBindings.emplace(GAME_KEY_ESCAPE, &MyGameKeyBindings::KeyESC);
 
 	auto& app = Game::Application::Get();
@@ -117,12 +133,29 @@ void EditorLayer::OnAttach()
 		auto& tr = m_Platform.Get<Game::TransformComponent>();
 
 		tr.Translation = { 0.0f,0.0f,0.0f };
-		tr.Scale = { 10.0f,1.0f,1.0f };
+		tr.Scale = { 14.0f,1.0f,1.0f };
 
 		auto& rigBody = m_Platform.Add<Game::RigidBody2DComponent>();
 		auto& boxColider = m_Platform.Add<Game::BoxColider2DComponent>();
 		rigBody.Type = Game::RigidBody2DComponent::BodyType::Static;
 	}
+
+	{
+		m_Circle = m_Scene->CreateEntity("Cirlce");
+		auto texture = Game::Texture::CreateTexture("assets/img/chalote.jpg");
+		m_Circle.Add<Game::SpriteComponent>(texture);
+		m_Circle.Add<Game::CircleComponent>();
+		auto& tr = m_Circle.Get<Game::TransformComponent>();
+
+		tr.Translation = { 2.0f,4.0f,0.0f };
+		tr.Scale = { 1.0f,1.0f,1.0f };
+
+		auto& rigBody = m_Circle.Add<Game::RigidBody2DComponent>();
+		auto& boxColider = m_Circle.Add<Game::CircleColider2DComponent>();
+		rigBody.Type = Game::RigidBody2DComponent::BodyType::Dynamic;
+	}
+
+	m_SelectedEntity = Game::Entity{};
 
 	m_Scene->AddDoBeforeUnbindFramebuffer([&](Game::Scene* scene) -> void
 		{
@@ -131,8 +164,10 @@ void EditorLayer::OnAttach()
 				auto& app = Game::Application::Get();
 				auto h = app.GetWindow().GetHeight();
 				auto mousePosition = Game::Mouse::m_pos(h);
-				int entityID = scene->ReadPixel(1, mousePosition.x, mousePosition.y);
-				GAME_LOG_INFO("entityID on pixel {0}x{1} is: {2}", mousePosition.x, mousePosition.y, entityID);
+				uint64_t entityID = scene->ReadPixel(1, mousePosition.x, mousePosition.y);
+				APP_INFO("entityID on pixel {0}x{1} is: {2}", mousePosition.x, mousePosition.y, entityID);
+				if (entityID > 0 && entityID < 100)
+					m_SelectedEntity = Game::Entity{ entityID, m_Scene.get() };
 			}
 		});
 
@@ -168,6 +203,8 @@ void EditorLayer::OnImGuiRender()
 		{
 			auto& postEffects = m_Scene->FramebufferGetPostEffects();
 
+			if (ImGui::Button("none")) m_Scene->FramebufferSetPostEffect("none");
+
 			for (const auto& effect : postEffects)
 			{
 				if (ImGui::Button(effect.first.c_str()))
@@ -180,11 +217,7 @@ void EditorLayer::OnImGuiRender()
 		if (ImGui::BeginMenu("Load and play sounds"))
 		{
 			static bool loop = true;
-
-			if (ImGui::Checkbox("Loop sound", &loop))
-			{
-				
-			}
+			ImGui::Checkbox("Loop sound", &loop);
 
 			for (const auto& sound : g_SoundDirs)
 			{
@@ -210,6 +243,42 @@ void EditorLayer::OnImGuiRender()
 		}
 
 		ImGui::EndMainMenuBar();
+
+		ImGui::Begin("Entity Physics");
+
+		if (m_SelectedEntity)
+			if (m_SelectedEntity.Contain<Game::RigidBody2DComponent>() && m_SelectedEntity.Contain<Game::BoxColider2DComponent>())
+			{
+				auto& ent_rbody = m_SelectedEntity.Get<Game::RigidBody2DComponent>();
+				auto& ent_bcol = m_SelectedEntity.Get<Game::BoxColider2DComponent>();
+
+				ImGui::SliderFloat("Friction", &ent_bcol.Friction, 0.0f, 1.0f);
+				ImGui::SliderFloat("Density", &ent_bcol.Density, 0.0f, 1.0f);
+				ImGui::SliderFloat("Restitution", &ent_bcol.Restitution, 0.0f, 1.0f);
+				ImGui::SliderFloat("RestitutionThreshold", &ent_bcol.RestitutionThreshold, 0.0f, 1.0f);
+			}
+			else if (m_SelectedEntity.Contain<Game::CircleComponent>())
+			{
+				auto& circle = m_SelectedEntity.Get<Game::CircleComponent>();
+
+				ImGui::SliderFloat("Thickness", &circle.Thick, 0.0f, 1.0f);
+				ImGui::SliderFloat("Fade", &circle.Fade, 0.0f, 1.0f);
+
+				if (m_SelectedEntity.Contain<Game::RigidBody2DComponent>() && m_SelectedEntity.Contain<Game::CircleColider2DComponent>())
+				{
+					auto& ent_rbody = m_SelectedEntity.Get<Game::RigidBody2DComponent>();
+					auto& ent_ccol = m_SelectedEntity.Get<Game::CircleColider2DComponent>();
+
+					ImGui::SliderFloat("Friction", &ent_ccol.Friction, 0.0f, 1.0f);
+					ImGui::SliderFloat("Density", &ent_ccol.Density, 0.0f, 1.0f);
+					ImGui::SliderFloat("Restitution", &ent_ccol.Restitution, 0.0f, 1.0f);
+					ImGui::SliderFloat("RestitutionThreshold", &ent_ccol.RestitutionThreshold, 0.0f, 1.0f);
+					ImGui::SliderFloat("Radius", &ent_ccol.Radius, 0.0f, 1.0f);
+				}
+			}
+
+		ImGui::End();
+
 	}
 
 }

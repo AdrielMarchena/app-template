@@ -23,6 +23,9 @@ protected:
 	Game::Entity m_Camera;
 	Game::Entity m_Quad;
 	Game::Entity m_Platform;
+	Game::Entity m_Circle;
+
+	Game::Entity m_SelectedEntity;
 public:
 	EditorLayer(const std::string& name = "MyGame");
 	virtual ~EditorLayer() = default;

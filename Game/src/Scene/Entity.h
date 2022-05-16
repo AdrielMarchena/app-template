@@ -13,7 +13,13 @@ namespace Game
 		Entity(const Entity&) = default;
 		~Entity() = default;
 
-		 operator bool() const { return m_Handler > -1; }
+		//Constructor used by Scene class
+		Entity(uint64_t handler, Scene* scene)
+			:m_Handler(handler), m_SceneP(scene), m_Registry(&(*scene->m_Registry))
+		{
+		}
+
+		 operator bool() const { return m_Handler > 0; }
 	public:
 
 		template<typename T, class... _Args>
@@ -70,12 +76,7 @@ namespace Game
 		}
 
 		uint64_t GetHandler() { return m_Handler; }
-	private:
-		//Constructor used by Scene class
-		Entity(uint64_t handler, Scene* scene)
-			:m_Handler(handler), m_SceneP(scene), m_Registry(&(*scene->m_Registry))
-		{
-		}
+		
 	private:
 		Scene* m_SceneP = nullptr;
 		uint64_t m_Handler{0}; //TODO: This is not a valid invalid entity, but well

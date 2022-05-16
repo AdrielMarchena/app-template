@@ -75,6 +75,15 @@ namespace Game
 		operator glm::mat4() const { return GetTransform(); }
 	};
 
+	struct CircleComponent
+	{
+		float Thick = 1.0f;
+		float Fade = 0.005f;
+
+		CircleComponent() = default;
+		CircleComponent(const CircleComponent&) = default;
+	};
+
 	struct RigidBody2DComponent
 	{
 		enum class BodyType
@@ -121,6 +130,23 @@ namespace Game
 		BoxColiderComponent() = default;
 		BoxColiderComponent(const BoxColiderComponent&) = default;
 
+	};
+
+	struct CircleColider2DComponent
+	{
+		glm::vec2 Offset = { 0.0f,0.0f };
+		glm::vec2 Size = { 0.5f,0.5f };
+
+		float Density = 1.0f;
+		float Friction = 0.5f;
+		float Restitution = 0.0f;
+		float RestitutionThreshold = 0.5f;
+		float Radius = 0.5f;
+
+		void* RuntimeFixture = nullptr;
+
+		CircleColider2DComponent() = default;
+		CircleColider2DComponent(const CircleColider2DComponent&) = default;
 	};
 
 	struct CameraComponent

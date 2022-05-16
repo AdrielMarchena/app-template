@@ -6,6 +6,8 @@
 #include "GL/gl_error_macro_db.h"
 #include "glad/glad.h"
 
+#include "GL/GLContext.h"
+
 //qptr->indexBuffer = IndexBuffer::CreateIndexBuffer(_msize(indices), indices);
 
 #ifdef GAME_WINDOWS_BUILD
@@ -60,9 +62,17 @@ namespace Game
 	}
 
 	static bool s_RenderInit = false;
+
 	static int32_t QuadMaxCount = 500;
 	static int32_t QuadMaxVertexCount = QuadMaxCount * 4;
 	static int32_t QuadMaxIndexCount = QuadMaxCount * 6;
+
+	static int32_t CircleMaxCount = 500;
+	static int32_t CircleMaxVertexCount = CircleMaxCount * 4;
+	static int32_t CircleMaxIndexCount = CircleMaxCount * 6;
+
+	static int32_t MaxTextureUnits = 8;
+
 	static Scope<ShaderLib> m_ShaderLib;
 
 	static glm::vec4 QuadVertexPositions[4] =
@@ -93,6 +103,20 @@ namespace Game
 		glm::vec4 Color;
 		glm::vec2 TextureCoords;
 		float TextureIndex;
+
+		GAME_DECLARE_ENTITY_ID;
+	};
+
+	struct CircleVertexData
+	{
+		glm::vec3 Position;
+		glm::vec4 Color;
+		glm::vec2 TextureCoords;
+		float TextureIndex;
+
+		glm::vec3 LocalPosition;
+		float Thick;
+		float Fade;
 
 		GAME_DECLARE_ENTITY_ID;
 	};
@@ -136,14 +160,14 @@ namespace Game
 		}
 	};
 
-	// All info about Quads are here
-
+	// All info about a Geometry are here
 	struct DrawDataCollection
 	{
-		DrawGeometryData* Quads = nullptr;
+		DrawGeometryData* GeometryData = nullptr;
 	};
 
-	static DrawDataCollection s_Data;
+	static DrawDataCollection s_QuadData;
+	static DrawDataCollection s_CircleData;
 
 	bool Render2D::Init()
 	{
@@ -152,61 +176,132 @@ namespace Game
 			return s_RenderInit;
 
 		s_RenderInit = true;
+
+		MaxTextureUnits = GLContext::GetFragmetShaderMaxTextureUnits();
+
 		//Shader is managed as a Ref(shared_ptr) inside ShaderLib
 		m_ShaderLib = MakeScope<ShaderLib>();
-		auto quadShader = Shader::CreateShader("assets/shaders/Quad.glsl");
-		m_ShaderLib->Add(quadShader);
 
-		//Create Quad GL stuff
-		s_Data.Quads = new DrawGeometryData();
-		auto qptr = s_Data.Quads; /* Handler pointer to a easier name */
+		{ //Quad stuff
+			auto quadShader = Shader::CreateShader("assets/shaders/Quad.glsl");
+			m_ShaderLib->Add(quadShader);
 
-		//Init Quad stuff
-		qptr->shader = quadShader;
-		qptr->shader->Bind();
-		
-		qptr->Buffer = new QuadVertexData[QuadMaxVertexCount];
-		qptr->BufferPtr = qptr->Buffer;
+			//Create Quad GL stuff
+			s_QuadData.GeometryData = new DrawGeometryData();
+			auto qptr = s_QuadData.GeometryData; /* Handler pointer to a easier name */
 
-		qptr->vertexArray = VertexArray::CreateVertexArray();
+			//Init Quad stuff
+			qptr->shader = quadShader;
+			qptr->shader->Bind();
 
-		qptr->vertexBuffer = VertexBuffer::CreateVertexBuffer(QuadMaxVertexCount * sizeof(QuadVertexData));
+			qptr->Buffer = new QuadVertexData[QuadMaxVertexCount];
+			qptr->BufferPtr = qptr->Buffer;
 
-		VertexAttribute layout(qptr->vertexBuffer);
+			qptr->vertexArray = VertexArray::CreateVertexArray();
 
-		layout.AddLayoutFloat(3, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, Position));
+			qptr->vertexBuffer = VertexBuffer::CreateVertexBuffer(QuadMaxVertexCount * sizeof(QuadVertexData));
 
-		layout.AddLayoutFloat(4, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, Color));
+			VertexAttribute layout(qptr->vertexBuffer);
 
-		layout.AddLayoutFloat(2, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, TextureCoords));
+			layout.AddLayoutFloat(3, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, Position));
 
-		layout.AddLayoutFloat(1, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, TextureIndex));
+			layout.AddLayoutFloat(4, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, Color));
 
-		GAME_DO_IF_ENTITYID(layout.AddLayoutInt(1, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, GAME_ENTITY_ID)));
+			layout.AddLayoutFloat(2, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, TextureCoords));
 
-		uint32_t* indices = new uint32_t[QuadMaxIndexCount]{0};
-		uint32_t offset = 0;
+			layout.AddLayoutFloat(1, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, TextureIndex));
 
-		for (int i = 0; i < QuadMaxIndexCount; i += 6)
-		{
-			indices[i + 0] = 0 + offset;
-			indices[i + 1] = 1 + offset;
-			indices[i + 2] = 2 + offset;
+			GAME_DO_IF_ENTITYID(layout.AddLayoutInt(1, sizeof(QuadVertexData), (const void*)offsetof(QuadVertexData, GAME_ENTITY_ID)));
 
-			indices[i + 3] = 2 + offset;
-			indices[i + 4] = 3 + offset;
-			indices[i + 5] = 0 + offset;
+			uint32_t* indices = new uint32_t[QuadMaxIndexCount]{ 0 };
+			uint32_t offset = 0;
 
-			offset += 4;
+			for (int i = 0; i < QuadMaxIndexCount; i += 6)
+			{
+				indices[i + 0] = 0 + offset;
+				indices[i + 1] = 1 + offset;
+				indices[i + 2] = 2 + offset;
+
+				indices[i + 3] = 2 + offset;
+				indices[i + 4] = 3 + offset;
+				indices[i + 5] = 0 + offset;
+
+				offset += 4;
+			}
+
+			qptr->indexBuffer = IndexBuffer::CreateIndexBuffer(sizeof(uint32_t) * QuadMaxIndexCount, indices);
+			delete[] indices;
+
+			utils::SampleTextureOnShader(qptr->shader, MaxTextureUnits, qptr->TexturesID);
+			qptr->vertexArray->Unbind();
 		}
+		// Circle Stuff
+		{
+			auto circleShader = Shader::CreateShader("assets/shaders/Circle.glsl");
+			m_ShaderLib->Add(circleShader);
 
-		qptr->indexBuffer = IndexBuffer::CreateIndexBuffer(sizeof(uint32_t) * QuadMaxIndexCount, indices);
-		delete[] indices;
+			s_CircleData.GeometryData = new DrawGeometryData();
+			auto cptr = s_CircleData.GeometryData;
 
-		utils::SampleTextureOnShader(qptr->shader, 16, qptr->TexturesID);
+			cptr->shader = circleShader;
+			cptr->shader->Bind();
 
-		qptr->vertexArray->Unbind();
+			cptr->Buffer = new QuadVertexData[CircleMaxVertexCount];
+			cptr->BufferPtr = cptr->Buffer;
 
+			cptr->vertexArray = VertexArray::CreateVertexArray();
+
+			cptr->vertexBuffer = VertexBuffer::CreateVertexBuffer(CircleMaxVertexCount * sizeof(CircleVertexData));
+
+			VertexAttribute layout(cptr->vertexBuffer);
+
+			layout.AddLayoutFloat(3, sizeof(CircleVertexData), (const void*)offsetof(CircleVertexData, Position));
+
+			layout.AddLayoutFloat(4, sizeof(CircleVertexData), (const void*)offsetof(CircleVertexData, Color));
+
+			layout.AddLayoutFloat(2, sizeof(CircleVertexData), (const void*)offsetof(CircleVertexData, TextureCoords));
+
+			layout.AddLayoutFloat(1, sizeof(CircleVertexData), (const void*)offsetof(CircleVertexData, TextureIndex));
+
+			layout.AddLayoutFloat(3, sizeof(CircleVertexData), (const void*)offsetof(CircleVertexData, LocalPosition));
+
+			layout.AddLayoutFloat(1, sizeof(CircleVertexData), (const void*)offsetof(CircleVertexData, Thick));
+			
+			layout.AddLayoutFloat(1, sizeof(CircleVertexData), (const void*)offsetof(CircleVertexData, Fade));
+
+			GAME_DO_IF_ENTITYID(layout.AddLayoutInt(1, sizeof(CircleVertexData), (const void*)offsetof(CircleVertexData, GAME_ENTITY_ID)));
+
+			if (CircleMaxIndexCount <= QuadMaxIndexCount) // Reuse Quad Index buffer if circle index buffer max size is not greater than the quad one
+			{
+				cptr->indexBuffer = s_QuadData.GeometryData->indexBuffer;
+				cptr->indexBuffer->Bind();
+
+			}
+			else
+			{
+				uint32_t* indices = new uint32_t[CircleMaxIndexCount]{ 0 };
+				uint32_t offset = 0;
+
+				for (int i = 0; i < CircleMaxIndexCount; i += 6)
+				{
+					indices[i + 0] = 0 + offset;
+					indices[i + 1] = 1 + offset;
+					indices[i + 2] = 2 + offset;
+
+					indices[i + 3] = 2 + offset;
+					indices[i + 4] = 3 + offset;
+					indices[i + 5] = 0 + offset;
+
+					offset += 4;
+				}
+
+				cptr->indexBuffer = IndexBuffer::CreateIndexBuffer(sizeof(uint32_t) * CircleMaxIndexCount, indices);
+				delete[] indices;
+			}
+
+			utils::SampleTextureOnShader(cptr->shader, MaxTextureUnits, cptr->TexturesID);
+			cptr->vertexArray->Unbind();
+		}
 		//GLOBAL GL CONFIGS
 		GLCall(glEnable(GL_DEPTH_TEST));
 		GLCall(glEnable(GL_BLEND));
@@ -225,7 +320,11 @@ namespace Game
 		m_ShaderLib->Get("Quad")->Bind();
 		m_ShaderLib->Get("Quad")->SetUniformMat4f("u_ViewProj", viewProj);
 
-		s_Data.Quads->Stats.GeometryCounterPerFrame = 0;
+		m_ShaderLib->Get("Circle")->Bind();
+		m_ShaderLib->Get("Circle")->SetUniformMat4f("u_ViewProj", viewProj);
+
+		s_QuadData.GeometryData->Stats.GeometryCounterPerFrame = 0;
+		s_CircleData.GeometryData->Stats.GeometryCounterPerFrame = 0;
 	}
 
 	void Render2D::Clear()
@@ -237,41 +336,68 @@ namespace Game
 	void Render2D::BeginBatch()
 	{
 		GAME_PROFILE_FUNCTION();
-		s_Data.Quads->BufferPtr = s_Data.Quads->Buffer;
-		s_Data.Quads->IndexCount = 0;
-		s_Data.Quads->TextureSlotIndex = s_Data.Quads->WhiteTextureID;
+		s_QuadData.GeometryData->BufferPtr = s_QuadData.GeometryData->Buffer;
+		s_QuadData.GeometryData->IndexCount = 0;
+		s_QuadData.GeometryData->TextureSlotIndex = s_QuadData.GeometryData->WhiteTextureID;
+
+		s_CircleData.GeometryData->BufferPtr = s_CircleData.GeometryData->Buffer;
+		s_CircleData.GeometryData->IndexCount = 0;
+		s_CircleData.GeometryData->TextureSlotIndex = s_CircleData.GeometryData->WhiteTextureID;
 	}
 
 	void Render2D::EndBatch()
 	{
 		GAME_PROFILE_FUNCTION();
-		if (s_Data.Quads->IndexCount)
+		if (s_QuadData.GeometryData->IndexCount)
 		{
-			s_Data.Quads->vertexBuffer->Bind();
-			s_Data.Quads->vertexBuffer->SubData(s_Data.Quads->SizePtr(),s_Data.Quads->Buffer);
-			s_Data.Quads->vertexBuffer->Unbind();
+			s_QuadData.GeometryData->vertexBuffer->Bind();
+			s_QuadData.GeometryData->vertexBuffer->SubData(s_QuadData.GeometryData->SizePtr(), s_QuadData.GeometryData->Buffer);
+			s_QuadData.GeometryData->vertexBuffer->Unbind();
+		}
+		if (s_CircleData.GeometryData->IndexCount)
+		{
+			s_CircleData.GeometryData->vertexBuffer->Bind();
+			s_CircleData.GeometryData->vertexBuffer->SubData(s_CircleData.GeometryData->SizePtr(), s_CircleData.GeometryData->Buffer);
+			s_CircleData.GeometryData->vertexBuffer->Unbind();
 		}
 	}
 
 	void Render2D::Flush()
 	{
 		GAME_PROFILE_FUNCTION();
-		if (s_Data.Quads->IndexCount)
+		if (s_QuadData.GeometryData->IndexCount)
 		{
-			s_Data.Quads->shader->Bind();
+			s_QuadData.GeometryData->shader->Bind();
 
-			for (int i = 0; i < s_Data.Quads->TextureSlotIndex; i++)
+			for (int i = 0; i < s_QuadData.GeometryData->TextureSlotIndex; i++)
 			{
 				GLCall(glActiveTexture(GL_TEXTURE0 + i));
-				GLCall(glBindTexture(GL_TEXTURE_2D, s_Data.Quads->TexturesID[i]));
+				GLCall(glBindTexture(GL_TEXTURE_2D, s_QuadData.GeometryData->TexturesID[i]));
 			}
 
-			s_Data.Quads->vertexArray->Bind();
+			s_QuadData.GeometryData->vertexArray->Bind();
 
-			GLCall(glDrawElements(GL_TRIANGLES, s_Data.Quads->IndexCount, GL_UNSIGNED_INT, nullptr));
+			GLCall(glDrawElements(GL_TRIANGLES, s_QuadData.GeometryData->IndexCount, GL_UNSIGNED_INT, nullptr));
 
-			s_Data.Quads->TextureSlotIndex = 1;
-			s_Data.Quads->IndexCount = 0;
+			s_QuadData.GeometryData->TextureSlotIndex = 1;
+			s_QuadData.GeometryData->IndexCount = 0;
+		}
+		if (s_CircleData.GeometryData->IndexCount)
+		{
+			s_CircleData.GeometryData->shader->Bind();
+
+			for (int i = 0; i < s_CircleData.GeometryData->TextureSlotIndex; i++)
+			{
+				GLCall(glActiveTexture(GL_TEXTURE0 + i));
+				GLCall(glBindTexture(GL_TEXTURE_2D, s_CircleData.GeometryData->TexturesID[i]));
+			}
+
+			s_CircleData.GeometryData->vertexArray->Bind();
+
+			GLCall(glDrawElements(GL_TRIANGLES, s_CircleData.GeometryData->IndexCount, GL_UNSIGNED_INT, nullptr));
+
+			s_CircleData.GeometryData->TextureSlotIndex = 1;
+			s_CircleData.GeometryData->IndexCount = 0;
 		}
 	}
 
@@ -279,10 +405,11 @@ namespace Game
 	{
 		GAME_PROFILE_FUNCTION();
 		using namespace utils;
-		Delete(s_Data.Quads);
+		Delete(s_QuadData.GeometryData);
+		Delete(s_CircleData.GeometryData);
 		Delete(m_ShaderLib.release());
 
-		//s_Data.Quads->Dispose();
+		//s_Data.GeometryData->Dispose();
 
 		Texture::DeleteWhiteTexture();
 	}
@@ -290,15 +417,15 @@ namespace Game
 	void Render2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID))
 	{
 		GAME_PROFILE_FUNCTION();
-		if (s_Data.Quads->IndexCount >= QuadMaxIndexCount)
+		if (s_QuadData.GeometryData->IndexCount >= QuadMaxIndexCount)
 		{
 			EndBatch();
 			Flush();
 			BeginBatch();
 		}
 
-		QuadVertexData* qbuff = reinterpret_cast<QuadVertexData*>(s_Data.Quads->BufferPtr);
-		uint8_t textureIndex = s_Data.Quads->TexturesID[s_Data.Quads->WhiteTextureID];
+		QuadVertexData* qbuff = reinterpret_cast<QuadVertexData*>(s_QuadData.GeometryData->BufferPtr);
+		uint8_t textureIndex = s_QuadData.GeometryData->TexturesID[s_QuadData.GeometryData->WhiteTextureID];
 		for (size_t i = 0; i < 4; i++)
 		{
 			qbuff->Position = transform * QuadVertexPositions[i];
@@ -308,17 +435,17 @@ namespace Game
 			qbuff++;
 		}
 
-		s_Data.Quads->BufferPtr = reinterpret_cast<void*>(qbuff);
+		s_QuadData.GeometryData->BufferPtr = reinterpret_cast<void*>(qbuff);
 
-		s_Data.Quads->IndexCount += 6;
-		s_Data.Quads->Stats.GeometryCounterPerFrame++;
-		s_Data.Quads->Stats.GeometryCounterLifeSpam++;
+		s_QuadData.GeometryData->IndexCount += 6;
+		s_QuadData.GeometryData->Stats.GeometryCounterPerFrame++;
+		s_QuadData.GeometryData->Stats.GeometryCounterLifeSpam++;
 	}
 
 	void Render2D::DrawQuad(const glm::mat4& transform, Ref<Texture> texture, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID))
 	{
 		GAME_PROFILE_FUNCTION();
-		if (s_Data.Quads->IndexCount >= QuadMaxIndexCount || s_Data.Quads->TextureSlotIndex >= 16-1)
+		if (s_QuadData.GeometryData->IndexCount >= QuadMaxIndexCount || s_QuadData.GeometryData->TextureSlotIndex >= 16-1)
 		{
 			EndBatch();
 			Flush();
@@ -329,9 +456,9 @@ namespace Game
 
 		if (texture)
 		{
-			for (uint8_t i = 1; i < s_Data.Quads->TextureSlotIndex; i++)
+			for (uint8_t i = 1; i < s_QuadData.GeometryData->TextureSlotIndex; i++)
 			{
-				if (s_Data.Quads->TexturesID[i] == texture->GetId())
+				if (s_QuadData.GeometryData->TexturesID[i] == texture->GetId())
 				{
 					textureIndex = i;
 					break;
@@ -340,12 +467,12 @@ namespace Game
 
 			if (!textureIndex)
 			{
-				textureIndex = s_Data.Quads->TextureSlotIndex;
-				s_Data.Quads->TexturesID[textureIndex] = texture->GetId();
-				s_Data.Quads->TextureSlotIndex++;
+				textureIndex = s_QuadData.GeometryData->TextureSlotIndex;
+				s_QuadData.GeometryData->TexturesID[textureIndex] = texture->GetId();
+				s_QuadData.GeometryData->TextureSlotIndex++;
 			}
 		}
-		QuadVertexData* qbuff = reinterpret_cast<QuadVertexData*>(s_Data.Quads->BufferPtr);
+		QuadVertexData* qbuff = reinterpret_cast<QuadVertexData*>(s_QuadData.GeometryData->BufferPtr);
 		for (size_t i = 0; i < 4; i++)
 		{
 			qbuff->Position = transform * QuadVertexPositions[i];
@@ -356,19 +483,102 @@ namespace Game
 			qbuff++;
 		}
 
-		s_Data.Quads->BufferPtr = reinterpret_cast<void*>(qbuff);
+		s_QuadData.GeometryData->BufferPtr = reinterpret_cast<void*>(qbuff);
 
-		s_Data.Quads->IndexCount += 6;
-		s_Data.Quads->Stats.GeometryCounterPerFrame++;
-		s_Data.Quads->Stats.GeometryCounterLifeSpam++;
+		s_QuadData.GeometryData->IndexCount += 6;
+		s_QuadData.GeometryData->Stats.GeometryCounterPerFrame++;
+		s_QuadData.GeometryData->Stats.GeometryCounterLifeSpam++;
+	}
+
+	void Render2D::DrawCircle(const glm::mat4& transform, float thick, float fade, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID))
+	{
+		if (s_CircleData.GeometryData->IndexCount >= CircleMaxIndexCount)
+		{
+			EndBatch();
+			Flush();
+			BeginBatch();
+		}
+
+		CircleVertexData* cbuff = reinterpret_cast<CircleVertexData*>(s_CircleData.GeometryData->BufferPtr);
+		uint8_t textureIndex = s_CircleData.GeometryData->TexturesID[s_CircleData.GeometryData->WhiteTextureID];
+		for (uint8_t i = 0; i < 4; i++)
+		{
+			cbuff->Position = transform * QuadVertexPositions[i];
+			cbuff->Color = color;
+			cbuff->TextureCoords = DefaultTextureCoords[i];
+			cbuff->TextureIndex = textureIndex;
+			cbuff->LocalPosition = QuadVertexPositions[i] * 2.0f;
+			cbuff->Thick = thick;
+			cbuff->Fade = fade;
+			cbuff->entityID = entityID;
+			cbuff++;
+		}
+
+		s_CircleData.GeometryData->BufferPtr = reinterpret_cast<void*>(cbuff);
+
+		s_CircleData.GeometryData->IndexCount += 6;
+		s_CircleData.GeometryData->Stats.GeometryCounterPerFrame++;
+		s_CircleData.GeometryData->Stats.GeometryCounterLifeSpam++;
+	}
+
+	void Render2D::DrawCircle(const glm::mat4& transform, float thick, float fade, Ref<Texture> texture, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID))
+	{
+		if (s_CircleData.GeometryData->IndexCount >= CircleMaxIndexCount || s_CircleData.GeometryData->TextureSlotIndex > MaxTextureUnits - 1)
+		{
+			EndBatch();
+			Flush();
+			BeginBatch();
+		}
+
+		uint8_t textureIndex = 0;
+
+		if (texture)
+		{
+			for (uint8_t i = 1; i < s_QuadData.GeometryData->TextureSlotIndex; i++)
+			{
+				if (s_QuadData.GeometryData->TexturesID[i] == texture->GetId())
+				{
+					textureIndex = i;
+					break;
+				}
+			}
+
+			if (!textureIndex)
+			{
+				textureIndex = s_QuadData.GeometryData->TextureSlotIndex;
+				s_QuadData.GeometryData->TexturesID[textureIndex] = texture->GetId();
+				s_QuadData.GeometryData->TextureSlotIndex++;
+			}
+		}
+		CircleVertexData* cbuff = reinterpret_cast<CircleVertexData*>(s_CircleData.GeometryData->BufferPtr);
+		for (uint8_t i = 0; i < 4; i++)
+		{
+			cbuff->Position = transform * QuadVertexPositions[i];
+			cbuff->Color = color;
+			cbuff->TextureCoords = DefaultTextureCoords[i];
+			cbuff->TextureIndex = textureIndex;
+			cbuff->LocalPosition = QuadVertexPositions[i] * 2.0f;
+			cbuff->Thick = thick;
+			cbuff->Fade = fade;
+			cbuff->entityID = entityID;
+			cbuff++;
+		}
+
+		s_CircleData.GeometryData->BufferPtr = reinterpret_cast<void*>(cbuff);
+
+		s_CircleData.GeometryData->IndexCount += 6;
+		s_CircleData.GeometryData->Stats.GeometryCounterPerFrame++;
+		s_CircleData.GeometryData->Stats.GeometryCounterLifeSpam++;
 	}
 
 	RenderStats Render2D::GetRenderInfo(const DrawInfo& geometry)
 	{
 		switch (geometry)
 		{
-		case DrawInfo::Quad:
-			return s_Data.Quads->Stats;
+			case DrawInfo::Quad:
+				return s_QuadData.GeometryData->Stats;
+			case DrawInfo::Circle:
+				return s_CircleData.GeometryData->Stats;
 		}
 	}
 
