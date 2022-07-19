@@ -29,7 +29,7 @@ namespace Game
 		Ref<VertexArray> VA;
 		Ref<VertexBuffer> VB;
 		Ref<IndexBuffer> IB;
-		Ref<Shader> Shader;
+		Ref<Shader> CShader;
 
 		FramebufferQuad Quad;
 		FramebufferQuad* Buffer = nullptr;

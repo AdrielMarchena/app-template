@@ -80,8 +80,8 @@ void FramebufferChainRender::RenderChain()
 		Render2D::Clear();
 		Render2D::Disable({ GLEnableCaps::DEPTH_TEST });
 		glm::mat4 viewProj = data.RenderCamera.GetProjection() * glm::inverse(data.CameraTransform);
-		data.Shader->Bind();
-		data.Shader->SetUniformMat4f("u_ViewProj", viewProj);
+		data.CShader->Bind();
+		data.CShader->SetUniformMat4f("u_ViewProj", viewProj);
 
 		GLCall(glActiveTexture(GL_TEXTURE0));
 		GLCall(glBindTexture(GL_TEXTURE_2D, GetBackFramebuffer()->GetColorTexture(0)));
@@ -133,7 +133,7 @@ void FramebufferChainRender::SetUpFramebufferChain()
 {
 	Chain chain;
 
-	chain.RenderData.Shader = Shader::CreateShader("assets/shaders/Framebuffer.glsl");
+	chain.RenderData.CShader = Shader::CreateShader("assets/shaders/Framebuffer.glsl");
 
 	chain.RenderData.Buffer = new FramebufferQuad[4];
 	chain.RenderData.BufferPtr = chain.RenderData.Buffer;
