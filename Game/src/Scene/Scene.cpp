@@ -44,26 +44,13 @@ namespace Game
 
 		m_Registry = MakeScope<ecs::Scene>();
 
-		FrameBufferRenderSpecification specs;
+		FramebufferChainRenderSpecification specs;
 
 		auto& app = Application::Get();
-		int w = app.GetWindow().GetWidth();
-		int h = app.GetWindow().GetHeight();
+		specs.width = app.GetWindow().GetWidth();
+		specs.height = app.GetWindow().GetHeight();
 
-		specs.width = w;
-		specs.height = h;
-
-		m_FramebufferRender = MakeScope<FramebufferRender>(specs);
-
-		float ar = (float)w / (float)h;
-		m_FramebufferCamera.SetViewportSize(w,h);
-		m_FramebufferCamera.SetOrthographicNearClip(-1.0f);
-		m_FramebufferCamera.SetOrthographicFarClip(10.0f);
-
-		float sc = m_FramebufferCamera.GetOrthographicSize();
-		m_FramebufferRender->SetQuadPosition({ 0.0f,0.0f,0.0f });
-		m_FramebufferRender->SetQuadScale({ sc * ar,sc,1.0f });
-		m_FramebufferRender->SetQuadRotation({ 0.0f,0.0f,0.0f });
+		m_FramebufferChainRender = MakeScope<FramebufferChainRender>(specs);
 
 		m_MessageBus = new MessageBus();
 		m_ECSFace.CreateRegistry();
@@ -355,14 +342,14 @@ namespace Game
 		{//Render Scope
 			GAME_PROFILE_SCOPE("rendering");
 
-			m_FramebufferRender->BindFrameBuffer();
+			m_FramebufferChainRender->Bind();
 			Render2D::Clear();
 
-			GAME_DO_IF_ENTITYID(m_FramebufferRender->ClearAttachment(1, -1));
+			GAME_DO_IF_ENTITYID(ClearAttachment(1, -1));
 
 			if (main_camera)
 			{
-				m_FramebufferRender->SetGLViewport(true);
+				m_FramebufferChainRender->SetGLViewport(true);
 				
 				Render2D::BeginScene(*main_camera, *main_camera_trasform);
 				Render2D::BeginBatch();
@@ -397,61 +384,59 @@ namespace Game
 				Render2D::Flush();
 			}
 
+			auto view = m_ECSFace.View<LightComponent>();
+			for (auto& ent : view)
+			{
+				auto& tra = m_ECSFace.GetComponent<TransformComponent>(ent);
+				auto& light = m_ECSFace.GetComponent<LightComponent>(ent);
+				float lightFade = (1.0f / light.Intensity);
+				//Render2D::SetBlendFunc(GLBlendFactor::ONE, GLBlendFactor::ONE);
+
+				Render2D::DrawCircle(tra.GetTransform(), 1.0f, lightFade, light.Color GAME_COMMA_ENTITYID(m_ECSFace.GetEntityNumber(ent)));
+			}
+
 			for (auto& f : m_FunctionsBeforeUnbindFramebuffer)
 				f(this);
 
-			m_FramebufferRender->UnbindFrameBuffer();
-
-			m_FramebufferRender->SetGLViewport(false);
-			// This TransformComponent don't ever change (i think)
-			static TransformComponent m_FramebufferCameraTransform;
-			m_FramebufferRender->DrawFrameBuffer(m_FramebufferCamera, m_FramebufferCameraTransform);
+			m_FramebufferChainRender->SetGLViewport(false);
+			m_FramebufferChainRender->RenderChain();
 		}
 	}
 
 	void Scene::OnResize(int w, int h)
 	{
 		GAME_PROFILE_FUNCTION();
-		auto& specs = m_FramebufferRender->GetSpec();
-		specs.width = w;
-		specs.height = h;
-		float ar = (float)w / (float)h;
-		float sc = m_FramebufferCamera.GetOrthographicSize();
-		m_FramebufferRender->SetQuadScale({ sc * ar,sc,1.0f });
-		m_FramebufferCamera.SetViewportSize(w, h);
-
-		m_FramebufferRender->InvalidateFrameBuffer();
+		m_FramebufferChainRender->OnResize(w, h);
 	}
 
 	void Scene::FramebufferSetScalor(float scalor)
 	{
-		m_FramebufferRender->GetSpec().scale_factor = scalor;
-		m_FramebufferRender->InvalidateFrameBuffer();
+		m_FramebufferChainRender->SetScalorFactor(scalor);
 	}
 
 	float Scene::FramebufferGetScalor() const
 	{
-		return m_FramebufferRender->GetSpec().scale_factor;
+		return m_FramebufferChainRender->GetScalorFactor();
 	}
 
-	const std::unordered_map<std::string, FramebufferPostEffect>& Scene::FramebufferGetPostEffects() const
-	{
-		return m_FramebufferRender->GetPostEffects();
-	}
+	//const std::unordered_map<std::string, FramebufferPostEffect>& Scene::FramebufferGetPostEffects() const
+	//{
+	//	return m_FramebufferRender->GetPostEffects();
+	//}
 
-	void Scene::FramebufferSetPostEffect(const std::string& effect_name)
-	{
-		m_FramebufferRender->UsePostEffect(effect_name);
-	}
+	//void Scene::FramebufferSetPostEffect(const std::string& effect_name)
+	//{
+	//	m_FramebufferRender->UsePostEffect(effect_name);
+	//}
 
 	int Scene::ReadPixel(uint32_t index, int x, int y)
 	{
-		return m_FramebufferRender->ReadPixel(index, x, y);
+		return m_FramebufferChainRender->ReadPixel(index, x, y);
 	}
 
 	void Scene::ClearAttachment(uint32_t index, int value)
 	{
-		m_FramebufferRender->ClearAttachment(index, value);
+		m_FramebufferChainRender->ClearAttachment(index, value);
 	}
 
 	void Scene::MakeCurrentSceneRef(const Ref<Scene>& scene)

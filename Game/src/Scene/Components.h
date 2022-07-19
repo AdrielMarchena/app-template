@@ -158,6 +158,15 @@ namespace Game
 		CameraComponent(const CameraComponent&) = default;
 	};
 
+	struct LightComponent
+	{
+		float Intensity = 1.0f;
+		glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		LightComponent() = default;
+		LightComponent(const LightComponent&) = default;
+
+	};
+
 	struct ScriptableClass;
 	struct NativeScriptComponent
 	{
