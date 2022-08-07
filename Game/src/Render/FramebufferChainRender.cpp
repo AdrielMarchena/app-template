@@ -69,44 +69,6 @@ void FramebufferChainRender::UnbindSceneFramebuffer()
 	m_SceneChain.RenderData.Frambuffer->Unbind();
 }
 
-//void FramebufferChainRender::RenderChain()
-//{
-//	GAME_PROFILE_FUNCTION();
-//
-//	size_t s = m_Chains.size();
-//	size_t actual = 1;
-//	for (auto& chain : m_Chains)
-//	{
-//		GetCurrentFramebuffer()->Unbind();
-//		auto& data = chain.RenderData;
-//		auto& func = chain.DrawFunc;
-//
-//		if (actual < s)
-//			GetFrontFramebuffer()->Bind();
-//		else
-//			Render2D::Disable({ GLEnableCaps::DEPTH_TEST });
-//
-//		Render2D::ClearNoDepth();
-//
-//		glm::mat4 viewProj = data.RenderCamera.GetProjection() * glm::inverse(data.CameraTransform);
-//		data.CShader->Bind();
-//		data.CShader->SetUniformMat4f("u_ViewProj", viewProj);
-//		data.CShader->SetUniform1i("u_Framebuffer", 0);
-//
-//		GLCall(glActiveTexture(GL_TEXTURE0));
-//		GLCall(glBindTexture(GL_TEXTURE_2D, GetBackFramebuffer()->GetColorTexture(0)));
-//
-//		if (func)
-//			func(data, m_Specs);
-//
-//		data.VA->Bind();
-//		GLCommands::GL_DrawElementsCall(GL_Target::TRIANGLES, 6, GL_Type::UNSIGNED_INT);
-//		actual++;
-//	}
-//	Render2D::Enable({ GLEnableCaps::DEPTH_TEST });
-//	SwapFramebuffer();
-//}
-
 static void DrawChain(Chain& chain, bool bindBuffer, Ref<Framebuffer>& previousFramebuffer)
 {
 	auto& data = chain.RenderData;
@@ -176,6 +138,9 @@ void FramebufferChainRender::SetGLViewport(Chain& chain)
 
 void FramebufferChainRender::StandardChainOnResizeCallback(Chain& self, uint32_t w, uint32_t h)
 {
+	self.RenderData.FramebufferSpecifications.Width = w;
+	self.RenderData.FramebufferSpecifications.Height = h;
+
 	float sc = self.RenderData.RenderCamera.GetOrthographicSize();
 	float ar = (float)w / (float)h;
 
@@ -185,7 +150,7 @@ void FramebufferChainRender::StandardChainOnResizeCallback(Chain& self, uint32_t
 	
 	static TransformComponent FramebufferCameraTransform;
 	self.RenderData.CameraTransform = FramebufferCameraTransform.GetTransform();
-	
+
 	FramebufferChainRender::CalculateQuadTransform(self);
 }
 
