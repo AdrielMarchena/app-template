@@ -56,69 +56,7 @@ namespace Game
 		m_MessageBus = new MessageBus();
 		m_ECSFace.CreateRegistry();
 
-		{
-			m_LightParse = Chain();
-			Chain& chain = m_LightParse;
-
-			chain.RenderData.CShader = Shader::CreateShader("assets/shaders/Shadow.glsl");
-			chain.RenderData.CShader->Bind();
-			chain.RenderData.CShader->SetUniform1i("u_Framebuffer", 0);
-
-			chain.RenderData.Frambuffer = FramebufferChainRender::CreateFramebuffer
-			(
-				chain.RenderData.FramebufferSpecifications.Width,
-				chain.RenderData.FramebufferSpecifications.Height,
-				chain.RenderData.FramebufferSpecifications.ScaleFactor
-			);
-
-			chain.RenderData.Buffer = new FramebufferQuad[4];
-			chain.RenderData.BufferPtr = chain.RenderData.Buffer;
-
-			chain.RenderData.VA = VertexArray::CreateVertexArray();
-
-			chain.RenderData.VB = VertexBuffer::CreateVertexBuffer(sizeof(FramebufferQuad) * 4);
-
-			VertexAttribute layout(chain.RenderData.VB);
-
-			layout.AddLayoutFloat(3, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, Position));
-			layout.AddLayoutFloat(2, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, TexCoords));
-
-			uint32_t indices[6]{};
-			uint32_t offset = 0;
-			for (int i = 0; i < 6; i += 6)
-			{
-				indices[i + 0] = 0 + offset;
-				indices[i + 1] = 1 + offset;
-				indices[i + 2] = 2 + offset;
-
-				indices[i + 3] = 2 + offset;
-				indices[i + 4] = 3 + offset;
-				indices[i + 5] = 0 + offset;
-
-				offset += 4;
-			}
-			uint32_t w = specs.Width;
-			uint32_t h = specs.Height;
-
-			float ar = (float)w / (float)h;
-			chain.RenderData.RenderCamera.SetViewportSize(w, h);
-			chain.RenderData.RenderCamera.SetOrthographicNearClip(-1.0f);
-			chain.RenderData.RenderCamera.SetOrthographicFarClip(10.0f);
-
-			float sc = chain.RenderData.RenderCamera.GetOrthographicSize();
-
-			chain.RenderData.Position = { 0.0f,0.0f,0.0f };
-			chain.RenderData.Scale = { sc * ar,sc, 1.0f };
-			chain.RenderData.Rotation = { 0.0f,0.0f,0.0f };
-
-			FramebufferChainRender::CalculateQuadTransform(chain);
-			chain.OnResizeFunc = FramebufferChainRender::StandardChainOnResizeCallback;
-
-			chain.RenderData.IB = IndexBuffer::CreateIndexBuffer(sizeof(indices), indices);
-			chain.RenderData.VA->Unbind();
-			m_FramebufferChainRender->AddChain(chain);
-
-		}
+		CreateLightChain();
 	}
 
 	Scene::~Scene()
@@ -249,6 +187,79 @@ namespace Game
 			delete m_PhysicWorld;
 			m_PhysicWorld = nullptr;
 		}
+	}
+
+	void Scene::CreateLightChain()
+	{
+		auto& app = Application::Get();
+		uint32_t w = app.GetWindow().GetWidth();
+		uint32_t h = app.GetWindow().GetHeight();
+
+		m_LightParse = Chain();
+		Chain& chain = m_LightParse;
+
+		chain.RenderData.CShader = Shader::CreateShader("assets/shaders/Shadow.glsl");
+		chain.RenderData.CShader->Bind();
+		chain.RenderData.CShader->SetUniform1i("u_Framebuffer", 0);
+
+		chain.RenderData.Frambuffer = FramebufferChainRender::CreateFramebuffer
+		(
+			chain.RenderData.FramebufferSpecifications.Width,
+			chain.RenderData.FramebufferSpecifications.Height,
+			chain.RenderData.FramebufferSpecifications.ScaleFactor
+		);
+
+		chain.RenderData.Buffer = new FramebufferQuad[4];
+		chain.RenderData.BufferPtr = chain.RenderData.Buffer;
+
+		chain.RenderData.VA = VertexArray::CreateVertexArray();
+
+		chain.RenderData.VB = VertexBuffer::CreateVertexBuffer(sizeof(FramebufferQuad) * 4);
+
+		VertexAttribute layout(chain.RenderData.VB);
+
+		layout.AddLayoutFloat(3, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, Position));
+		layout.AddLayoutFloat(2, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, TexCoords));
+
+		uint32_t indices[6]{};
+		uint32_t offset = 0;
+		for (int i = 0; i < 6; i += 6)
+		{
+			indices[i + 0] = 0 + offset;
+			indices[i + 1] = 1 + offset;
+			indices[i + 2] = 2 + offset;
+
+			indices[i + 3] = 2 + offset;
+			indices[i + 4] = 3 + offset;
+			indices[i + 5] = 0 + offset;
+
+			offset += 4;
+		}
+
+		float ar = (float)w / (float)h;
+		chain.RenderData.RenderCamera.SetViewportSize(w, h);
+		chain.RenderData.RenderCamera.SetOrthographicNearClip(-1.0f);
+		chain.RenderData.RenderCamera.SetOrthographicFarClip(10.0f);
+
+		float sc = chain.RenderData.RenderCamera.GetOrthographicSize();
+
+		chain.RenderData.Position = { 0.0f,0.0f,0.0f };
+		chain.RenderData.Scale = { sc * ar,sc, 1.0f };
+		chain.RenderData.Rotation = { 0.0f,0.0f,0.0f };
+
+		FramebufferChainRender::CalculateQuadTransform(chain);
+		chain.OnResizeFunc = FramebufferChainRender::StandardChainOnResizeCallback;
+
+		chain.DrawFunc = [](Chain& self, FramebufferChainRenderData&)
+		{
+			self.RenderData.CShader->Bind();
+			self.RenderData.CShader->SetUniform4f("u_Color2", 0.0f, 0.0f, 0.0f, 1.0f);
+			self.RenderData.CShader->SetUniform4f("u_Color1", 1.0f, 1.0f, 1.0f, 1.0f);
+		};
+
+		chain.RenderData.IB = IndexBuffer::CreateIndexBuffer(sizeof(indices), indices);
+		chain.RenderData.VA->Unbind();
+		m_FramebufferChainRender->AddChain(chain);
 	}
 
 	Entity Scene::CreateEntity(const std::string& tag, bool addMessangerComponent)

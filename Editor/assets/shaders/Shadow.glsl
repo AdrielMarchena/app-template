@@ -22,12 +22,14 @@ layout(location = 0) out vec4 o_Color;
 in vec2 v_TexCoord;
 
 uniform sampler2D u_Framebuffer;
+uniform vec4 u_Color1;
+uniform vec4 u_Color2;
 
 void main()
 {
 	vec4 texColor = texture(u_Framebuffer, v_TexCoord);
-	vec4 white = vec4(1, 1, 1, 1);
-    vec4 black = vec4(0, 0, 0, 1);
+	vec4 white = u_Color1;
+    vec4 black = u_Color2;
 
 	float average = texColor.r + texColor.g + texColor.b/3.0;
 

@@ -63,6 +63,8 @@ namespace Game
 		void CreatePhysicWorld();
 		void DisposePhysicWorld();
 
+		void CreateLightChain();
+
 	private:
 		std::vector<DoBeforeUnbindFramebuffer> m_FunctionsBeforeUnbindFramebuffer;
 		Scope<ecs::Scene> m_Registry;
