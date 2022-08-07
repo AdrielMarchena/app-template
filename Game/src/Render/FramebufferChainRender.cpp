@@ -147,6 +147,8 @@ void FramebufferChainRender::RenderChain()
 	size_t actual = 1;
 	for (auto& chain : m_Chains)
 	{
+		if (chain.Ignore) continue;
+		
 		DrawChain(chain, actual < s, previousFramebuffer);
 		previousFramebuffer = chain.RenderData.Frambuffer;
 		actual++;

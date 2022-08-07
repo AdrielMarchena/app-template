@@ -60,6 +60,7 @@ namespace Game
 	*/
 	struct Chain
 	{
+		bool Ignore = false;
 		FramebufferChainRenderData RenderData;
 		ChainInjectInfoInShaderFunc DrawFunc = nullptr;
 		ChainOnResizeFunc OnResizeFunc = nullptr;
