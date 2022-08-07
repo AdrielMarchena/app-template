@@ -29,16 +29,17 @@ static glm::vec4 QuadVertexPositions[4] = {
 	{ -0.5f,  0.5f, 0.0f, 1.0f }
 };
 
-FramebufferChainRender::FramebufferChainRender(FramebufferChainRenderSpecification specs)
+FramebufferChainRender::FramebufferChainRender (FramebufferRenderSpecification sceneSpecs, FramebufferRenderSpecification screenSpecs)
 {
 	GAME_PROFILE_FUNCTION();
-	// Create framebuffers
-	for (auto& framebuffer : m_Framebuffers)
-		framebuffer = CreateFramebuffer(m_Specs.width, m_Specs.height, m_Specs.scale_factor);
-	m_CurrentFramebufferIndex = 0;
-	m_CurrentFramebuffer = &m_Framebuffers[m_CurrentFramebufferIndex];
+	// Create Scenes
 
-	SetUpFramebufferChain();
+	m_Chains.push_front(Chain());
+	m_Chains[0].RenderData.FramebufferSpecifications = screenSpecs;;
+	SetUpScreenFramebufferChain();
+
+	m_SceneChain.RenderData.FramebufferSpecifications = sceneSpecs;
+	SetUpSceneFramebufferChain();
 }
 
 FramebufferChainRender::~FramebufferChainRender()
@@ -47,76 +48,111 @@ FramebufferChainRender::~FramebufferChainRender()
 
 void FramebufferChainRender::OnResize(uint32_t w, uint32_t h)
 {
-	m_Specs.width = w;
-	m_Specs.height = h;
+	if (m_SceneChain.OnResizeFunc)
+		m_SceneChain.OnResizeFunc(m_SceneChain, w, h);
+
+	for (auto& chain : m_Chains)
+		if (chain.OnResizeFunc)
+			chain.OnResizeFunc(chain, w, h);
+
 	InvalidateFramebuffers();
-	float ar = (float)w / (float)h;
+}
 
-	auto& chain = GetFramebufferChain();
-	float sc = chain.RenderData.RenderCamera.GetOrthographicSize();
+void FramebufferChainRender::BindSceneFramebuffer()
+{
+	m_SceneChain.RenderData.Frambuffer->Bind();
+	SetGLViewport(m_SceneChain);
+}
 
-	chain.RenderData.Position = { 0.0f,0.0f,0.0f };
-	chain.RenderData.Scale = { sc * ar,sc, 1.0f };
-	chain.RenderData.Rotation = { 0.0f,0.0f,0.0f };
+void FramebufferChainRender::UnbindSceneFramebuffer()
+{
+	m_SceneChain.RenderData.Frambuffer->Unbind();
+}
 
-	static TransformComponent FramebufferCameraTransform;
-	chain.RenderData.CameraTransform = FramebufferCameraTransform.GetTransform();
+//void FramebufferChainRender::RenderChain()
+//{
+//	GAME_PROFILE_FUNCTION();
+//
+//	size_t s = m_Chains.size();
+//	size_t actual = 1;
+//	for (auto& chain : m_Chains)
+//	{
+//		GetCurrentFramebuffer()->Unbind();
+//		auto& data = chain.RenderData;
+//		auto& func = chain.DrawFunc;
+//
+//		if (actual < s)
+//			GetFrontFramebuffer()->Bind();
+//		else
+//			Render2D::Disable({ GLEnableCaps::DEPTH_TEST });
+//
+//		Render2D::ClearNoDepth();
+//
+//		glm::mat4 viewProj = data.RenderCamera.GetProjection() * glm::inverse(data.CameraTransform);
+//		data.CShader->Bind();
+//		data.CShader->SetUniformMat4f("u_ViewProj", viewProj);
+//		data.CShader->SetUniform1i("u_Framebuffer", 0);
+//
+//		GLCall(glActiveTexture(GL_TEXTURE0));
+//		GLCall(glBindTexture(GL_TEXTURE_2D, GetBackFramebuffer()->GetColorTexture(0)));
+//
+//		if (func)
+//			func(data, m_Specs);
+//
+//		data.VA->Bind();
+//		GLCommands::GL_DrawElementsCall(GL_Target::TRIANGLES, 6, GL_Type::UNSIGNED_INT);
+//		actual++;
+//	}
+//	Render2D::Enable({ GLEnableCaps::DEPTH_TEST });
+//	SwapFramebuffer();
+//}
 
-	CalculateQuadTransform(chain);
+static void DrawChain(Chain& chain, bool bindBuffer, Ref<Framebuffer>& previousFramebuffer)
+{
+	auto& data = chain.RenderData;
+	auto& func = chain.DrawFunc;
+
+	if (bindBuffer)
+		data.Frambuffer->Bind();
+	else
+		data.Frambuffer->Unbind();
+
+	FramebufferChainRender::SetGLViewport(chain);
+	Render2D::ClearNoDepth();
+
+	glm::mat4 viewProj = data.RenderCamera.GetProjection() * glm::inverse(data.CameraTransform);
+	data.CShader->Bind();
+	data.CShader->SetUniformMat4f("u_ViewProj", viewProj);
+	data.CShader->SetUniform1i("u_Framebuffer", 0);
+
+	GLCall(glActiveTexture(GL_TEXTURE0));
+	GLCall(glBindTexture(GL_TEXTURE_2D, previousFramebuffer->GetColorTexture(0)));
+
+	if (func)
+		func(chain, data);
+
+	data.VA->Bind();
+	GLCommands::GL_DrawElementsCall(GL_Target::TRIANGLES, 6, GL_Type::UNSIGNED_INT);
 }
 
 void FramebufferChainRender::RenderChain()
 {
 	GAME_PROFILE_FUNCTION();
-	GetCurrentFramebuffer()->Unbind();
+
+	Ref<Framebuffer>& previousFramebuffer = m_SceneChain.RenderData.Frambuffer;
+	previousFramebuffer->Unbind();
+
+	Render2D::Disable({ GLEnableCaps::DEPTH_TEST });
 	size_t s = m_Chains.size();
 	size_t actual = 1;
 	for (auto& chain : m_Chains)
 	{
-		auto& data = chain.RenderData;
-		auto& func = chain.DrawFunc;
-		SwapFramebuffer();
-
-		Render2D::Clear();
-		Render2D::Disable({ GLEnableCaps::DEPTH_TEST });
-		glm::mat4 viewProj = data.RenderCamera.GetProjection() * glm::inverse(data.CameraTransform);
-		data.CShader->Bind();
-		data.CShader->SetUniformMat4f("u_ViewProj", viewProj);
-
-		GLCall(glActiveTexture(GL_TEXTURE0));
-		GLCall(glBindTexture(GL_TEXTURE_2D, GetBackFramebuffer()->GetColorTexture(0)));
-
-		if (func)
-			func(data, m_Specs);
-
-		// TODO: Improve this check (please)
-		if (actual < s)
-			GetFrontFramebuffer()->Bind();
-
-		data.VA->Bind();
-		GLCommands::GL_DrawElementsCall(GL_Target::TRIANGLES, 6, GL_Type::UNSIGNED_INT);
-
-		Render2D::Enable({ GLEnableCaps::DEPTH_TEST });
+		DrawChain(chain, actual < s, previousFramebuffer);
+		previousFramebuffer = chain.RenderData.Frambuffer;
 		actual++;
 	}
 
-	GetFrontFramebuffer()->Unbind();
-}
-
-void FramebufferChainRender::SwapFramebuffer()
-{
-	m_CurrentFramebufferIndex = !m_CurrentFramebufferIndex;
-	m_CurrentFramebuffer = &m_Framebuffers[m_CurrentFramebufferIndex];
-}
-
-Ref<Framebuffer>& FramebufferChainRender::GetFrontFramebuffer()
-{
-	return *m_CurrentFramebuffer;
-}
-
-Ref<Framebuffer>& FramebufferChainRender::GetBackFramebuffer()
-{
-	return m_Framebuffers[!m_CurrentFramebufferIndex];
+	Render2D::Enable({ GLEnableCaps::DEPTH_TEST });
 }
 
 Ref<Framebuffer> FramebufferChainRender::CreateFramebuffer(uint32_t w, uint32_t h, float scalor)
@@ -129,11 +165,42 @@ Ref<Framebuffer> FramebufferChainRender::CreateFramebuffer(uint32_t w, uint32_t 
 	return MakeScope<Framebuffer>(frame_spec);
 }
 
-void FramebufferChainRender::SetUpFramebufferChain()
+void FramebufferChainRender::SetGLViewport(Chain& chain)
 {
-	Chain chain;
+	uint32_t w = chain.RenderData.FramebufferSpecifications.Width * chain.RenderData.FramebufferSpecifications.ScaleFactor;
+	uint32_t h = chain.RenderData.FramebufferSpecifications.Height * chain.RenderData.FramebufferSpecifications.ScaleFactor;
+	GLCall(glViewport(0, 0, w, h));
+}
 
-	chain.RenderData.CShader = Shader::CreateShader("assets/shaders/Framebuffer.glsl");
+void FramebufferChainRender::StandardChainOnResizeCallback(Chain& self, uint32_t w, uint32_t h)
+{
+	float sc = self.RenderData.RenderCamera.GetOrthographicSize();
+	float ar = (float)w / (float)h;
+
+	self.RenderData.Position =  { 0.0f, 0.0f, 0.0f };
+	self.RenderData.Scale =		{ sc * ar, sc, 1.0f };
+	self.RenderData.Rotation =  { 0.0f, 0.0f, 0.0f };
+	
+	static TransformComponent FramebufferCameraTransform;
+	self.RenderData.CameraTransform = FramebufferCameraTransform.GetTransform();
+	
+	FramebufferChainRender::CalculateQuadTransform(self);
+}
+
+void FramebufferChainRender::SetUpSceneFramebufferChain()
+{
+	Chain& chain = m_SceneChain;
+
+	chain.RenderData.CShader = m_Chains[0].RenderData.CShader;
+	chain.RenderData.CShader->Bind();
+	chain.RenderData.CShader->SetUniform1i("u_Framebuffer", 0);
+
+	chain.RenderData.Frambuffer = CreateFramebuffer
+	(
+		chain.RenderData.FramebufferSpecifications.Width,
+		chain.RenderData.FramebufferSpecifications.Height,
+		chain.RenderData.FramebufferSpecifications.ScaleFactor
+	);
 
 	chain.RenderData.Buffer = new FramebufferQuad[4];
 	chain.RenderData.BufferPtr = chain.RenderData.Buffer;
@@ -161,8 +228,8 @@ void FramebufferChainRender::SetUpFramebufferChain()
 
 		offset += 4;
 	}
-	uint32_t w = m_Specs.width;
-	uint32_t h = m_Specs.height;
+	uint32_t w = chain.RenderData.FramebufferSpecifications.Width;
+	uint32_t h = chain.RenderData.FramebufferSpecifications.Height;
 
 	float ar = (float)w / (float)h;
 	chain.RenderData.RenderCamera.SetViewportSize(w, h);
@@ -175,21 +242,86 @@ void FramebufferChainRender::SetUpFramebufferChain()
 	chain.RenderData.Scale = { sc * ar,sc, 1.0f };
 	chain.RenderData.Rotation = { 0.0f,0.0f,0.0f };
 
+	chain.RenderData.IB = IndexBuffer::CreateIndexBuffer(sizeof(indices), indices);
+	chain.RenderData.VA->Unbind();
+
 	CalculateQuadTransform(chain);
+
+	chain.OnResizeFunc = StandardChainOnResizeCallback;
+
+	m_Chains.push_front(chain);
+}
+
+void FramebufferChainRender::SetUpScreenFramebufferChain()
+{
+	Chain& chain = m_Chains[0];
+
+	chain.RenderData.CShader = Shader::CreateShader("assets/shaders/Framebuffer.glsl");
+	chain.RenderData.CShader->Bind();
+	chain.RenderData.CShader->SetUniform1i("u_Framebuffer", 0);
+
+	chain.RenderData.Frambuffer = CreateFramebuffer
+	(
+		chain.RenderData.FramebufferSpecifications.Width,
+		chain.RenderData.FramebufferSpecifications.Height,
+		chain.RenderData.FramebufferSpecifications.ScaleFactor
+	);
+
+	chain.RenderData.Buffer = new FramebufferQuad[4];
+	chain.RenderData.BufferPtr = chain.RenderData.Buffer;
+
+	chain.RenderData.VA = VertexArray::CreateVertexArray();
+
+	chain.RenderData.VB = VertexBuffer::CreateVertexBuffer(sizeof(FramebufferQuad) * 4);
+
+	VertexAttribute layout(chain.RenderData.VB);
+
+	layout.AddLayoutFloat(3, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, Position));
+	layout.AddLayoutFloat(2, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, TexCoords));
+
+	uint32_t indices[6]{};
+	uint32_t offset = 0;
+	for (int i = 0; i < 6; i += 6)
+	{
+		indices[i + 0] = 0 + offset;
+		indices[i + 1] = 1 + offset;
+		indices[i + 2] = 2 + offset;
+
+		indices[i + 3] = 2 + offset;
+		indices[i + 4] = 3 + offset;
+		indices[i + 5] = 0 + offset;
+
+		offset += 4;
+	}
+	uint32_t w = chain.RenderData.FramebufferSpecifications.Width;
+	uint32_t h = chain.RenderData.FramebufferSpecifications.Height;
+
+	float ar = (float)w / (float)h;
+	chain.RenderData.RenderCamera.SetViewportSize(w, h);
+	chain.RenderData.RenderCamera.SetOrthographicNearClip(-1.0f);
+	chain.RenderData.RenderCamera.SetOrthographicFarClip(10.0f);
+
+	float sc = chain.RenderData.RenderCamera.GetOrthographicSize();
+
+	chain.RenderData.Position = { 0.0f,0.0f,0.0f };
+	chain.RenderData.Scale = { sc * ar,sc, 1.0f };
+	chain.RenderData.Rotation = { 0.0f,0.0f,0.0f };
 
 	chain.RenderData.IB = IndexBuffer::CreateIndexBuffer(sizeof(indices), indices);
 	chain.RenderData.VA->Unbind();
-	m_Chains.push_front(chain);
+
+	CalculateQuadTransform(chain);
+	chain.OnResizeFunc = StandardChainOnResizeCallback;
 }
 
 void FramebufferChainRender::InvalidateFramebuffers()
 {
 	GAME_PROFILE_FUNCTION();
-	for (auto& framebuffer : m_Framebuffers)
+	m_SceneChain.RenderData.InvalidateFramebuffer();
+
+	for (auto& chain : m_Chains)
 	{
-		framebuffer->GetSpec().width = m_Specs.width * m_Specs.scale_factor;
-		framebuffer->GetSpec().height = m_Specs.height * m_Specs.scale_factor;
-		framebuffer->Invalidate();
+		chain.RenderData.InvalidateFramebuffer();
 	}
 }
 
@@ -213,24 +345,11 @@ void FramebufferChainRender::CalculateQuadTransform(Chain& chain)
 	chain.RenderData.VB->SubData(size, chain.RenderData.Buffer);
 }
 
-Chain& FramebufferChainRender::GetFramebufferChain()
+void FramebufferChainRenderData::InvalidateFramebuffer()
 {
-	GAME_CORE_ASSERT(!m_Chains.empty(), "The Framebuffer chain is not setup or not on the deque");
-	return *(m_Chains.end() - 1);
-}
-
-void FramebufferChainRender::SetGLViewport(bool use_scalor)
-{
-	int wid = use_scalor ? m_Specs.width * m_Specs.scale_factor : m_Specs.width;
-	int hei = use_scalor ? m_Specs.height * m_Specs.scale_factor : m_Specs.height;
-
-	GLCall(glViewport(0, 0, wid, hei));
-}
-
-void FramebufferChainRender::SetScalorFactor(float scalor)
-{
-	m_Specs.scale_factor = scalor;
-	InvalidateFramebuffers();
+	Frambuffer->GetSpec().width = FramebufferSpecifications.Width * FramebufferSpecifications.ScaleFactor;
+	Frambuffer->GetSpec().height = FramebufferSpecifications.Height * FramebufferSpecifications.ScaleFactor;
+	Frambuffer->Invalidate();
 }
 
 }

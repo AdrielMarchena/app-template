@@ -16,12 +16,11 @@ namespace Game
 		glm::vec2 TexCoords;
 	};
 
-	struct FramebufferChainRenderSpecification
+	struct FramebufferRenderSpecification
 	{
-		uint32_t width = 800;
-		uint32_t height = 600;
-		float scale_factor = 1.0f; // It is multiplied by width and height to scale them 
-		bool clamp_to_one = true;
+		uint32_t Width = 800;
+		uint32_t Height = 600;
+		float ScaleFactor = 1.0f; // It is multiplied by width and height to scale them 
 	};
 
 	struct FramebufferChainRenderData
@@ -30,6 +29,8 @@ namespace Game
 		Ref<VertexBuffer> VB;
 		Ref<IndexBuffer> IB;
 		Ref<Shader> CShader;
+		Ref<Framebuffer> Frambuffer;
+		FramebufferRenderSpecification FramebufferSpecifications;
 
 		FramebufferQuad Quad;
 		FramebufferQuad* Buffer = nullptr;
@@ -42,68 +43,70 @@ namespace Game
 
 		SceneCamera RenderCamera;
 		glm::mat4 CameraTransform;
+
+	private:
+		void InvalidateFramebuffer();
+		friend class FramebufferChainRender;
 	};
 
 	struct Chain;
 	// typedef void(*ChainInjectInfoInShaderFunc)(Chain&, const FramebufferChainRenderSpecification&);
-	using ChainInjectInfoInShaderFunc = std::function<void(FramebufferChainRenderData&, const FramebufferChainRenderSpecification&)>;
+	using ChainInjectInfoInShaderFunc = std::function<void(Chain& self, FramebufferChainRenderData&)>;
+	using ChainOnResizeFunc = std::function<void(Chain& self, uint32_t w, uint32_t h)>;
 
 	/*
-		The shader must have leave the texture0 slot free
+		The shader must have the texture0 slot free
 		Use the ChanInjectInfoInShaderFunc to inject info in the shader
 	*/
 	struct Chain
 	{
 		FramebufferChainRenderData RenderData;
 		ChainInjectInfoInShaderFunc DrawFunc = nullptr;
+		ChainOnResizeFunc OnResizeFunc = nullptr;
 	};
 
 	class FramebufferChainRender
 	{
 	public:
-		FramebufferChainRender(FramebufferChainRenderSpecification specs = FramebufferChainRenderSpecification());
+		FramebufferChainRender
+		(
+			FramebufferRenderSpecification sceneSpecs = FramebufferRenderSpecification(),
+			FramebufferRenderSpecification screenSpecs = FramebufferRenderSpecification()
+		);
 		~FramebufferChainRender();
 
 		void AddChain(Chain& chain) { m_Chains.push_front(chain); }
 		void OnResize(uint32_t w, uint32_t h);
 
-		void Bind() { GetCurrentFramebuffer()->Bind(); }
-		void Unbind() { GetCurrentFramebuffer()->Unbind(); };
+		void BindSceneFramebuffer();
+		void UnbindSceneFramebuffer();
 
 		void RenderChain();
 		
-		Ref<Framebuffer>& GetFrontFramebuffer();
-		Ref<Framebuffer>& GetBackFramebuffer();
-		Ref<Framebuffer>& GetCurrentFramebuffer() { return *m_CurrentFramebuffer; }
-
-		int ReadPixel(uint32_t index, int x, int y) { return GetCurrentFramebuffer()->ReadPixel(index, x, y); }
-		void ClearAttachment(uint32_t index, int value) { GetCurrentFramebuffer()->ClearAttachment(index, value); }
+		int ReadPixel(uint32_t index, int x, int y) { return m_SceneChain.RenderData.Frambuffer->ReadPixel(index, x, y); }
+		void ClearAttachment(uint32_t index, int value) { m_SceneChain.RenderData.Frambuffer->ClearAttachment(index, value); }
+		static void CalculateQuadTransform(Chain& chain);
 
 	private:
 		std::deque<Chain> m_Chains;
-		std::array<Ref<Framebuffer>, 2> m_Framebuffers;
-		bool m_CurrentFramebufferIndex = false; // Abusing the fact that 0 is false and 1 is true
-		Ref<Framebuffer>* m_CurrentFramebuffer = nullptr;
-		FramebufferChainRenderSpecification m_Specs;
-		FramebufferChainRenderData m_RenderData;
-		void SwapFramebuffer();
 
+		// Chain* m_ScreenChain = nullptr;
+		Chain m_SceneChain;
 	private:
-		static Ref<Framebuffer> CreateFramebuffer(uint32_t w, uint32_t h, float scalor);
-		void SetUpFramebufferChain();
+		void SetUpScreenFramebufferChain();
+		void SetUpSceneFramebufferChain();
 		void InvalidateFramebuffers();
-		static void CalculateQuadTransform(Chain& chain);
-		Chain& GetFramebufferChain();
 
 	public:
-		SceneCamera& GetCamera() { return m_RenderData.RenderCamera; }
-		const SceneCamera& GetCamera() const { return m_RenderData.RenderCamera; }
+		static void StandardChainOnResizeCallback(Chain& self, uint32_t w, uint32_t h);
+		static Ref<Framebuffer> CreateFramebuffer(uint32_t w, uint32_t h, float scalor);
+		
+		SceneCamera& GetCamera() { return m_SceneChain.RenderData.RenderCamera; }
+		const SceneCamera& GetCamera() const { return m_SceneChain.RenderData.RenderCamera; }
 
-		glm::mat4& GetCameraTransform() { return m_RenderData.CameraTransform; }
-		const glm::mat4& GetCameraTransform() const { return m_RenderData.CameraTransform; }
+		glm::mat4& GetCameraTransform() { return m_SceneChain.RenderData.CameraTransform; }
+		const glm::mat4& GetCameraTransform() const { return m_SceneChain.RenderData.CameraTransform; }
 
-		void SetGLViewport(bool use_scalor);
-		void SetScalorFactor(float scalor);
-		float GetScalorFactor() const { return m_Specs.scale_factor; };
+		static void SetGLViewport(Chain& chain);
 	};
 }

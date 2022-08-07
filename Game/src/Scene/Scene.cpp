@@ -12,6 +12,7 @@
 #include "ScriptableClass.h"
 #include "Utils/Files.h"
 #include "Debug/Intrumentator.h"
+#include "Render/GL/VertexAttribute.h"
 
 #include "box2d/b2_world.h"
 #include "box2d/b2_body.h"
@@ -44,16 +45,80 @@ namespace Game
 
 		m_Registry = MakeScope<ecs::Scene>();
 
-		FramebufferChainRenderSpecification specs;
+		FramebufferRenderSpecification specs;
 
 		auto& app = Application::Get();
-		specs.width = app.GetWindow().GetWidth();
-		specs.height = app.GetWindow().GetHeight();
+		specs.Width = app.GetWindow().GetWidth();
+		specs.Height = app.GetWindow().GetHeight();
 
-		m_FramebufferChainRender = MakeScope<FramebufferChainRender>(specs);
+		m_FramebufferChainRender = MakeScope<FramebufferChainRender>(specs, specs);
 
 		m_MessageBus = new MessageBus();
 		m_ECSFace.CreateRegistry();
+
+		{
+			m_LightParse = Chain();
+			Chain& chain = m_LightParse;
+
+			chain.RenderData.CShader = Shader::CreateShader("assets/shaders/Shadow.glsl");
+			chain.RenderData.CShader->Bind();
+			chain.RenderData.CShader->SetUniform1i("u_Framebuffer", 0);
+
+			chain.RenderData.Frambuffer = FramebufferChainRender::CreateFramebuffer
+			(
+				chain.RenderData.FramebufferSpecifications.Width,
+				chain.RenderData.FramebufferSpecifications.Height,
+				chain.RenderData.FramebufferSpecifications.ScaleFactor
+			);
+
+			chain.RenderData.Buffer = new FramebufferQuad[4];
+			chain.RenderData.BufferPtr = chain.RenderData.Buffer;
+
+			chain.RenderData.VA = VertexArray::CreateVertexArray();
+
+			chain.RenderData.VB = VertexBuffer::CreateVertexBuffer(sizeof(FramebufferQuad) * 4);
+
+			VertexAttribute layout(chain.RenderData.VB);
+
+			layout.AddLayoutFloat(3, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, Position));
+			layout.AddLayoutFloat(2, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, TexCoords));
+
+			uint32_t indices[6]{};
+			uint32_t offset = 0;
+			for (int i = 0; i < 6; i += 6)
+			{
+				indices[i + 0] = 0 + offset;
+				indices[i + 1] = 1 + offset;
+				indices[i + 2] = 2 + offset;
+
+				indices[i + 3] = 2 + offset;
+				indices[i + 4] = 3 + offset;
+				indices[i + 5] = 0 + offset;
+
+				offset += 4;
+			}
+			uint32_t w = specs.Width;
+			uint32_t h = specs.Height;
+
+			float ar = (float)w / (float)h;
+			chain.RenderData.RenderCamera.SetViewportSize(w, h);
+			chain.RenderData.RenderCamera.SetOrthographicNearClip(-1.0f);
+			chain.RenderData.RenderCamera.SetOrthographicFarClip(10.0f);
+
+			float sc = chain.RenderData.RenderCamera.GetOrthographicSize();
+
+			chain.RenderData.Position = { 0.0f,0.0f,0.0f };
+			chain.RenderData.Scale = { sc * ar,sc, 1.0f };
+			chain.RenderData.Rotation = { 0.0f,0.0f,0.0f };
+
+			FramebufferChainRender::CalculateQuadTransform(chain);
+			chain.OnResizeFunc = FramebufferChainRender::StandardChainOnResizeCallback;
+
+			chain.RenderData.IB = IndexBuffer::CreateIndexBuffer(sizeof(indices), indices);
+			chain.RenderData.VA->Unbind();
+			m_FramebufferChainRender->AddChain(chain);
+
+		}
 	}
 
 	Scene::~Scene()
@@ -342,15 +407,13 @@ namespace Game
 		{//Render Scope
 			GAME_PROFILE_SCOPE("rendering");
 
-			m_FramebufferChainRender->Bind();
+			m_FramebufferChainRender->BindSceneFramebuffer();
 			Render2D::Clear();
 
 			GAME_DO_IF_ENTITYID(ClearAttachment(1, -1));
 
 			if (main_camera)
 			{
-				m_FramebufferChainRender->SetGLViewport(true);
-				
 				Render2D::BeginScene(*main_camera, *main_camera_trasform);
 				Render2D::BeginBatch();
 				
@@ -384,21 +447,20 @@ namespace Game
 				Render2D::Flush();
 			}
 
-			auto view = m_ECSFace.View<LightComponent>();
-			for (auto& ent : view)
-			{
-				auto& tra = m_ECSFace.GetComponent<TransformComponent>(ent);
-				auto& light = m_ECSFace.GetComponent<LightComponent>(ent);
-				float lightFade = (1.0f / light.Intensity);
-				//Render2D::SetBlendFunc(GLBlendFactor::ONE, GLBlendFactor::ONE);
+			// auto view = m_ECSFace.View<LightComponent>();
+			// for (auto& ent : view)
+			// {
+			// 	auto& tra = m_ECSFace.GetComponent<TransformComponent>(ent);
+			// 	auto& light = m_ECSFace.GetComponent<LightComponent>(ent);
+			// 	float lightFade = (1.0f / light.Intensity);
+			// 	//Render2D::SetBlendFunc(GLBlendFactor::ONE, GLBlendFactor::ONE);
+			// 
+			// 	Render2D::DrawCircle(tra.GetTransform(), 1.0f, lightFade, light.Color GAME_COMMA_ENTITYID(m_ECSFace.GetEntityNumber(ent)));
+			// }
+			
+			 for (auto& f : m_FunctionsBeforeUnbindFramebuffer)
+			 	f(this);
 
-				Render2D::DrawCircle(tra.GetTransform(), 1.0f, lightFade, light.Color GAME_COMMA_ENTITYID(m_ECSFace.GetEntityNumber(ent)));
-			}
-
-			for (auto& f : m_FunctionsBeforeUnbindFramebuffer)
-				f(this);
-
-			m_FramebufferChainRender->SetGLViewport(false);
 			m_FramebufferChainRender->RenderChain();
 		}
 	}
@@ -411,12 +473,13 @@ namespace Game
 
 	void Scene::FramebufferSetScalor(float scalor)
 	{
-		m_FramebufferChainRender->SetScalorFactor(scalor);
+		// m_FramebufferChainRender->SetScalorFactor(scalor);
 	}
 
 	float Scene::FramebufferGetScalor() const
 	{
-		return m_FramebufferChainRender->GetScalorFactor();
+		// return m_FramebufferChainRender->GetScalorFactor();
+		return 1.0f;
 	}
 
 	//const std::unordered_map<std::string, FramebufferPostEffect>& Scene::FramebufferGetPostEffects() const

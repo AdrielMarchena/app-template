@@ -334,6 +334,12 @@ namespace Game
 		GLCommands::GL_Clear(GL_ClearCommand::ClearDepthColor);
 	}
 
+	void Render2D::ClearNoDepth()
+	{
+		GAME_PROFILE_FUNCTION();
+		GLCommands::GL_Clear(GL_ClearCommand::ClearColor);
+	}
+
 	void Render2D::BeginBatch()
 	{
 		GAME_PROFILE_FUNCTION();

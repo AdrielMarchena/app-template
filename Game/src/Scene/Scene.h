@@ -67,6 +67,7 @@ namespace Game
 		std::vector<DoBeforeUnbindFramebuffer> m_FunctionsBeforeUnbindFramebuffer;
 		Scope<ecs::Scene> m_Registry;
 		Scope<FramebufferChainRender> m_FramebufferChainRender;
+		Chain m_LightParse;
 		MessageBus* m_MessageBus = nullptr;
 		b2World* m_PhysicWorld = nullptr;
 		SoundsSystemFMOD m_SoundSystem;
