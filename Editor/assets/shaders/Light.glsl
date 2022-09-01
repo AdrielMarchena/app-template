@@ -25,8 +25,21 @@ uniform sampler2D u_Framebuffer;
 uniform vec3 u_Shadow;
 uniform float u_AmbientStrength;
 
+struct Light
+{
+	float Intensity = 1.0f;
+	vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
+};
+
+uniform Light u_Lights[128];
+
 void main()
 {
+	for(int i = 0; i < 128; i++)
+	{
+		
+	}
+
 	vec3 ambient = u_AmbientStrength * u_Shadow;
 	vec4 color = vec4(ambient * texture(u_Framebuffer, v_TexCoord).xyz, 1.0);
 	o_Color = color;

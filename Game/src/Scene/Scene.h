@@ -63,6 +63,7 @@ namespace Game
 		void CreatePhysicWorld();
 		void DisposePhysicWorld();
 
+		void CreateShadowChain();
 		void CreateLightChain();
 
 	private:
@@ -70,6 +71,7 @@ namespace Game
 		Scope<ecs::Scene> m_Registry;
 		Scope<FramebufferChainRender> m_FramebufferChainRender;
 		Chain m_LightParse;
+		Chain m_ShadowParse;
 		MessageBus* m_MessageBus = nullptr;
 		b2World* m_PhysicWorld = nullptr;
 		SoundsSystemFMOD m_SoundSystem;

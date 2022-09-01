@@ -72,7 +72,7 @@ void FramebufferChainRender::UnbindSceneFramebuffer()
 static void DrawChain(Chain& chain, bool bindBuffer, Ref<Framebuffer>& previousFramebuffer)
 {
 	auto& data = chain.RenderData;
-	auto& func = chain.DrawFunc;
+	auto& func = chain.PreDrawFunc;
 
 	if (bindBuffer)
 		data.Frambuffer->Bind();
@@ -117,6 +117,7 @@ void FramebufferChainRender::RenderChain()
 	}
 
 	Render2D::Enable({ GLEnableCaps::DEPTH_TEST });
+	Render2D::SetBlendFunc(GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE_MINUS_SRC_ALPHA);
 }
 
 Ref<Framebuffer> FramebufferChainRender::CreateFramebuffer(uint32_t w, uint32_t h, float scalor)
@@ -276,6 +277,11 @@ void FramebufferChainRender::SetUpScreenFramebufferChain()
 
 	chain.RenderData.IB = IndexBuffer::CreateIndexBuffer(sizeof(indices), indices);
 	chain.RenderData.VA->Unbind();
+
+	chain.PreDrawFunc = [&](Chain& self, FramebufferChainRenderData&)
+	{
+		Render2D::SetBlendFunc(GLBlendFactor::ONE, GLBlendFactor::ONE);
+	};
 
 	CalculateQuadTransform(chain);
 	chain.OnResizeFunc = StandardChainOnResizeCallback;

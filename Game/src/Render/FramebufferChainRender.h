@@ -62,7 +62,7 @@ namespace Game
 	{
 		bool Ignore = false;
 		FramebufferChainRenderData RenderData;
-		ChainInjectInfoInShaderFunc DrawFunc = nullptr;
+		ChainInjectInfoInShaderFunc PreDrawFunc = nullptr;
 		ChainOnResizeFunc OnResizeFunc = nullptr;
 	};
 
