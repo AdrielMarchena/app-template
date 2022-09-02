@@ -12,6 +12,7 @@
 #include "ScriptableClass.h"
 #include "Utils/Files.h"
 #include "Debug/Intrumentator.h"
+#include "Render/GL/VertexAttribute.h"
 
 #include "box2d/b2_world.h"
 #include "box2d/b2_body.h"
@@ -23,6 +24,16 @@
 
 namespace Game
 {
+
+	//TODO: TEMPORARY
+	struct LightShaderInfo
+	{
+		std::vector<LightComponent> Lights;
+		glm::vec3 AmbientLightColor = { 1.0f, 1.0f, 1.0f };
+		float AmbientStrength = 0.35f;
+	};
+
+	static LightShaderInfo g_SceneLights;
 
 	static inline b2BodyType Getb2BoxType(RigidBody2DComponent::BodyType type)
 	{
@@ -44,29 +55,19 @@ namespace Game
 
 		m_Registry = MakeScope<ecs::Scene>();
 
-		FrameBufferRenderSpecification specs;
+		FramebufferRenderSpecification specs;
 
 		auto& app = Application::Get();
-		int w = app.GetWindow().GetWidth();
-		int h = app.GetWindow().GetHeight();
+		specs.Width = app.GetWindow().GetWidth();
+		specs.Height = app.GetWindow().GetHeight();
 
-		specs.width = w;
-		specs.height = h;
-
-		m_FramebufferRender = MakeScope<FramebufferRender>(specs);
-
-		float ar = (float)w / (float)h;
-		m_FramebufferCamera.SetViewportSize(w,h);
-		m_FramebufferCamera.SetOrthographicNearClip(-1.0f);
-		m_FramebufferCamera.SetOrthographicFarClip(10.0f);
-
-		float sc = m_FramebufferCamera.GetOrthographicSize();
-		m_FramebufferRender->SetQuadPosition({ 0.0f,0.0f,0.0f });
-		m_FramebufferRender->SetQuadScale({ sc * ar,sc,1.0f });
-		m_FramebufferRender->SetQuadRotation({ 0.0f,0.0f,0.0f });
+		m_FramebufferChainRender = MakeScope<FramebufferChainRender>(specs, specs);
 
 		m_MessageBus = new MessageBus();
 		m_ECSFace.CreateRegistry();
+
+		//CreateLightChain();
+		//CreateShadowChain();
 	}
 
 	Scene::~Scene()
@@ -197,6 +198,164 @@ namespace Game
 			delete m_PhysicWorld;
 			m_PhysicWorld = nullptr;
 		}
+	}
+
+	void Scene::CreateShadowChain()
+	{
+		auto& app = Application::Get();
+		uint32_t w = app.GetWindow().GetWidth();
+		uint32_t h = app.GetWindow().GetHeight();
+
+		m_ShadowParse = Chain();
+		Chain& chain = m_ShadowParse;
+
+		chain.RenderData.FramebufferSpecifications.Width = w;
+		chain.RenderData.FramebufferSpecifications.Height = h;
+		chain.RenderData.FramebufferSpecifications.ScaleFactor = 1.0f;
+
+		chain.RenderData.CShader = Shader::CreateShader("assets/shaders/Shadow.glsl");
+		chain.RenderData.CShader->Bind();
+		chain.RenderData.CShader->SetUniform1i("u_Framebuffer", 0);
+
+		chain.RenderData.Frambuffer = FramebufferChainRender::CreateFramebuffer
+		(
+			chain.RenderData.FramebufferSpecifications.Width,
+			chain.RenderData.FramebufferSpecifications.Height,
+			chain.RenderData.FramebufferSpecifications.ScaleFactor
+		);
+
+		chain.RenderData.Buffer = new FramebufferQuad[4];
+		chain.RenderData.BufferPtr = chain.RenderData.Buffer;
+
+		chain.RenderData.VA = VertexArray::CreateVertexArray();
+
+		chain.RenderData.VB = VertexBuffer::CreateVertexBuffer(sizeof(FramebufferQuad) * 4);
+
+		VertexAttribute layout(chain.RenderData.VB);
+
+		layout.AddLayoutFloat(3, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, Position));
+		layout.AddLayoutFloat(2, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, TexCoords));
+
+		uint32_t indices[6]{};
+		uint32_t offset = 0;
+		for (int i = 0; i < 6; i += 6)
+		{
+			indices[i + 0] = 0 + offset;
+			indices[i + 1] = 1 + offset;
+			indices[i + 2] = 2 + offset;
+
+			indices[i + 3] = 2 + offset;
+			indices[i + 4] = 3 + offset;
+			indices[i + 5] = 0 + offset;
+
+			offset += 4;
+		}
+
+		float ar = (float)w / (float)h;
+		chain.RenderData.RenderCamera.SetViewportSize(w, h);
+		chain.RenderData.RenderCamera.SetOrthographicNearClip(-1.0f);
+		chain.RenderData.RenderCamera.SetOrthographicFarClip(10.0f);
+
+		float sc = chain.RenderData.RenderCamera.GetOrthographicSize();
+
+		chain.RenderData.Position = { 0.0f,0.0f,0.0f };
+		chain.RenderData.Scale = { sc * ar,sc, 1.0f };
+		chain.RenderData.Rotation = { 0.0f,0.0f,0.0f };
+
+		FramebufferChainRender::CalculateQuadTransform(chain);
+		chain.OnResizeFunc = FramebufferChainRender::StandardChainOnResizeCallback;
+
+		chain.PreDrawFunc = [&](Chain& self, FramebufferChainRenderData&)
+		{
+			Render2D::SetBlendFunc(GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE_MINUS_SRC_ALPHA);
+			self.RenderData.CShader->Bind();
+			self.RenderData.CShader->SetUniform1f("u_AmbientStrength", g_SceneLights.AmbientStrength);
+			self.RenderData.CShader->SetUniform3f("u_Shadow",
+												  g_SceneLights.AmbientLightColor.x,
+												  g_SceneLights.AmbientLightColor.y,
+												  g_SceneLights.AmbientLightColor.z);
+		};
+
+		chain.RenderData.IB = IndexBuffer::CreateIndexBuffer(sizeof(indices), indices);
+		chain.RenderData.VA->Unbind();
+		m_FramebufferChainRender->AddChain(chain);
+	}
+
+	void Scene::CreateLightChain()
+	{
+		auto& app = Application::Get();
+		uint32_t w = app.GetWindow().GetWidth();
+		uint32_t h = app.GetWindow().GetHeight();
+
+		m_ShadowParse = Chain();
+		Chain& chain = m_ShadowParse;
+
+		chain.RenderData.FramebufferSpecifications.Width = w;
+		chain.RenderData.FramebufferSpecifications.Height = h;
+		chain.RenderData.FramebufferSpecifications.ScaleFactor = 1.0f;
+
+		chain.RenderData.CShader = Shader::CreateShader("assets/shaders/Light.glsl");
+		chain.RenderData.CShader->Bind();
+		chain.RenderData.CShader->SetUniform1i("u_Framebuffer", 0);
+
+		chain.RenderData.Frambuffer = FramebufferChainRender::CreateFramebuffer
+		(
+			chain.RenderData.FramebufferSpecifications.Width,
+			chain.RenderData.FramebufferSpecifications.Height,
+			chain.RenderData.FramebufferSpecifications.ScaleFactor
+		);
+
+		chain.RenderData.Buffer = new FramebufferQuad[4];
+		chain.RenderData.BufferPtr = chain.RenderData.Buffer;
+
+		chain.RenderData.VA = VertexArray::CreateVertexArray();
+
+		chain.RenderData.VB = VertexBuffer::CreateVertexBuffer(sizeof(FramebufferQuad) * 4);
+
+		VertexAttribute layout(chain.RenderData.VB);
+
+		layout.AddLayoutFloat(3, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, Position));
+		layout.AddLayoutFloat(2, sizeof(FramebufferQuad), (const void*)offsetof(FramebufferQuad, TexCoords));
+
+		uint32_t indices[6]{};
+		uint32_t offset = 0;
+		for (int i = 0; i < 6; i += 6)
+		{
+			indices[i + 0] = 0 + offset;
+			indices[i + 1] = 1 + offset;
+			indices[i + 2] = 2 + offset;
+
+			indices[i + 3] = 2 + offset;
+			indices[i + 4] = 3 + offset;
+			indices[i + 5] = 0 + offset;
+
+			offset += 4;
+		}
+
+		float ar = (float)w / (float)h;
+		chain.RenderData.RenderCamera.SetViewportSize(w, h);
+		chain.RenderData.RenderCamera.SetOrthographicNearClip(-1.0f);
+		chain.RenderData.RenderCamera.SetOrthographicFarClip(10.0f);
+
+		float sc = chain.RenderData.RenderCamera.GetOrthographicSize();
+
+		chain.RenderData.Position = { 0.0f,0.0f,0.0f };
+		chain.RenderData.Scale = { sc * ar,sc, 1.0f };
+		chain.RenderData.Rotation = { 0.0f,0.0f,0.0f };
+
+		FramebufferChainRender::CalculateQuadTransform(chain);
+		chain.OnResizeFunc = FramebufferChainRender::StandardChainOnResizeCallback;
+
+		chain.PreDrawFunc = [&](Chain& self, FramebufferChainRenderData&)
+		{
+			self.RenderData.CShader->Bind();
+			self.RenderData.CShader->SetUniform4f("u_Color2", 0.0f, 0.0f, 0.0f, 1.0f);
+			self.RenderData.CShader->SetUniform4f("u_Color1", 1.0f, 1.0f, 1.0f, 1.0f);
+		};
+
+		chain.RenderData.IB = IndexBuffer::CreateIndexBuffer(sizeof(indices), indices);
+		chain.RenderData.VA->Unbind();
+		m_FramebufferChainRender->AddChain(chain);
 	}
 
 	Entity Scene::CreateEntity(const std::string& tag, bool addMessangerComponent)
@@ -355,15 +514,13 @@ namespace Game
 		{//Render Scope
 			GAME_PROFILE_SCOPE("rendering");
 
-			m_FramebufferRender->BindFrameBuffer();
+			m_FramebufferChainRender->BindSceneFramebuffer();
 			Render2D::Clear();
 
-			GAME_DO_IF_ENTITYID(m_FramebufferRender->ClearAttachment(1, -1));
+			GAME_DO_IF_ENTITYID(ClearAttachment(1, -1));
 
 			if (main_camera)
 			{
-				m_FramebufferRender->SetGLViewport(true);
-				
 				Render2D::BeginScene(*main_camera, *main_camera_trasform);
 				Render2D::BeginBatch();
 				
@@ -397,61 +554,61 @@ namespace Game
 				Render2D::Flush();
 			}
 
-			for (auto& f : m_FunctionsBeforeUnbindFramebuffer)
-				f(this);
+			{// Light Map
 
-			m_FramebufferRender->UnbindFrameBuffer();
+				auto view = m_ECSFace.View<LightComponent>();
+				for (auto& ent : view)
+				{
+					auto& tra = m_ECSFace.GetComponent<TransformComponent>(ent);
+					uint32_t x = tra.Translation.x;
+					uint32_t y = tra.Translation.y;
+					auto& light = m_ECSFace.GetComponent<LightComponent>(ent);
 
-			m_FramebufferRender->SetGLViewport(false);
-			// This TransformComponent don't ever change (i think)
-			static TransformComponent m_FramebufferCameraTransform;
-			m_FramebufferRender->DrawFrameBuffer(m_FramebufferCamera, m_FramebufferCameraTransform);
+				}
+			}
+			
+			 for (auto& f : m_FunctionsBeforeUnbindFramebuffer)
+			 	f(this);
+
+			m_FramebufferChainRender->RenderChain();
 		}
 	}
 
 	void Scene::OnResize(int w, int h)
 	{
 		GAME_PROFILE_FUNCTION();
-		auto& specs = m_FramebufferRender->GetSpec();
-		specs.width = w;
-		specs.height = h;
-		float ar = (float)w / (float)h;
-		float sc = m_FramebufferCamera.GetOrthographicSize();
-		m_FramebufferRender->SetQuadScale({ sc * ar,sc,1.0f });
-		m_FramebufferCamera.SetViewportSize(w, h);
-
-		m_FramebufferRender->InvalidateFrameBuffer();
+		m_FramebufferChainRender->OnResize(w, h);
 	}
 
 	void Scene::FramebufferSetScalor(float scalor)
 	{
-		m_FramebufferRender->GetSpec().scale_factor = scalor;
-		m_FramebufferRender->InvalidateFrameBuffer();
+		// m_FramebufferChainRender->SetScalorFactor(scalor);
 	}
 
 	float Scene::FramebufferGetScalor() const
 	{
-		return m_FramebufferRender->GetSpec().scale_factor;
+		// return m_FramebufferChainRender->GetScalorFactor();
+		return 1.0f;
 	}
 
-	const std::unordered_map<std::string, FramebufferPostEffect>& Scene::FramebufferGetPostEffects() const
-	{
-		return m_FramebufferRender->GetPostEffects();
-	}
+	//const std::unordered_map<std::string, FramebufferPostEffect>& Scene::FramebufferGetPostEffects() const
+	//{
+	//	return m_FramebufferRender->GetPostEffects();
+	//}
 
-	void Scene::FramebufferSetPostEffect(const std::string& effect_name)
-	{
-		m_FramebufferRender->UsePostEffect(effect_name);
-	}
+	//void Scene::FramebufferSetPostEffect(const std::string& effect_name)
+	//{
+	//	m_FramebufferRender->UsePostEffect(effect_name);
+	//}
 
 	int Scene::ReadPixel(uint32_t index, int x, int y)
 	{
-		return m_FramebufferRender->ReadPixel(index, x, y);
+		return m_FramebufferChainRender->ReadPixel(index, x, y);
 	}
 
 	void Scene::ClearAttachment(uint32_t index, int value)
 	{
-		m_FramebufferRender->ClearAttachment(index, value);
+		m_FramebufferChainRender->ClearAttachment(index, value);
 	}
 
 	void Scene::MakeCurrentSceneRef(const Ref<Scene>& scene)

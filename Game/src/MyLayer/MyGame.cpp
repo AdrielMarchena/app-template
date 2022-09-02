@@ -142,18 +142,18 @@ void MyGame::OnImGuiRender()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Post Effects"))
-		{
-			auto& postEffects = m_Scene->FramebufferGetPostEffects();
-
-			for (const auto& effect : postEffects)
-			{
-				if (ImGui::Button(effect.first.c_str()))
-					m_Scene->FramebufferSetPostEffect(effect.first);
-			}
-
-			ImGui::EndMenu();
-		}
+		// if (ImGui::BeginMenu("Post Effects"))
+		// {
+		// 	auto& postEffects = m_Scene->FramebufferGetPostEffects();
+		// 
+		// 	for (const auto& effect : postEffects)
+		// 	{
+		// 		if (ImGui::Button(effect.first.c_str()))
+		// 			m_Scene->FramebufferSetPostEffect(effect.first);
+		// 	}
+		// 
+		// 	ImGui::EndMenu();
+		// }
 
 		if (ImGui::BeginMenu("Runtime"))
 		{

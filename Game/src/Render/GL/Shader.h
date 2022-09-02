@@ -75,6 +75,9 @@ namespace Game
 		bool Exists(const std::string& name) const;
 
 		Ref<Shader> operator[](const std::string& name);
+
+		std::unordered_map<std::string, Ref<Shader>>::iterator begin() { return m_Shaders.begin(); }
+		std::unordered_map<std::string, Ref<Shader>>::iterator end() { return m_Shaders.end(); }
 	};
 
 }

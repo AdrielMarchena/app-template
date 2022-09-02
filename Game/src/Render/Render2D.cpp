@@ -303,11 +303,12 @@ namespace Game
 			cptr->vertexArray->Unbind();
 		}
 		//GLOBAL GL CONFIGS
-		GLCall(glEnable(GL_DEPTH_TEST));
-		GLCall(glEnable(GL_BLEND));
-		GLCall(glEnable(GL_LINE_SMOOTH));
-		//GLCall(glEnable(GL_MULTISAMPLE));
-		GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+		Enable({
+			GLEnableCaps::DEPTH_TEST,
+			GLEnableCaps::BLEND,
+			GLEnableCaps::LINE_SMOOTH
+		});
+		SetBlendFunc(GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE_MINUS_SRC_ALPHA);
 
 		return s_RenderInit;
 	}
@@ -331,6 +332,12 @@ namespace Game
 	{
 		GAME_PROFILE_FUNCTION();
 		GLCommands::GL_Clear(GL_ClearCommand::ClearDepthColor);
+	}
+
+	void Render2D::ClearNoDepth()
+	{
+		GAME_PROFILE_FUNCTION();
+		GLCommands::GL_Clear(GL_ClearCommand::ClearColor);
 	}
 
 	void Render2D::BeginBatch()
@@ -582,4 +589,28 @@ namespace Game
 		}
 	}
 
+	void Render2D::Enable(std::vector<GLEnableCaps> cap)
+	{
+		for (auto c : cap)
+		{
+			GLCall(glEnable(GLEnable::GetGlEnableCaps(c)));
+		}
+	}
+
+	void Render2D::Disable(std::vector<GLEnableCaps> cap)
+	{
+		for (auto c : cap)
+		{
+			GLCall(glDisable(GLEnable::GetGlEnableCaps(c)));
+		}
+	}
+
+	void Render2D::SetBlendFunc(GLBlendFactor sfactor, GLBlendFactor dfactor)
+	{
+		GLCall(glBlendFunc(
+				GLBlend::GetGLBlend(sfactor),
+				GLBlend::GetGLBlend(dfactor)
+			)
+		);
+	}
 }

@@ -199,20 +199,20 @@ void EditorLayer::OnImGuiRender()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Post Effects"))
-		{
-			auto& postEffects = m_Scene->FramebufferGetPostEffects();
-
-			if (ImGui::Button("none")) m_Scene->FramebufferSetPostEffect("none");
-
-			for (const auto& effect : postEffects)
-			{
-				if (ImGui::Button(effect.first.c_str()))
-					m_Scene->FramebufferSetPostEffect(effect.first);
-			}
-
-			ImGui::EndMenu();
-		}
+		//if (ImGui::BeginMenu("Post Effects"))
+		//{
+		//	auto& postEffects = m_Scene->FramebufferGetPostEffects();
+		//
+		//	if (ImGui::Button("none")) m_Scene->FramebufferSetPostEffect("none");
+		//
+		//	for (const auto& effect : postEffects)
+		//	{
+		//		if (ImGui::Button(effect.first.c_str()))
+		//			m_Scene->FramebufferSetPostEffect(effect.first);
+		//	}
+		//
+		//	ImGui::EndMenu();
+		//}
 
 		if (ImGui::BeginMenu("Load and play sounds"))
 		{
@@ -262,7 +262,6 @@ void EditorLayer::OnImGuiRender()
 				auto& circle = m_SelectedEntity.Get<Game::CircleComponent>();
 
 				ImGui::SliderFloat("Thickness", &circle.Thick, 0.0f, 1.0f);
-				ImGui::SliderFloat("Fade", &circle.Fade, 0.0f, 1.0f);
 
 				if (m_SelectedEntity.Contain<Game::RigidBody2DComponent>() && m_SelectedEntity.Contain<Game::CircleColider2DComponent>())
 				{

@@ -2,6 +2,8 @@
 
 #include "Render/Camera.h"
 #include "GL/Texture.h"
+#include "GL/GL_Enable.h"
+#include "GL/GL_Blend.h"
 namespace Game
 {
 	namespace Colors
@@ -42,6 +44,7 @@ namespace Game
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
 
 		static void Clear();
+		static void ClearNoDepth();
 
 		static void BeginBatch();
 		static void EndBatch();
@@ -59,6 +62,9 @@ namespace Game
 
 		static RenderStats GetRenderInfo(const DrawInfo& geometry = DrawInfo::Quad);
 
+		static void Enable(std::vector<GLEnableCaps> cap);
+		static void Disable(std::vector<GLEnableCaps> cap);
+		static void SetBlendFunc(GLBlendFactor sfactor, GLBlendFactor dfactor);
 	};
 }
 

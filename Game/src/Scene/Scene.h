@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Core.h"
-#include "Render/GL/FramebufferRender.h"
+#include "Render/FramebufferChainRender.h"
 #include "ECSFace.h"
 #include "Ecs/ECSScene.h"
 #include "Render/GameCamera.h"
@@ -37,7 +37,7 @@ namespace Game
 
 		void FramebufferSetScalor(float scalor);
 		float FramebufferGetScalor() const;
-		const std::unordered_map<std::string, FramebufferPostEffect>& FramebufferGetPostEffects() const;
+		// const std::unordered_map<std::string, FramebufferPostEffect>& FramebufferGetPostEffects() const;
 		void FramebufferSetPostEffect(const std::string& effect_name);
 
 		int ReadPixel(uint32_t index, int x, int y);
@@ -63,11 +63,15 @@ namespace Game
 		void CreatePhysicWorld();
 		void DisposePhysicWorld();
 
+		void CreateShadowChain();
+		void CreateLightChain();
+
 	private:
 		std::vector<DoBeforeUnbindFramebuffer> m_FunctionsBeforeUnbindFramebuffer;
 		Scope<ecs::Scene> m_Registry;
-		Scope<FramebufferRender> m_FramebufferRender;
-		SceneCamera m_FramebufferCamera;
+		Scope<FramebufferChainRender> m_FramebufferChainRender;
+		Chain m_LightParse;
+		Chain m_ShadowParse;
 		MessageBus* m_MessageBus = nullptr;
 		b2World* m_PhysicWorld = nullptr;
 		SoundsSystemFMOD m_SoundSystem;

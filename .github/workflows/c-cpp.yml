@@ -35,13 +35,13 @@ jobs:
       run: make config=dist_x64
       
     - name: zip release
-      run: cp Editor/bin/Dist-linux-x86_64/Editor/Editor Game/EditorRun && zip -r Editor.zip Editor/assets Editor/EditorRun
+      run: cp Editor/bin/Dist-linux-x86_64/Editor/Editor Editor/Editor && zip -r Editor.zip Editor/assets Editor/Editor Game/vendor/fmodstudioapi20206linux/api/core/lib/x86_64/*
       
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "latest"
-        title: "Dist Build"
+        title: "Ubuntu Dist Build"
         prerelease: false
         draft: false
         files: |
@@ -74,3 +74,16 @@ jobs:
 
     - name: Build app for Distribution x64
       run: msbuild Game.sln -t:rebuild -verbosity:normal -property:Configuration=Dist /p:Platform=x64
+
+    - name: Zip Release
+      run: cp Editor/bin/Dist-windows-x86_64/Editor/Editor.exe Editor/Editor.exe | 7z a -tzip -r Editor.zip Editor/Editor.exe Editor/assets Game/vendor/fmodstudioapi20206windows/api/core/lib/x64/fmod.dll
+
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        title: "Windoes Dist Build"
+        prerelease: false
+        draft: false
+        files: |
+          *.zip
