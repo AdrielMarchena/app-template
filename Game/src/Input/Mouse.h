@@ -55,6 +55,17 @@ namespace Game
 
 		//static glm::vec2 m_pos() { return { pos.x, -(pos.y - WindowProps().height) }; }
 		static glm::vec2 m_pos(int h) { return { pos.x, -(pos.y - h) }; }
+		static glm::vec2 screen_pos(float w, float h, float camera_size)
+		{
+			float ar = (float)w / (float)h;
+
+			float devX = pos.x / ((w) * 0.5f) - 1.0f;
+			float devY = -1.0f * (pos.y / (h * 0.5f) - 1.0f);
+
+			float csize = camera_size * 0.5f;
+
+			return { devX * csize * ar, devY * csize };
+		}
 
 		static void clamp_cursor(float_t min_x, float_t max_x, float_t min_y, float_t max_y);
 	};

@@ -60,6 +60,8 @@ namespace Game
 		static void DrawCircle(const glm::mat4& transform, float thick, float fade,const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID));
 		static void DrawCircle(const glm::mat4& transform, float thick, float fade, Ref<Texture> texture, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID));
 
+		static void DrawLine(const glm::vec3& origin, glm::vec3& dest, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID));
+
 		static RenderStats GetRenderInfo(const DrawInfo& geometry = DrawInfo::Quad);
 
 		static void Enable(std::vector<GLEnableCaps> cap);

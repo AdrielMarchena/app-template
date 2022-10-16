@@ -71,6 +71,10 @@ namespace Game
 	static int32_t CircleMaxVertexCount = CircleMaxCount * 4;
 	static int32_t CircleMaxIndexCount = CircleMaxCount * 6;
 
+	static int32_t LineMaxCount = 500;
+	static int32_t LineMaxVertexCount = LineMaxCount * 2;
+	static int32_t LineMaxIndexCount = LineMaxCount * 2;
+
 	static int32_t MaxTextureUnits = 8;
 
 	static Scope<ShaderLib> m_ShaderLib;
@@ -117,6 +121,14 @@ namespace Game
 		glm::vec3 LocalPosition;
 		float Thick;
 		float Fade;
+
+		GAME_DECLARE_ENTITY_ID;
+	};
+
+	struct LineVertexData
+	{
+		glm::vec3 Position;
+		glm::vec4 Color;
 
 		GAME_DECLARE_ENTITY_ID;
 	};
@@ -168,6 +180,7 @@ namespace Game
 
 	static DrawDataCollection s_QuadData;
 	static DrawDataCollection s_CircleData;
+	static DrawDataCollection s_LineData;
 
 	bool Render2D::Init()
 	{
@@ -302,6 +315,36 @@ namespace Game
 			utils::SampleTextureOnShader(cptr->shader, MaxTextureUnits, cptr->TexturesID);
 			cptr->vertexArray->Unbind();
 		}
+
+		//Lines
+		{
+			auto lineShader = Shader::CreateShader("assets/shaders/Line.glsl");
+			m_ShaderLib->Add(lineShader);
+
+			s_LineData.GeometryData = new DrawGeometryData();
+			auto cptr = s_LineData.GeometryData;
+
+			cptr->Buffer = new LineVertexData[LineMaxVertexCount];
+			cptr->BufferPtr = cptr->Buffer;
+
+			cptr->shader = lineShader;
+			cptr->shader->Bind();
+
+			cptr->vertexArray = VertexArray::CreateVertexArray();
+
+			cptr->vertexBuffer = VertexBuffer::CreateVertexBuffer(LineMaxVertexCount * sizeof(LineVertexData));
+
+			VertexAttribute line_layout(cptr->vertexBuffer);
+			line_layout.AddLayoutFloat(3, sizeof(LineVertexData), (const void*)offsetof(LineVertexData, Position));
+
+			line_layout.AddLayoutFloat(4, sizeof(LineVertexData), (const void*)offsetof(LineVertexData, Color));
+
+			line_layout.AddLayoutInt(1, sizeof(LineVertexData), (const void*)offsetof(LineVertexData, entityID));
+
+			cptr->vertexArray->Unbind();
+		}
+
+
 		//GLOBAL GL CONFIGS
 		Enable({
 			GLEnableCaps::DEPTH_TEST,
@@ -324,8 +367,12 @@ namespace Game
 		m_ShaderLib->Get("Circle")->Bind();
 		m_ShaderLib->Get("Circle")->SetUniformMat4f("u_ViewProj", viewProj);
 
+		m_ShaderLib->Get("Line")->Bind();
+		m_ShaderLib->Get("Line")->SetUniformMat4f("u_ViewProj", viewProj);
+
 		s_QuadData.GeometryData->Stats.GeometryCounterPerFrame = 0;
 		s_CircleData.GeometryData->Stats.GeometryCounterPerFrame = 0;
+		s_LineData.GeometryData->Stats.GeometryCounterPerFrame = 0;
 	}
 
 	void Render2D::Clear()
@@ -340,72 +387,79 @@ namespace Game
 		GLCommands::GL_Clear(GL_ClearCommand::ClearColor);
 	}
 
+	static inline void ResetGeometryData(DrawGeometryData* data)
+	{
+		data->BufferPtr = data->Buffer;
+		data->IndexCount = 0;
+		data->TextureSlotIndex = data->WhiteTextureID;
+	}
+
 	void Render2D::BeginBatch()
 	{
 		GAME_PROFILE_FUNCTION();
-		s_QuadData.GeometryData->BufferPtr = s_QuadData.GeometryData->Buffer;
-		s_QuadData.GeometryData->IndexCount = 0;
-		s_QuadData.GeometryData->TextureSlotIndex = s_QuadData.GeometryData->WhiteTextureID;
+		ResetGeometryData(s_QuadData.GeometryData);
+		ResetGeometryData(s_CircleData.GeometryData);
+		ResetGeometryData(s_LineData.GeometryData);
+	}
 
-		s_CircleData.GeometryData->BufferPtr = s_CircleData.GeometryData->Buffer;
-		s_CircleData.GeometryData->IndexCount = 0;
-		s_CircleData.GeometryData->TextureSlotIndex = s_CircleData.GeometryData->WhiteTextureID;
+	static inline void EndGeometryData(DrawGeometryData* data)
+	{
+		if (!data->IndexCount)
+			return;
+
+		data->vertexBuffer->Bind();
+		data->vertexBuffer->SubData(data->SizePtr(), data->Buffer);
+		data->vertexBuffer->Unbind();
 	}
 
 	void Render2D::EndBatch()
 	{
 		GAME_PROFILE_FUNCTION();
-		if (s_QuadData.GeometryData->IndexCount)
+		EndGeometryData(s_QuadData.GeometryData);
+		EndGeometryData(s_CircleData.GeometryData);
+		EndGeometryData(s_LineData.GeometryData);
+	}
+
+	static inline void DrawTexturedGeometry(DrawGeometryData* data)
+	{
+		if (!data->IndexCount)
+			return;
+
+		data->shader->Bind();
+
+		for (int i = 0; i < data->TextureSlotIndex; i++)
 		{
-			s_QuadData.GeometryData->vertexBuffer->Bind();
-			s_QuadData.GeometryData->vertexBuffer->SubData(s_QuadData.GeometryData->SizePtr(), s_QuadData.GeometryData->Buffer);
-			s_QuadData.GeometryData->vertexBuffer->Unbind();
+			GLCall(glActiveTexture(GL_TEXTURE0 + i));
+			GLCall(glBindTexture(GL_TEXTURE_2D, data->TexturesID[i]));
 		}
-		if (s_CircleData.GeometryData->IndexCount)
-		{
-			s_CircleData.GeometryData->vertexBuffer->Bind();
-			s_CircleData.GeometryData->vertexBuffer->SubData(s_CircleData.GeometryData->SizePtr(), s_CircleData.GeometryData->Buffer);
-			s_CircleData.GeometryData->vertexBuffer->Unbind();
-		}
+
+		data->vertexArray->Bind();
+
+		GLCall(glDrawElements(GL_TRIANGLES, data->IndexCount, GL_UNSIGNED_INT, nullptr));
+
+		data->TextureSlotIndex = 1;
+		data->IndexCount = 0;
+	}
+
+	static inline void DrawGeometry(DrawGeometryData* data)
+	{
+		if (!data->IndexCount)
+			return;
+
+		data->shader->Bind();
+		data->vertexArray->Bind();
+
+		GLCall(glDrawArrays(GL_LINES, 0, data->IndexCount));
+		data->IndexCount = 0;
 	}
 
 	void Render2D::Flush()
 	{
 		GAME_PROFILE_FUNCTION();
-		if (s_QuadData.GeometryData->IndexCount)
-		{
-			s_QuadData.GeometryData->shader->Bind();
 
-			for (int i = 0; i < s_QuadData.GeometryData->TextureSlotIndex; i++)
-			{
-				GLCall(glActiveTexture(GL_TEXTURE0 + i));
-				GLCall(glBindTexture(GL_TEXTURE_2D, s_QuadData.GeometryData->TexturesID[i]));
-			}
-
-			s_QuadData.GeometryData->vertexArray->Bind();
-
-			GLCall(glDrawElements(GL_TRIANGLES, s_QuadData.GeometryData->IndexCount, GL_UNSIGNED_INT, nullptr));
-
-			s_QuadData.GeometryData->TextureSlotIndex = 1;
-			s_QuadData.GeometryData->IndexCount = 0;
-		}
-		if (s_CircleData.GeometryData->IndexCount)
-		{
-			s_CircleData.GeometryData->shader->Bind();
-
-			for (int i = 0; i < s_CircleData.GeometryData->TextureSlotIndex; i++)
-			{
-				GLCall(glActiveTexture(GL_TEXTURE0 + i));
-				GLCall(glBindTexture(GL_TEXTURE_2D, s_CircleData.GeometryData->TexturesID[i]));
-			}
-
-			s_CircleData.GeometryData->vertexArray->Bind();
-
-			GLCall(glDrawElements(GL_TRIANGLES, s_CircleData.GeometryData->IndexCount, GL_UNSIGNED_INT, nullptr));
-
-			s_CircleData.GeometryData->TextureSlotIndex = 1;
-			s_CircleData.GeometryData->IndexCount = 0;
-		}
+		DrawGeometry(s_LineData.GeometryData);
+		DrawTexturedGeometry(s_QuadData.GeometryData);
+		DrawTexturedGeometry(s_CircleData.GeometryData);
 	}
 
 	void Render2D::Dispose()
@@ -414,6 +468,7 @@ namespace Game
 		using namespace utils;
 		Delete(s_QuadData.GeometryData);
 		Delete(s_CircleData.GeometryData);
+		Delete(s_LineData.GeometryData);
 		Delete(m_ShaderLib.release());
 
 		//s_Data.GeometryData->Dispose();
@@ -576,6 +631,34 @@ namespace Game
 		s_CircleData.GeometryData->IndexCount += 6;
 		s_CircleData.GeometryData->Stats.GeometryCounterPerFrame++;
 		s_CircleData.GeometryData->Stats.GeometryCounterLifeSpam++;
+	}
+
+	void Render2D::DrawLine(const glm::vec3& origin, glm::vec3& dest, const glm::vec4& color GAME_COMMA_ENTITYID(GAME_DECLARE_ENTITY_ID))
+	{
+		if (s_LineData.GeometryData->IndexCount >= LineMaxIndexCount)
+		{
+			EndBatch();
+			Flush();
+			BeginBatch();
+		}
+
+		LineVertexData* cbuff = reinterpret_cast<LineVertexData*>(s_LineData.GeometryData->BufferPtr);
+
+		cbuff->Position = origin;
+		cbuff->Color = color;
+		cbuff->entityID = entityID;
+		cbuff++;
+
+		cbuff->Position = dest;
+		cbuff->Color = color;
+		cbuff->entityID = entityID;
+		cbuff++;
+
+		s_LineData.GeometryData->BufferPtr = reinterpret_cast<void*>(cbuff);
+
+		s_LineData.GeometryData->IndexCount += 2;
+		s_LineData.GeometryData->Stats.GeometryCounterPerFrame++;
+		s_LineData.GeometryData->Stats.GeometryCounterLifeSpam++;
 	}
 
 	RenderStats Render2D::GetRenderInfo(const DrawInfo& geometry)

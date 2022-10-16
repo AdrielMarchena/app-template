@@ -13,6 +13,7 @@
 #include "Utils/Files.h"
 #include "Debug/Intrumentator.h"
 #include "Render/GL/VertexAttribute.h"
+#include "Input/Mouse.h"
 
 #include "box2d/b2_world.h"
 #include "box2d/b2_body.h"
@@ -375,6 +376,10 @@ namespace Game
 	{
 		GAME_PROFILE_FUNCTION();
 
+		auto& app = Application::Get();
+		uint32_t w = app.GetWindow().GetWidth();
+		uint32_t h = app.GetWindow().GetHeight();
+
 		{// Scripts
 			GAME_PROFILE_SCOPE("updating_scripts");
 
@@ -549,13 +554,18 @@ namespace Game
 						}
 					}
 				}
+				
+				float csize = main_camera->GetOrthographicSize();
+				auto screenMousePosition = glm::vec3(Mouse::screen_pos(w, h, csize), 1.0f);
+
+				glm::vec3 v = glm::vec3(Mouse::m_pos(h), 0.0f);
+				Render2D::DrawLine({ 0.0f,0.0f,0.0f }, screenMousePosition, { 1.0f,1.0f,1.0f,1.0f } GAME_COMMA_ENTITYID(0));
 
 				Render2D::EndBatch();
 				Render2D::Flush();
 			}
 
 			{// Light Map
-
 				auto view = m_ECSFace.View<LightComponent>();
 				for (auto& ent : view)
 				{
@@ -563,7 +573,6 @@ namespace Game
 					uint32_t x = tra.Translation.x;
 					uint32_t y = tra.Translation.y;
 					auto& light = m_ECSFace.GetComponent<LightComponent>(ent);
-
 				}
 			}
 			
