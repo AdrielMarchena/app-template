@@ -2,6 +2,7 @@
 #include "Generic.h"
 
 #include "glm/gtc/matrix_transform.hpp"
+#include <filesystem>
 
 namespace Game
 {
@@ -32,6 +33,15 @@ namespace utils
 				tmp += c;
 		}
 		return tmp;
+	}
+
+	std::vector<std::string> GetFilesFromFolder(const std::string& folder)
+	{
+		using std::filesystem::directory_iterator;
+		std::vector<std::string> paths;
+		for (const auto& file : directory_iterator(folder))
+			paths.push_back(file.path().string());
+		return paths;
 	}
 
 	std::string ParseFileName(const std::string& path)

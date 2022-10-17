@@ -239,4 +239,30 @@ namespace Game
 		return textureInfo;
 	}
 
+	TextureSpecifications Texture::TranslateImageInfo(const utils::ImageInformation& info)
+	{
+		TextureSpecifications textureInfo;
+		auto& imageInfo = info;
+
+		textureInfo.Type = imageInfo.png ? GL_TexType::UNSIGNED_INT : GL_TexType::UNSIGNED_BYTE;
+		textureInfo.Buffer = imageInfo.Buffer;
+		textureInfo.Width = imageInfo.Width;
+		textureInfo.Height = imageInfo.Height;
+		textureInfo.Channels = imageInfo.Channels;
+		textureInfo.Name = imageInfo.FileName;
+
+		textureInfo.DeleteSourceBuffer = false;
+		textureInfo.CopySourceBuffer = false;
+		textureInfo.KeepSourceBuffer = true;
+
+		return textureInfo;
+	}
+
+	std::vector<Ref<Texture>> Texture::CreateTextures(const std::vector<std::string>& paths)
+	{
+		std::vector<Ref<Texture>> textures(paths.size());
+		for (const auto& path : paths)
+			textures.emplace_back(Texture::CreateTexture(path));
+		return textures;
+	}
 }

@@ -21,6 +21,7 @@ namespace Game
 		UUID(const UUID&) = default;
 
 		operator uint64_t() const { return m_Uuid; }
+		bool operator==(const UUID& other) { return this->m_Uuid == other.m_Uuid; }
 	private:
 		uint64_t m_Uuid = NULL;
 	};

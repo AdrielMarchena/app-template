@@ -13,6 +13,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include "imgui.h"
 #include "Message/BusNode.h"
+#include "Utils/Image/ImageLoader.h"
 
 static Game::Ref<Game::FMODSound> g_TestSound;
 static Game::Ref<Game::FMODChannel> g_TestSoundChannel;
@@ -98,6 +99,23 @@ void EditorLayer::OnAttach()
 	Game::Scene::MakeCurrentSceneRef(m_Scene);
 
 	m_Scene->OnResize(w, h);
+
+	std::vector<std::string> paths;
+	for (int i = 0; i < 15; i++)
+		paths.push_back("assets/img/shrekOnion.jpg");
+
+	auto texturesFutures = Game::utils::LoadBatchAsync(paths);
+	std::vector<Game::Ref<Game::Texture>> textures;
+	textures.reserve(texturesFutures.size());
+	while (!texturesFutures.IsAllDone() || !texturesFutures.empty())
+	{
+		auto ready = texturesFutures.PopAllReady();
+		for (auto& f : ready)
+		{
+			auto info = Game::Texture::TranslateImageInfo(f.get());
+			textures.emplace_back(Game::Texture::CreateTexture(info));
+		}
+	}
 
 	{
 		m_Camera = m_Scene->CreateEntity("Main_Camera");

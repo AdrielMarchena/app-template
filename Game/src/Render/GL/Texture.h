@@ -3,6 +3,7 @@
 #include "Core/Core.h"
 #include "glm/glm.hpp"
 #include "TextureSpecifications.h"
+#include "Utils/Image/ImageLoader.h"
 #include <string>
 namespace Game
 {
@@ -48,6 +49,8 @@ namespace Game
 
 		operator bool() const { return (bool)m_Id; }
 		static TextureSpecifications GetImageInfo(const std::string& path);
+		static TextureSpecifications TranslateImageInfo(const utils::ImageInformation& info);
+		static std::vector<Ref<Texture>> CreateTextures(const std::vector<std::string>& paths);
 	private:
 	};
 }

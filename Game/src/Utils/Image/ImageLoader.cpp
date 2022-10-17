@@ -8,6 +8,8 @@
 
 #include "Utils/Generic.h"
 
+#include <filesystem>
+
 namespace Game
 {
     namespace utils
@@ -77,6 +79,46 @@ namespace Game
 			
 		    return info;
         }
+
+		Awaiter<ImageInformation> LoadBatchAsync(const std::string& folder)
+		{
+			return LoadBatchAsync(GetFilesFromFolder(folder));
+		}
+
+		Awaiter<ImageInformation> LoadBatchAsync(const std::vector<std::string>& paths)
+		{
+			std::vector<RefFuture<ImageInformation>> futures;
+			futures.reserve(paths.size());
+			for (const auto& path : paths)
+				futures.emplace_back(LoadAsync(path));
+			return Awaiter(futures);
+		}
+
+		RefFuture<ImageInformation> LoadAsync(const std::string& path)
+		{
+			return ExecuteAsyncRef(GetImageInfo, path);
+		}
+
+		std::unordered_map<std::string, ImageInformation> LoadBatch(const std::string& folder)
+		{
+			using std::filesystem::directory_iterator;
+			std::vector<std::string> paths;
+			for (const auto& file : directory_iterator(folder))
+				paths.push_back(file.path().string());
+			return LoadBatch(paths);
+		}
+
+		std::unordered_map<std::string, ImageInformation> LoadBatch(const std::vector<std::string>& paths)
+		{
+			using std::filesystem::directory_iterator;
+			std::unordered_map<std::string, ImageInformation> images;
+			for (const auto& path : paths)
+			{
+				const std::string fileName = ParseFileName(path);
+				images[fileName] = GetImageInfo(path);
+			}
+			return images;
+		}
 
         ImageBuffer_T* CreateImageBuffer(size_t size)
 	    {
