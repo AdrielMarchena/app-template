@@ -21,7 +21,7 @@ namespace Game
 
 		~Texture();
 
-		static Ref<Texture> CreateTexture(TextureSpecifications& info);
+		static Ref<Texture> CreateTexture(const TextureSpecifications& info);
 		static Ref<Texture> CreateTexture(const std::string& path, const std::string& name = std::string());
 
 		uint32_t GetId() const { return m_Id; };

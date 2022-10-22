@@ -77,9 +77,11 @@ struct AwaiterIt
 template<typename T>
 class Awaiter
 {
+public:
+	using WhenIsReadyCallback = std::function<void(T)>;
 private:
 	std::unordered_map<UUID, RefFuture<T>> m_Futures;
-	// std::vector<RefFuture<T>> m_Futures;
+	WhenIsReadyCallback m_ReadyCallback;
 public:
 	Awaiter(std::vector<RefFuture<T>>& futures)
 	{

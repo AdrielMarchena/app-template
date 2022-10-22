@@ -151,7 +151,7 @@ namespace Game
 		}
 	}
 
-	Ref<Texture> Texture::CreateTexture(TextureSpecifications& info)
+	Ref<Texture> Texture::CreateTexture(const TextureSpecifications& info)
 	{
 		return MakeRef<Texture>(info);
 	}

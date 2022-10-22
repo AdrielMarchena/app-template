@@ -100,23 +100,10 @@ void EditorLayer::OnAttach()
 
 	m_Scene->OnResize(w, h);
 
-	std::vector<std::string> paths;
-	for (int i = 0; i < 15; i++)
-		paths.push_back("assets/img/shrekOnion.jpg");
-
-	auto texturesFutures = Game::utils::LoadBatchAsync(paths);
-	std::vector<Game::Ref<Game::Texture>> textures;
-	textures.reserve(texturesFutures.size());
-	while (!texturesFutures.IsAllDone() || !texturesFutures.empty())
-	{
-		auto ready = texturesFutures.PopAllReady();
-		for (auto& f : ready)
-		{
-			auto info = Game::Texture::TranslateImageInfo(f.get());
-			textures.emplace_back(Game::Texture::CreateTexture(info));
-		}
-	}
-
+	//std::vector<std::string> paths;
+	//for (int i = 0; i < 15; i++)
+	//	paths.push_back("assets/img/shrekOnion.jpg");
+	//
 	{
 		m_Camera = m_Scene->CreateEntity("Main_Camera");
 
@@ -131,13 +118,18 @@ void EditorLayer::OnAttach()
 
 	{
 		m_Quad = m_Scene->CreateEntity("Quad");
-		auto texture = Game::Texture::CreateTexture("assets/img/shrekOnion.jpg");
-		m_Quad.Add<Game::SpriteComponent>(texture);
+		auto& sprite = m_Quad.Add<Game::SpriteComponent>();
+
+		sprite.SetAwaitableResource(Game::utils::LoadAsync("assets/img/big.jpg"));
 		auto& tr = m_Quad.GetTransformComponent();
 
-		float texture_ar = texture->GetSize().x / texture->GetSize().y;
-		tr.SetScaleWithAr(texture_ar);
-		tr.Translation = { 0.0f,4.0f,0.0f };
+		sprite.SetWhenReadyCallback([&tr](Game::SpriteComponent sprite)
+									{
+										float texture_ar = sprite.Texture->GetSize().x / sprite.Texture->GetSize().y;
+										tr.SetScaleWithAr(texture_ar);
+										tr.Translation = { 0.0f,4.0f,0.0f };
+									});
+		
 
 		auto& rigBody = m_Quad.Add<Game::RigidBody2DComponent>();
 		auto& boxColider = m_Quad.Add<Game::BoxColider2DComponent>();

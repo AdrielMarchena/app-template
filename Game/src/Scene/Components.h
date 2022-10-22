@@ -6,10 +6,47 @@
 #include "glm/glm.hpp"
 #include "glm/gtx/quaternion.hpp"
 #include "Sound/SoundsSystemFMOD.h"
+#include "Utils/Async.h"
 //#include "Message/BusNode.h"
 namespace Game
 {
+class Scene;
+class Entity;
 	void InitMetaReflectionComponents();
+	template<typename T,typename _Await>
+	struct AwaitableComponent {
+		using WhenReadyCallback = std::function<void(T&)>;
+	public: 
+		bool HasAwaitable() const { return m_Resource.operator bool(); }
+		bool IsAwaitableReady() const { return m_Resource->_Is_ready(); }
+		_Await GetAwaited() { return m_Resource->get(); }
+	public:
+		virtual void WhenAwaitableReady(_Await resource)
+		{
+			if (m_WhenReady)
+				m_WhenReady(*dynamic_cast<T*>(this));
+		}
+		void InvalidateAwaitable()
+		{
+			m_Resource.reset();
+		}
+	public:
+		AwaitableComponent() = default;
+		AwaitableComponent(const AwaitableComponent&) = default;
+		void SetAwaitableResource(const utils::RefFuture<_Await>& resource)
+		{
+			m_Resource = MakeRef<utils::RefFuture<_Await>>(resource);
+		}
+		void SetWhenReadyCallback(const WhenReadyCallback& callback)
+		{
+			if(callback)
+				m_WhenReady = callback;
+		}
+	private:
+		friend class Scene;
+		Ref<utils::RefFuture<_Await>> m_Resource; // Scope make more sence
+		WhenReadyCallback m_WhenReady = nullptr;
+	};
 
 	struct TestComponent
 	{
@@ -21,6 +58,7 @@ namespace Game
 		UUID Id;
 
 		IdComponent() = default;
+		IdComponent(UUID id) : Id(id) {}
 		IdComponent(const IdComponent&) = default;
 	};
 
@@ -34,7 +72,7 @@ namespace Game
 		{}
 	};
 
-	struct SpriteComponent
+	struct SpriteComponent : public AwaitableComponent<SpriteComponent, utils::ImageInformation>
 	{
 		glm::vec4 Color{ 1.0f,1.0f,1.0f,1.0f };
 		bool Visible = true;
@@ -48,6 +86,11 @@ namespace Game
 		SpriteComponent(const Ref<Game::Texture>& texture)
 			:Texture(texture) {}
 
+		virtual void WhenAwaitableReady(utils::ImageInformation resource) override
+		{
+			Texture = Texture::CreateTexture(Texture::TranslateImageInfo(resource));
+			AwaitableComponent::WhenAwaitableReady(resource); // Super
+		}
 	};
 
 	struct TransformComponent

@@ -359,12 +359,12 @@ namespace Game
 		m_FramebufferChainRender->AddChain(chain);
 	}
 
-	Entity Scene::CreateEntity(const std::string& tag, bool addMessangerComponent)
+	Entity Scene::CreateEntity(const std::string& tag, UUID id ,bool addMessangerComponent)
 	{
 		GAME_PROFILE_FUNCTION();
 		Entity ent{ m_ECSFace.CreateEntity(), this };
 
-		ent.Add<IdComponent>();
+		ent.Add<IdComponent>(id);
 		ent.Add<TagComponent>(tag.empty() ? "Unnamed Entity" : tag);
 		ent.Add<TransformComponent>();
 		if (addMessangerComponent)
@@ -536,6 +536,12 @@ namespace Game
 					if (sprite.Visible)
 					{
 						auto& tra = m_ECSFace.GetComponent<TransformComponent>(ent);
+
+						if (sprite.HasAwaitable() && sprite.IsAwaitableReady())
+						{
+							sprite.WhenAwaitableReady(sprite.GetAwaited());
+							sprite.InvalidateAwaitable();
+						}
 
 						if (m_ECSFace.ContainComponent<CircleComponent>(ent)) // Draw as Circle Shape
 						{

@@ -6,6 +6,7 @@
 #include "Ecs/ECSScene.h"
 #include "Render/GameCamera.h"
 #include "Sound/SoundsSystemFMOD.h"
+#include "Utils/Async.h"
 #include <functional>
 //#include "Message/MessageBus.h"
 class b2World;
@@ -22,7 +23,7 @@ namespace Game
 		Scene();
 		~Scene();
 
-		Entity CreateEntity(const std::string& tag = std::string(), bool addMessangerComponent = true);
+		Entity CreateEntity(const std::string& tag = std::string(), UUID id = UUID(), bool addMessangerComponent = true);
 
 		void SceneBegin();
 		void SceneEnd();
