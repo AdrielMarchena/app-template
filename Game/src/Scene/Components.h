@@ -12,7 +12,6 @@ namespace Game
 {
 class Scene;
 class Entity;
-	void InitMetaReflectionComponents();
 	template<typename T,typename _Await>
 	struct AwaitableComponent {
 		using WhenReadyCallback = std::function<void(T&)>;
@@ -33,9 +32,9 @@ class Entity;
 	public:
 		AwaitableComponent() = default;
 		AwaitableComponent(const AwaitableComponent&) = default;
-		void SetAwaitableResource(const utils::RefFuture<_Await>& resource)
+		void SetAwaitableResource(const RefFuture<_Await>& resource)
 		{
-			m_Resource = MakeRef<utils::RefFuture<_Await>>(resource);
+			m_Resource = MakeRef<RefFuture<_Await>>(resource);
 		}
 		void SetWhenReadyCallback(const WhenReadyCallback& callback)
 		{
@@ -44,7 +43,7 @@ class Entity;
 		}
 	private:
 		friend class Scene;
-		Ref<utils::RefFuture<_Await>> m_Resource; // Scope make more sence
+		Ref<RefFuture<_Await>> m_Resource; // Scope make more sence
 		WhenReadyCallback m_WhenReady = nullptr;
 	};
 
@@ -72,11 +71,11 @@ class Entity;
 		{}
 	};
 
-	struct SpriteComponent : public AwaitableComponent<SpriteComponent, utils::ImageInformation>
+	struct SpriteComponent : public AwaitableComponent<SpriteComponent, ImageInformation>
 	{
 		glm::vec4 Color{ 1.0f,1.0f,1.0f,1.0f };
 		bool Visible = true;
-		Ref<Game::Texture> Texture;//Conflict name if above constructors
+		Ref<Game::Texture> Texture = nullptr;
 
 		SpriteComponent() = default;
 		SpriteComponent(const SpriteComponent&) = default;
@@ -86,7 +85,12 @@ class Entity;
 		SpriteComponent(const Ref<Game::Texture>& texture)
 			:Texture(texture) {}
 
-		virtual void WhenAwaitableReady(utils::ImageInformation resource) override
+		SpriteComponent(const RefFuture<ImageInformation>& resource , WhenReadyCallback callback = nullptr)
+		{
+			SetAwaitableResource(resource);
+			SetWhenReadyCallback(callback);
+		}
+		virtual void WhenAwaitableReady(ImageInformation resource) override
 		{
 			Texture = Texture::CreateTexture(Texture::TranslateImageInfo(resource));
 			AwaitableComponent::WhenAwaitableReady(resource); // Super

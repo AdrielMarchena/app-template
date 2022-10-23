@@ -158,7 +158,7 @@ namespace Game
 
 	Ref<Texture> Texture::CreateTexture(const std::string& path, const std::string& name)
 	{
-		auto info = GetImageInfo(path);
+		auto info = GetTextureInfo(path);
 		info.Name = name;
 		info.KeepSourceBuffer = true;
 		return MakeRef<Texture>(info,path);
@@ -219,28 +219,14 @@ namespace Game
 		m_WhiteTexture.reset();
 	}
 
-	TextureSpecifications Texture::GetImageInfo(const std::string& path)
+	TextureSpecifications Texture::GetTextureInfo(const std::string& path)
 	{
-		GAME_PROFILE_FUNCTION();
-		TextureSpecifications textureInfo;
-		auto imageInfo = utils::GetImageInfo(path);
-
-		textureInfo.Type = imageInfo.png ? GL_TexType::UNSIGNED_INT : GL_TexType::UNSIGNED_BYTE;
-		textureInfo.Buffer = imageInfo.Buffer;
-		textureInfo.Width = imageInfo.Width;
-		textureInfo.Height = imageInfo.Height;
-		textureInfo.Channels = imageInfo.Channels;
-		textureInfo.Name = imageInfo.FileName;
-
-		textureInfo.DeleteSourceBuffer = false;
-		textureInfo.CopySourceBuffer = false;
-		textureInfo.KeepSourceBuffer = true;
-
-		return textureInfo;
+		return TranslateImageInfo(GetImageInfo(path));
 	}
 
-	TextureSpecifications Texture::TranslateImageInfo(const utils::ImageInformation& info)
+	TextureSpecifications Texture::TranslateImageInfo(const ImageInformation& info)
 	{
+		GAME_PROFILE_FUNCTION();
 		TextureSpecifications textureInfo;
 		auto& imageInfo = info;
 

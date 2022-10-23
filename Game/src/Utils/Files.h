@@ -14,15 +14,12 @@
 
 namespace Game
 {
-namespace utils
+class Files
 {
-	class Files
-	{
-	public:
-		Files(){}
+public:
+	Files() {}
 
-		static std::vector<std::pair<std::string, std::string>> GetPairText(const std::string& dir, const std::string& ext = ".jpg#.jpeg#.png#.PNG");
-	};
-}
+	static std::vector<std::pair<std::string, std::string>> GetPairText(const std::string& dir, const std::string& ext = ".jpg#.jpeg#.png#.PNG");
+};
 }
 

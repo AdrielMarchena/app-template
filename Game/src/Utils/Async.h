@@ -4,7 +4,7 @@
 #include <functional>
 #include <any>
 #include "Scene/UUID.h"
-namespace Game::utils
+namespace Game
 {
 template<class _Fty, typename... _Args>
 using Ret = std::invoke_result_t<std::decay_t<_Fty>, std::decay_t<_Args>...>;

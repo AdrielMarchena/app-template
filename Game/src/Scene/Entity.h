@@ -70,7 +70,7 @@ namespace Game
 		template<typename T>
 		bool Contain()
 		{
-			GAME_CORE_ASSERT(m_SceneP && m_Registry, "Scene or Registry pointer are invalid");
+			GAME_CORE_ASSERT(m_SceneP && m_Registry, "Scene or Registry pointer are invalid\nMaybe you are calling this before creating the entity!");
 			//return m_Registry->Contain<T>(m_Handler);
 			return  m_SceneP->GetECSFace().ContainComponent<T>(m_Handler);
 		}

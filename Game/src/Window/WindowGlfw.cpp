@@ -164,14 +164,14 @@ namespace Game
 		GLFWimage icons[1];
 		const char* iconPath = "assets/img/icon.png";
 
-		auto imageInfo = utils::GetImageInfo(iconPath);
+		auto imageInfo = GetImageInfo(iconPath);
 		if(imageInfo.Buffer)
 		{
 			icons[0].pixels = imageInfo.Buffer;
 			icons[0].width = imageInfo.Width;
 			icons[0].height = imageInfo.Height;
 			glfwSetWindowIcon(m_Window,1,icons);
-			utils::DeleteImageBuffer(imageInfo.Buffer);
+			DeleteImageBuffer(imageInfo.Buffer);
 			GAME_LOG_TRACE("icon '{0}' loaded",iconPath);
 		}
 		else

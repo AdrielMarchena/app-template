@@ -154,7 +154,7 @@
 //		GAME_PROFILE_FUNCTION();
 //		if (m_CurrentPostEffect)
 //			m_CurrentPostEffect->active = false;
-//		if (name.empty() || utils::ToLower(name) == "none")
+//		if (name.empty() || ToLower(name) == "none")
 //		{
 //			m_CurrentPostEffect = nullptr;
 //		}

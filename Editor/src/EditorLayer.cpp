@@ -118,18 +118,15 @@ void EditorLayer::OnAttach()
 
 	{
 		m_Quad = m_Scene->CreateEntity("Quad");
-		auto& sprite = m_Quad.Add<Game::SpriteComponent>();
-
-		sprite.SetAwaitableResource(Game::utils::LoadAsync("assets/img/big.jpg"));
 		auto& tr = m_Quad.GetTransformComponent();
-
-		sprite.SetWhenReadyCallback([&tr](Game::SpriteComponent sprite)
-									{
-										float texture_ar = sprite.Texture->GetSize().x / sprite.Texture->GetSize().y;
-										tr.SetScaleWithAr(texture_ar);
-										tr.Translation = { 0.0f,4.0f,0.0f };
-									});
-		
+		auto& sprite = m_Quad.Add<Game::SpriteComponent>(
+			Game::LoadAsync("assets/img/bigg.jpg"),
+			[&tr](Game::SpriteComponent sprite)	
+			{
+				float texture_ar = sprite.Texture->GetSize().x / sprite.Texture->GetSize().y;
+				tr.SetScaleWithAr(texture_ar);
+				tr.Translation = { 0.0f,4.0f,0.0f };
+			});
 
 		auto& rigBody = m_Quad.Add<Game::RigidBody2DComponent>();
 		auto& boxColider = m_Quad.Add<Game::BoxColider2DComponent>();
@@ -138,9 +135,8 @@ void EditorLayer::OnAttach()
 
 	{
 		m_Platform = m_Scene->CreateEntity("Platform");
-		auto texture = Game::Texture::CreateTexture("assets/img/chalote.jpg");
-		m_Platform.Add<Game::SpriteComponent>(texture);
 		auto& tr = m_Platform.Get<Game::TransformComponent>();
+		m_Platform.Add<Game::SpriteComponent>(Game::LoadAsync("assets/img/chalote.jpg"));
 
 		tr.Translation = { 0.0f,0.0f,0.0f };
 		tr.Scale = { 14.0f,1.0f,1.0f };
@@ -152,8 +148,7 @@ void EditorLayer::OnAttach()
 
 	{
 		m_Circle = m_Scene->CreateEntity("Cirlce");
-		auto texture = Game::Texture::CreateTexture("assets/img/chalote.jpg");
-		m_Circle.Add<Game::SpriteComponent>(texture);
+		m_Circle.Add<Game::SpriteComponent>(Game::LoadAsync("assets/img/chalote.jpg"));
 		m_Circle.Add<Game::CircleComponent>();
 		auto& tr = m_Circle.Get<Game::TransformComponent>();
 
@@ -181,7 +176,7 @@ void EditorLayer::OnAttach()
 			}
 		});
 
-	g_SoundDirs = Game::utils::Files::GetPairText("assets/sounds", ".ogg#.wav#.WAV");
+	g_SoundDirs = Game::Files::GetPairText("assets/sounds", ".ogg#.wav#.WAV");
 }
 
 void EditorLayer::OnUpdate(Game::Timestamp dt)

@@ -48,8 +48,8 @@ namespace Game
 		glm::vec2 GetSize() const { return glm::vec2(m_ImageInfo.Width, m_ImageInfo.Height); }
 
 		operator bool() const { return (bool)m_Id; }
-		static TextureSpecifications GetImageInfo(const std::string& path);
-		static TextureSpecifications TranslateImageInfo(const utils::ImageInformation& info);
+		static TextureSpecifications GetTextureInfo(const std::string& path);
+		static TextureSpecifications TranslateImageInfo(const ImageInformation& info);
 		static std::vector<Ref<Texture>> CreateTextures(const std::vector<std::string>& paths);
 	private:
 	};
