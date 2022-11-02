@@ -78,23 +78,23 @@ ImageInformation GetImageInfoLoadPng(const std::string& path)
 	return info;
 }
 
-Awaiter<ImageInformation> LoadBatchAsync(const std::string& folder)
+Awaiter<std::string, ImageInformation> LoadBatchAsync(const std::string& folder)
 {
 	return LoadBatchAsync(GetFilesFromFolder(folder));
 }
 
-Awaiter<ImageInformation> LoadBatchAsync(const std::vector<std::string>& paths)
+Awaiter<std::string, ImageInformation> LoadBatchAsync(const std::vector<std::string>& paths)
 {
-	std::vector<RefFuture<ImageInformation>> futures;
+	std::unordered_map<std::string, RefFuture<ImageInformation>> futures;
 	futures.reserve(paths.size());
 	for (const auto& path : paths)
-		futures.emplace_back(LoadAsync(path));
+		futures.insert(LoadAsync(path));
 	return Awaiter(futures);
 }
 
-RefFuture<ImageInformation> LoadAsync(const std::string& path)
+std::pair<std::string, RefFuture<ImageInformation>> LoadAsync(const std::string& path)
 {
-	return ExecuteAsyncRef(GetImageInfo, path);
+	return std::make_pair(ParseFileName(path), ExecuteAsyncRef(GetImageInfo, path));
 }
 
 std::unordered_map<std::string, ImageInformation> LoadBatch(const std::string& folder)

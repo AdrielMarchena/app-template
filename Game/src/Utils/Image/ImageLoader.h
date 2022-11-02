@@ -47,9 +47,9 @@ ImageInformation GetImageInfoStbImage(const std::string& path);
 /* The memory is unmanaged */
 ImageInformation GetImageInfoLoadPng(const std::string& path);
 
-Awaiter<ImageInformation> LoadBatchAsync(const std::string& folder);
-Awaiter<ImageInformation> LoadBatchAsync(const std::vector<std::string>& paths);
-RefFuture<ImageInformation> LoadAsync(const std::string& path);
+Awaiter<std::string, ImageInformation> LoadBatchAsync(const std::string& folder);
+Awaiter<std::string, ImageInformation> LoadBatchAsync(const std::vector<std::string>& paths);
+std::pair<std::string, RefFuture<ImageInformation>> LoadAsync(const std::string& path);
 std::unordered_map<std::string, ImageInformation> LoadBatch(const std::string& folder);
 std::unordered_map<std::string, ImageInformation> LoadBatch(const std::vector<std::string>& paths);
 

@@ -100,10 +100,7 @@ void EditorLayer::OnAttach()
 
 	m_Scene->OnResize(w, h);
 
-	//std::vector<std::string> paths;
-	//for (int i = 0; i < 15; i++)
-	//	paths.push_back("assets/img/shrekOnion.jpg");
-	//
+	auto images = Game::LoadBatchAsync("assets/img");
 	{
 		m_Camera = m_Scene->CreateEntity("Main_Camera");
 
@@ -120,7 +117,7 @@ void EditorLayer::OnAttach()
 		m_Quad = m_Scene->CreateEntity("Quad");
 		auto& tr = m_Quad.GetTransformComponent();
 		auto& sprite = m_Quad.Add<Game::SpriteComponent>(
-			Game::LoadAsync("assets/img/bigg.jpg"),
+			images["big"],
 			[&tr](Game::SpriteComponent sprite)	
 			{
 				float texture_ar = sprite.Texture->GetSize().x / sprite.Texture->GetSize().y;
@@ -136,7 +133,7 @@ void EditorLayer::OnAttach()
 	{
 		m_Platform = m_Scene->CreateEntity("Platform");
 		auto& tr = m_Platform.Get<Game::TransformComponent>();
-		m_Platform.Add<Game::SpriteComponent>(Game::LoadAsync("assets/img/chalote.jpg"));
+		m_Platform.Add<Game::SpriteComponent>(images["shrekOnion"]);
 
 		tr.Translation = { 0.0f,0.0f,0.0f };
 		tr.Scale = { 14.0f,1.0f,1.0f };
@@ -148,7 +145,7 @@ void EditorLayer::OnAttach()
 
 	{
 		m_Circle = m_Scene->CreateEntity("Cirlce");
-		m_Circle.Add<Game::SpriteComponent>(Game::LoadAsync("assets/img/chalote.jpg"));
+		m_Circle.Add<Game::SpriteComponent>((images["chalote"]));
 		m_Circle.Add<Game::CircleComponent>();
 		auto& tr = m_Circle.Get<Game::TransformComponent>();
 

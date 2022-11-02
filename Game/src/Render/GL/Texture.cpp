@@ -12,7 +12,6 @@
 
 namespace Game
 { 
-
 	Ref<Texture> Texture::m_WhiteTexture;
 
 	Texture::Texture(const TextureSpecifications& info, const std::string& path)

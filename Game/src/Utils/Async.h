@@ -3,7 +3,6 @@
 #include <future>
 #include <functional>
 #include <any>
-#include "Scene/UUID.h"
 namespace Game
 {
 template<class _Fty, typename... _Args>
@@ -73,20 +72,17 @@ struct AwaiterIt
 		return vec_.at(pointer_);
 	}
 };
-
-template<typename T>
+template<typename Key,typename T>
 class Awaiter
 {
 public:
 	using WhenIsReadyCallback = std::function<void(T)>;
 private:
-	std::unordered_map<UUID, RefFuture<T>> m_Futures;
+	std::unordered_map<Key, RefFuture<T>> m_Futures;
 	WhenIsReadyCallback m_ReadyCallback;
 public:
-	Awaiter(std::vector<RefFuture<T>>& futures)
+	Awaiter(std::unordered_map<Key, RefFuture<T>>& futures) : m_Futures(futures)
 	{
-		for (auto& f : futures)
-			m_Futures[UUID()] = f;
 	}
 	~Awaiter() = default;
 
@@ -141,7 +137,7 @@ LABEL_IS_NOT_ALL_READY:
 		if (!IsAllDone()) goto LABEL_IS_NOT_ALL_READY;
 	}
 
-	RefFuture<T> Pop(const UUID& f)
+	RefFuture<T> Pop(const Key& f)
 	{
 		auto it = m_Futures.find(f);
 		if (it != m_Futures.end())
@@ -152,14 +148,26 @@ LABEL_IS_NOT_ALL_READY:
 		}
 	}
 
-	AwaiterIt<UUID, RefFuture<T>> begin()
+	RefFuture<T> Find(const Key& f)
 	{
-		return AwaiterIt<UUID, RefFuture<T>>(m_Futures);
+		auto it = m_Futures.find(f);
+		if (it != m_Futures.end())
+			return (*it).second;
 	}
 
-	AwaiterIt<UUID, RefFuture<T>> end()
+	AwaiterIt<Key, RefFuture<T>> begin()
 	{
-		return AwaiterIt<UUID, RefFuture<T>>(m_Futures, m_Futures.size());
+		return AwaiterIt<Key, RefFuture<T>>(m_Futures);
+	}
+
+	AwaiterIt<Key, RefFuture<T>> end()
+	{
+		return AwaiterIt<Key, RefFuture<T>>(m_Futures, m_Futures.size());
+	}
+
+	RefFuture<T> operator[](const Key& key) const
+	{
+		return Find(key);
 	}
 
 	constexpr bool empty() const noexcept
